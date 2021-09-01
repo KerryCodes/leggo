@@ -25,7 +25,6 @@ export interface TSchemaInfo{
   standardFormItem?: JSX.Element,
 }
 
-
 export interface TFormLayout{
   labelCol: { span: 6 },
   wrapperCol: { span: 14 },
