@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.less'
 import { Button, Divider, Form } from 'antd'
-import { CreateLeggoModel } from '../src'
-import { TSchemaInfo, TSchemasModel } from '../src/state'
-import { LeggoForm, useLeggo } from '../src/service'
+import { CreateLeggoModel, LeggoForm, TSchemaInfo, TSchemasModel, useLeggo } from '../src'
 import { cloneDeep } from 'lodash'
 
 
