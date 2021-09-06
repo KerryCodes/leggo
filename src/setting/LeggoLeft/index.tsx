@@ -13,10 +13,10 @@ export function LeggoLeft() {
   const leggoItems= useMemo(() => createLeggoItems(), [])
 
   return (
-    <div className="leggo-left">
+    <div className="leggo-setting-left">
       <strong>组件库</strong>
       <Form {...layout}>
-        <div className="leggo-left-form-content">{leggoItems}</div>
+        <div className="leggo-setting-left-form-content">{leggoItems}</div>
       </Form>
     </div>
   )

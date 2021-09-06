@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { TSchema } from '../../public/interface'
 import { Config } from './Config'
 import { Divider } from 'antd'
+import '../styles/LeggoRight.less'
 
 
 export function LeggoRight(props: React.PropsWithoutRef<{
@@ -14,7 +15,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
   const inputPropsConfigs= useMemo(() => Object.keys(setting?.inputProps || {}), [activeSchema.current])
 
   return (
-    <div className="leggo-right">
+    <div className="leggo-setting-right">
       <strong>属性配置</strong>
       <div className="configs-setting-area">
         <Divider>itemProps</Divider>

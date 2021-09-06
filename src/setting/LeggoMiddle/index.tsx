@@ -54,7 +54,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
   })
 
   return (
-    <div className="leggo-middle">
+    <div className="leggo-setting-middle">
       <strong>表单模板</strong>
       <div className="top-actions">
         <div>
@@ -68,7 +68,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
         <CreateSchemasModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
         <Button onClick={clearAllSchemas}>clear</Button>
       </div>
-      <Form form={form} {...formProps} className="leggo-middle-form">
+      <Form form={form} {...formProps} className="leggo-setting-middle-form">
         <div className="drop-area" onDragOver={handleDragOver} onDrop={handleDrop}>
           {
             schemaList.map(schema => 

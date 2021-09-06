@@ -1,10 +1,12 @@
 {
   "name": "leggo",
-  "version": "0.0.13",
+  "version": "0.0.22",
   "private": false,
   "description": "A drag and drop front-end form configuration generation tool ",
   "main": "./lib/index.js",
-  "files": [ "/lib" ],
+  "files": [
+    "/lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KerryCodes/leggo.git"

@@ -1,7 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-
 module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.json', '.tsx'],
@@ -11,11 +10,13 @@ module.exports = {
   entry: {
     main: './src/index.ts',
   },
+  externals: {
+    'react': 'react'
+  },
   output: {
-    filename: 'index.js',// 生成的fiename需要与package.json中的main一致
+    filename: 'index.js',// 生成的filename需要与package.json中的main一致
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
-    libraryExport: 'default',
   },
   module: {
     rules: [
@@ -30,10 +31,9 @@ module.exports = {
             },
           },
         ],
-        exclude: /node_modules/,
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.less$/,
         use: [
           {
             loader: 'style-loader'
@@ -44,7 +44,7 @@ module.exports = {
           {
             loader: 'less-loader'
           }
-          ]
+        ]
       },
     ],
   },
