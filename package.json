@@ -1,6 +1,6 @@
 {
-  "name": "leggo1",
-  "version": "0.0.2",
+  "name": "leggo",
+  "version": "0.0.13",
   "private": false,
   "description": "A drag and drop front-end form configuration generation tool ",
   "main": "./lib/index.js",

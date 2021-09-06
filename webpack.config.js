@@ -9,11 +9,11 @@ module.exports = {
   devtool: 'source-map',// 打包出的js文件是否生成map文件（方便浏览器调试）
   mode: 'production',
   entry: {
-    main: './src/index.tsx',
+    main: './src/index.ts',
   },
   output: {
     filename: 'index.js',// 生成的fiename需要与package.json中的main一致
-    path: path.resolve(__dirname, 'lib'),
+    path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     libraryExport: 'default',
   },

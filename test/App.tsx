@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './App.less'
-import { Button, Divider, Form } from 'antd'
-import { CreateLeggoModel, LeggoForm, TSchemaInfo, TSchemasModel, useLeggo } from '../src'
+import { Button, Divider, Drawer, Form } from 'antd'
+import 'antd/dist/antd.css';
+import { LeggoSetting, LeggoForm, useLeggo } from '../lib'
 import { cloneDeep } from 'lodash'
+import { TSchema, TSchemasModel } from '../lib/public/interface';
 
 
 export default function App() {
-  const modelList= useRef<{[key:string]:TSchemasModel}>({})
+  const modelList= useRef<{[key:string]: TSchemasModel}>({})
+  const [visible, setVisible]= useState(false)
   const [ , setForceRender]= useState(0)
 
   const postSchemaModelData= (schemaModel: TSchemasModel) => {
@@ -18,9 +21,10 @@ export default function App() {
 
   return (
     <div className="App">
-      <CreateLeggoModel onPostSchemaModel={postSchemaModelData}>
-        <Button type="primary">创建表单模板</Button>
-      </CreateLeggoModel>
+      <Button type="primary" onClick={() => setVisible(true)}>创建表单模板</Button>
+      <Drawer title="拖拽生成表单" placement="top" height='100%' visible={visible} onClose={() => setVisible(false)}>
+        <LeggoSetting onPostSchemaModel={postSchemaModelData} />
+      </Drawer>
       <div className="show-area">
         {
           Object.entries(modelList.current).map(([modelName, schemaModel]) => 
@@ -35,7 +39,7 @@ export default function App() {
 
 function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const { schemaModel }= props
-  const { name, description, schemas }= schemaModel
+  const { name, description, schemaList }= schemaModel
   const [form] =Form.useForm()
   const leggo= useLeggo()
     
@@ -53,7 +57,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   }
 
   useEffect(() => {
-    schemas.forEach(middleware)
+    schemaList.forEach(middleware)
     leggo.updateSchemaModel(schemaModel)
   }, [schemaModel])
 
@@ -74,7 +78,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
 }
 
 
-function middleware(schema: TSchemaInfo, index: number){
+function middleware(schema: TSchema, index: number){
   const { type, setting }= schema
   if(type === 'input'){
     setting.inputProps.placeholder= 'placeholder已被middleware更改!'
