@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { TSchema } from '../../public/interface'
 import { Config } from './Config'
 import { Divider } from 'antd'
-import '../styles/LeggoRight.less'
 
 
 export function LeggoRight(props: React.PropsWithoutRef<{

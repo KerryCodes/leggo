@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import '../styles/LeggoMiddle.less'
 import { Button, Form, InputNumber } from 'antd'
 import { TPostSchemaModel, TSchema } from '../../public/interface'
 import { cloneDeep } from 'lodash'

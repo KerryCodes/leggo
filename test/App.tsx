@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import './App.less'
 import { Button, Divider, Drawer, Form } from 'antd'
 import 'antd/dist/antd.css';
-import { LeggoSetting, LeggoForm, useLeggo } from '../lib'
+import { LeggoSetting, LeggoForm, useLeggo } from '../src'
 import { cloneDeep } from 'lodash'
-import { TSchema, TSchemasModel } from '../lib/public/interface';
+import { TSchema, TSchemasModel } from '../src/public/interface';
 
 
 export default function App() {

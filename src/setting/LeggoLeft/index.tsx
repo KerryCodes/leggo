@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import '../styles/LeggoLeft.less'
 import { Form } from 'antd'
 import { leggoItemStore } from '../../public/leggoItemStore'
 
