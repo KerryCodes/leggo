@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { Input, InputNumber, Space, Switch } from 'antd'
+import { Options } from '../Options'
 
 
 export function Config(props: React.PropsWithoutRef<{
   propName: string,
   activeSchemaProp: any,
   defaultValue: any,
-  setForceRender: React.Dispatch<React.SetStateAction<number>>,
+  forceRender: () => void,
 }>){
-  const { propName, activeSchemaProp, defaultValue, setForceRender }= props
+  const { propName, activeSchemaProp, defaultValue, forceRender }= props
   const [value, setValue]= useState(defaultValue)
 
   const handleChange= (value: any) => {
     activeSchemaProp[propName]= value
     setValue(value)
-    setForceRender(pre => pre + 1)
+    forceRender()
   }
 
   if(propName === 'rules'){
@@ -29,13 +30,17 @@ export function Config(props: React.PropsWithoutRef<{
                 propName={pName}
                 activeSchemaProp={defaultValue[0]} 
                 defaultValue={defaultValue[0][pName]}
-                setForceRender={setForceRender}
+                forceRender={forceRender}
               />
             )
           }
         </div>
       </div>
     )
+  }
+
+  if(propName === 'options'){
+    return <Options options={defaultValue} handleChange={handleChange} />
   }
 
   switch(typeof defaultValue){

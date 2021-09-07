@@ -17,6 +17,8 @@ export interface TLeggoItem{
   FormItemComponent: React.FC<any>,
 }
 
+export type TFormItemComponentProps= React.PropsWithoutRef<{setting: TSetting}>
+
 export interface TSchema{
   id: string,
   type: TSchemaType,
@@ -28,6 +30,11 @@ export interface TSchema{
 export interface TFormLayout{
   labelCol: { span: 6 },
   wrapperCol: { span: 14 },
+}
+
+export interface TOption{
+  label:any, 
+  value:any,
 }
 
 

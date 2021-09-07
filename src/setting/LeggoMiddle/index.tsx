@@ -9,10 +9,10 @@ import { leggoItemStore } from '../../public/leggoItemStore'
 
 export function LeggoMiddle(props: React.PropsWithoutRef<{
   activeSchema: React.MutableRefObject<TSchema>,
-  setForceRender: React.Dispatch<React.SetStateAction<number>>,
+  forceRender: () => void,
   onPostSchemaModel: TPostSchemaModel,
 }>){
-  const { activeSchema, setForceRender, onPostSchemaModel }= props
+  const { activeSchema, forceRender, onPostSchemaModel }= props
   const [schemaList, setSchemaList]= useState<TSchema[]>([])
   const [formProps, setFormProps]= useState({
     labelCol: { span: 6 },
@@ -45,7 +45,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
   const clearAllSchemas= () => {
     activeSchema.current= null
     setSchemaList([])
-    setForceRender(pre => pre+1)
+    forceRender()
   }
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
                 schema={schema} 
                 setSchemas={setSchemaList} 
                 activeSchema={activeSchema}
-                setForceRender={setForceRender}
+                forceRender={forceRender}
               />
             )
           }
