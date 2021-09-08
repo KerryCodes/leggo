@@ -36,27 +36,63 @@ class Leggo{
 }
 
 
-export function useLeggo(schemaModel?: TSchemasModel){
-  const keyRef= useRef(null)
-  const [ , setForceRender]= useState(0)
-  if(!leggoStores.has(keyRef)){
-    const leggo= new Leggo(keyRef, setForceRender, schemaModel)
-    leggoStores.set(keyRef, leggo)
-  }
-  return leggoStores.get(keyRef)
-}
-
-
 export function LeggoForm(props: React.PropsWithoutRef<any>){
-  const { leggo, ...overlapFormProps }= props
+  const { leggo, onValuesChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
+
+  const updateLinkedValue= (value, {namepath, selfName, rule, reference}) => {
+    if(namepath.length < 1){ return }
+    leggo.updateSchemaModelData(selfName, setting => {
+      let targetValue= value
+      let temp= setting
+      const targetKey= namepath.slice(-1)[0]
+      namepath.slice(0, -1).forEach(key => { temp= temp[key] })
+      if(reference && rule){
+        switch(rule){
+          case '<':
+            targetValue= value < reference
+            break;
+          case '<=':
+            targetValue= value <= reference
+            break;
+          case '===':
+            targetValue= value === reference
+            break;
+          case '>=':
+            targetValue= value >= reference
+            break;
+          case '>':
+            targetValue= value > reference
+            break;
+        }
+      }
+      temp[targetKey]= targetValue
+    })
+  }
+
+  const handleValuesChange= (changedValues, allValues) => {
+    for(const [name, value] of Object.entries(changedValues)){
+      const targetSchema= schemaList.find(schema => schema.setting.itemProps.name === name)
+      targetSchema.linkedValueList.forEach(updateLinkedValue.bind(null, value))
+    }
+    onValuesChange(changedValues, allValues)
+  }
+
   return (
-    <Form {...formProps} {...overlapFormProps}>
+    <Form {...formProps} {...overlapFormProps} onValuesChange={handleValuesChange}>
       {
         schemaList?.map(schema => <LeggoFormItem key={schema.id} schema={schema} />)
       }
     </Form>
   )
+}
+LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
+  const keyRef= useRef(null)
+  const [ , setForceRender]= useState(0)
+  if(!leggoStores.has(keyRef)){
+    leggoStores.set(keyRef, new Leggo(keyRef, setForceRender, schemaModel))
+  }
+  return leggoStores.get(keyRef)
 }
 
 

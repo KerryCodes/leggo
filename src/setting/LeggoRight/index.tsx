@@ -5,10 +5,11 @@ import { Divider } from 'antd'
 
 
 export function LeggoRight(props: React.PropsWithoutRef<{
+  schemaList: TSchema[],
   activeSchema: React.MutableRefObject<TSchema>,
   forceRender: () => void,
 }>) {
-  const { activeSchema, forceRender }= props
+  const { schemaList, activeSchema, forceRender }= props
   const { id, setting }= activeSchema.current || {}
   const itemPropsConfigs= useMemo(() => Object.keys(setting?.itemProps || {}), [activeSchema.current])
   const inputPropsConfigs= useMemo(() => Object.keys(setting?.inputProps || {}), [activeSchema.current])
@@ -21,10 +22,13 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         {
           itemPropsConfigs.map(propName => 
             <Config key={id + propName} 
+              namepath={['itemProps']}
               propName={propName}
               activeSchemaProp={setting.itemProps} 
               defaultValue={setting.itemProps[propName]}
               forceRender={forceRender}
+              schemaList={schemaList} 
+              activeSchema={activeSchema}
             />
           )
         }
@@ -34,10 +38,13 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         {
           inputPropsConfigs.map(propName => 
             <Config key={id + propName} 
+              namepath={['inputProps']}
               propName={propName}
               activeSchemaProp={setting.inputProps} 
               defaultValue={setting.inputProps[propName]}
               forceRender={forceRender}
+              schemaList={schemaList} 
+              activeSchema={activeSchema}
             />
           )
         }

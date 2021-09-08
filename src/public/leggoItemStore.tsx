@@ -2,7 +2,27 @@ import React, { useState } from "react"
 import '../styles/public.less'
 import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, RadioChangeEvent, Select, Switch, Upload } from "antd"
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons'
-import { TFormItemComponentProps, TLeggoItem } from "./interface"
+import { TFormItemComponentProps, TLeggoItem, TLinkedValue, TSchema, TSchemaType, TSetting } from "./interface"
+import { cloneDeep } from "lodash"
+
+
+export class LeggoSchema implements TSchema{
+  id: string
+  type: TSchemaType
+  setting: TSetting
+  linking?: {
+    itemProps: any,
+    inputProps: any,
+  }
+  linkedValueList: TLinkedValue[]
+  constructor(type, formItemInfo){
+    this.type= type
+    this.id= Date.now().toString()
+    this.setting= cloneDeep(formItemInfo).setting
+    this.linking= cloneDeep(formItemInfo).linking
+    this.linkedValueList= []
+  }
+}
 
 
 export const leggoItemStore:{[key: string]: TLeggoItem}= {
@@ -10,14 +30,25 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'input',
     setting: {
       itemProps: {
-        label: '标题',
         name: 'input',
+        label: '标题',
         colon: true,
         rules: [{ required: true, message: '请输入长标题！' }],
       },
       inputProps: {
         disabled: false,
         placeholder: '请输入',
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -29,8 +60,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'inputTexArea',
     setting: {
       itemProps: {
-        label: '多行文本',
         name: 'inputTexArea',
+        label: '多行文本',
         colon: true,
         rules: [{ required: true, message: '请输入文本！' }],
       },
@@ -49,8 +80,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'inputPassword',
     setting: {
       itemProps: {
-        label: '密码',
         name: 'inputPassword',
+        label: '密码',
         colon: true,
         rules: [{ required: true, message: '请输入密码！' }],
       },
@@ -68,8 +99,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'inputNumber',
     setting: {
       itemProps: {
-        label: '数字',
         name: 'inputNumber',
+        label: '数字',
         colon: true,
         rules: [{ required: true, message: '请输入数字！' }],
       },
@@ -89,8 +120,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'select',
     setting: {
       itemProps: {
-        label: '选项',
         name: 'select',
+        label: '选项',
         colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
@@ -109,8 +140,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'checkboxGroup',
     setting: {
       itemProps: {
-        label: '多选',
         name: 'checkboxGroup',
+        label: '多选',
         colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
@@ -129,8 +160,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'radioGroup',
     setting: {
       itemProps: {
-        label: '单选',
         name: 'radioGroup',
+        label: '单选',
         colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
@@ -149,8 +180,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'datePicker',
     setting: {
       itemProps: {
-        label: '日期',
         name: 'datePicker',
+        label: '日期',
         colon: true,
         rules: [{ required: true, message: '请选择日期！' }],
       },
@@ -169,8 +200,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'rangePicker',
     setting: {
       itemProps: {
-        label: '日期',
         name: 'rangePicker',
+        label: '日期',
         colon: true,
         rules: [{ required: true, message: '请选择日期！' }],
       },
@@ -188,8 +219,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'upload',
     setting: {
       itemProps: {
-        label: '上传',
         name: 'upload',
+        label: '上传',
         valuePropName: 'fileList',
         colon: true,
         rules: [{ required: true, message: '请上传！' }],
@@ -212,8 +243,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'switch',
     setting: {
       itemProps: {
-        label: '开关',
         name: 'switch',
+        label: '开关',
         valuePropName: 'checked',
         colon: true,
         rules: [{ required: false, message: '' }],
@@ -231,8 +262,8 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
     type: 'multiCover',
     setting: {
       itemProps: {
-        label: ' 封面图',
         name: 'cover_type',
+        label: ' 封面图',
         colon: true,
         rules: [{ required: true, message: '请上传封面图！' }],
       },

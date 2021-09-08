@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, InputNumber } from 'antd'
 import { TPostSchemaModel, TSchema } from '../../public/interface'
-import { cloneDeep } from 'lodash'
 import { DroppedFormItem } from './DroppedFormItem'
 import { CreateSchemasModel } from './CreateSchemasModel'
-import { leggoItemStore } from '../../public/leggoItemStore'
+import { leggoItemStore, LeggoSchema } from '../../public/leggoItemStore'
 
 
 export function LeggoMiddle(props: React.PropsWithoutRef<{
+  schemaList: TSchema[],
+  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
   activeSchema: React.MutableRefObject<TSchema>,
   forceRender: () => void,
   onPostSchemaModel: TPostSchemaModel,
 }>){
-  const { activeSchema, forceRender, onPostSchemaModel }= props
-  const [schemaList, setSchemaList]= useState<TSchema[]>([])
+  const { schemaList, setSchemaList, activeSchema, forceRender, onPostSchemaModel }= props
   const [formProps, setFormProps]= useState({
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
@@ -30,11 +30,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     const type= e.dataTransfer.getData('text/plain')
     if(!type){ return }
     const formItemInfo= leggoItemStore[type]
-    const newSchema= {
-      type,
-      id: Date.now().toString(),
-      setting: cloneDeep(formItemInfo).setting,
-    }
+    const newSchema= new LeggoSchema(type, formItemInfo)
     setSchemaList([...schemaList, newSchema])
   }
 
@@ -73,7 +69,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
             schemaList.map(schema => 
               <DroppedFormItem key={schema.id} 
                 schema={schema} 
-                setSchemas={setSchemaList} 
+                setSchemaList={setSchemaList} 
                 activeSchema={activeSchema}
                 forceRender={forceRender}
               />

@@ -11,18 +11,36 @@ export interface TSetting{
   customizedFormItem?: JSX.Element,
 }
 
+
 export interface TLeggoItem{
   type: TSchemaType,
   setting: TSetting,
+  linking?: {
+    itemProps: any,
+    inputProps: any,
+  },
   FormItemComponent: React.FC<any>,
 }
 
 export type TFormItemComponentProps= React.PropsWithoutRef<{setting: TSetting}>
 
+export interface TLinkedValue{
+  linkedName: string,
+  selfName: string,
+  namepath: (string|number)[],
+  reference: any,
+  rule: '<' | '<=' | '===' | '>=' | '>',
+}
+
 export interface TSchema{
   id: string,
   type: TSchemaType,
   setting: TSetting,
+  linking?: {
+    itemProps: any,
+    inputProps: any,
+  },
+  linkedValueList: TLinkedValue[],
   forceLeggoFormItemRender?: () => void,
   standardFormItem?: JSX.Element,
 }

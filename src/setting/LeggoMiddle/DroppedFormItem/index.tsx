@@ -6,11 +6,11 @@ import { leggoItemStore } from '../../../public/leggoItemStore'
 
 export function DroppedFormItem(props: React.PropsWithoutRef<{
   schema: TSchema,
-  setSchemas: React.Dispatch<React.SetStateAction<TSchema[]>>,
+  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
   activeSchema: React.MutableRefObject<TSchema>,
   forceRender: () => void,
 }>){
-  const { schema, setSchemas, activeSchema, forceRender }= props
+  const { schema, setSchemaList, activeSchema, forceRender }= props
   const { id, type, setting }= schema
   const FormItemComponent= leggoItemStore[type].FormItemComponent
   const active= activeSchema.current === schema
@@ -18,7 +18,7 @@ export function DroppedFormItem(props: React.PropsWithoutRef<{
   const deleteSchema= (e: React.MouseEvent) => {
     e.stopPropagation()
     if(active){ activeSchema.current= null }
-    setSchemas(pre => pre.filter(it => it.id !== id))
+    setSchemaList(pre => pre.filter(it => it.id !== id))
     forceRender()
   }
 

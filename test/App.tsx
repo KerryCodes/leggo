@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './App.less'
 import { Button, Divider, Drawer, Form } from 'antd'
 import 'antd/dist/antd.css';
-import { LeggoSetting, LeggoForm, useLeggo } from '../src'
+import { LeggoSetting, LeggoForm } from '../src'
 import { cloneDeep } from 'lodash'
 import { TSchema, TSchemasModel } from '../src/public/interface';
 
@@ -41,7 +41,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const { schemaModel }= props
   const { name, description, schemaList }= schemaModel
   const [form] =Form.useForm()
-  const leggo= useLeggo()
+  const leggo= LeggoForm.useLeggo()
     
   const changeOptions= () => {
     leggo.updateSchemaModelData('select', (setting, StandardFormItem) => {

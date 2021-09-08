@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { TOption } from '../../../public/interface'
 
 
-export function Options(props: React.PropsWithoutRef<{
+export function Options(props: React.PropsWithChildren<{
   options: TOption[],
   handleChange: (value: any) => void
 }>){
@@ -29,6 +29,7 @@ export function Options(props: React.PropsWithoutRef<{
   return (
     <div>
       <strong>options：</strong>
+      {props.children}
       <div className="configs-setting-area">
         <div>
           <strong>value类型：</strong>
@@ -52,7 +53,7 @@ export function Options(props: React.PropsWithoutRef<{
                       rules={[{ required: true, message: '请定义value' }]}
                       >
                       {
-                        valueType === 'string' ? <Input placeholder="value" /> : <InputNumber placeholder="value" />
+                        valueType === 'string' ? <Input placeholder="value" /> : <InputNumber placeholder="value" bordered={false} />
                       }
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />

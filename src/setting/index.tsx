@@ -8,14 +8,25 @@ import { LeggoMiddle } from './LeggoMiddle'
 
 export function LeggoSetting(props: React.PropsWithChildren<{ onPostSchemaModel: TPostSchemaModel }>) {
   const activeSchema= useRef<TSchema>(null)
+  const [schemaList, setSchemaList]= useState<TSchema[]>([])
   const [ , setForceRender]= useState(0)
   const forceRender= () => setForceRender(pre => pre+1)
 
   return (
     <div className="leggo-setting">
       <LeggoLeft />
-      <LeggoMiddle activeSchema={activeSchema} forceRender={forceRender} onPostSchemaModel={props.onPostSchemaModel} />
-      <LeggoRight activeSchema={activeSchema} forceRender={forceRender} />
+      <LeggoMiddle 
+        schemaList={schemaList} 
+        setSchemaList={setSchemaList} 
+        activeSchema={activeSchema} 
+        forceRender={forceRender} 
+        onPostSchemaModel={props.onPostSchemaModel} 
+      />
+      <LeggoRight 
+        schemaList={schemaList} 
+        activeSchema={activeSchema} 
+        forceRender={forceRender} 
+      />
     </div>
   )
 }
