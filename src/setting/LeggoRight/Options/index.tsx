@@ -33,7 +33,7 @@ export function Options(props: React.PropsWithChildren<{
       <div className="configs-setting-area">
         <div>
           <strong>value类型：</strong>
-          <Radio.Group defaultValue="number" buttonStyle="solid" onChange={onChangeType}>
+          <Radio.Group size="small" defaultValue="number" buttonStyle="solid" onChange={onChangeType}>
             <Radio.Button value="string">string类型</Radio.Button>
             <Radio.Button value="number">number类型</Radio.Button>
           </Radio.Group>

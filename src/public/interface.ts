@@ -15,7 +15,7 @@ export interface TSetting{
 export interface TLeggoItem{
   type: TSchemaType,
   setting: TSetting,
-  linking?: {
+  linking: {
     itemProps: any,
     inputProps: any,
   },
@@ -36,7 +36,7 @@ export interface TSchema{
   id: string,
   type: TSchemaType,
   setting: TSetting,
-  linking?: {
+  linking: {
     itemProps: any,
     inputProps: any,
   },

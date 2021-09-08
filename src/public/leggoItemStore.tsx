@@ -10,7 +10,7 @@ export class LeggoSchema implements TSchema{
   id: string
   type: TSchemaType
   setting: TSetting
-  linking?: {
+  linking: {
     itemProps: any,
     inputProps: any,
   }
@@ -71,6 +71,18 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         rows: 4,
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        rows: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Input.TextArea {...setting.inputProps} />
@@ -87,7 +99,18 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       },
       inputProps: {
         disabled: false,
-        placeholder: '',
+        placeholder: '请输入',
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -109,6 +132,21 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         placeholder: '请输入',
         max: 10,
         min: 0,
+        bordered: true,
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        max: 10,
+        min: 0,
+        bordered: true,
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -131,6 +169,18 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        options: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Select {...setting.inputProps} />
@@ -147,8 +197,19 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       },
       inputProps: {
         disabled: false,
-        placeholder: '请选择',
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        options: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -167,8 +228,19 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       },
       inputProps: {
         disabled: false,
-        placeholder: '请选择',
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        options: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -191,6 +263,18 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         picker: 'month',
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        picker: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <DatePicker {...setting.inputProps} />
@@ -208,6 +292,18 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       inputProps: {
         disabled: false,
         picker: 'day',
+      },
+    },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        placeholder: {},
+        picker: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -232,6 +328,20 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         showUploadList: false,
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        valuePropName: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+        listType: {},
+        action: {},
+        showUploadList: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Upload {...setting.inputProps}>
@@ -253,6 +363,16 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Switch {...setting.inputProps} />
@@ -271,6 +391,16 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
       },
     },
+    linking: {
+      itemProps: {
+        label: {},
+        colon: {},
+        rules: [{ required: {}, message: {} }],
+      },
+      inputProps: {
+        disabled: {},
+      },
+    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <MultiCover {...setting.inputProps} />
@@ -287,6 +417,12 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
         type: "primary",
         htmlType: "submit",
+      },
+    },
+    linking: {
+      itemProps: {},
+      inputProps: {
+        disabled: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 

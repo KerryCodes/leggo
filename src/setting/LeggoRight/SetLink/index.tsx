@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { Button, Form, Input, Popover, Select } from 'antd'
+import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../public/interface'
 
@@ -11,10 +11,30 @@ export function SetLink(props: React.PropsWithoutRef<{
   schemaList: TSchema[],
 }>){
   const { namepath, activeSchema, schemaList, schemaListOptions }= props
+  const propName= namepath.slice(-1)[0]
   const [form]= Form.useForm()
-  const [visible, setVisible]= useState(false)
   const linkedValue= useRef(null)
+  const [visible, setVisible]= useState(false)
   const [isLinked, setIsLinked]= useState(linkedValue.current?.linkedName)
+  const [referenceType, setReferenceType]= useState('string')
+  const [resultText, setResultText]= useState(`${propName}.value =`)
+  const [disabled, setDisabled]= useState(true)
+
+  const onValuesChange= (_, allValues) => {
+    const { linkedName, rule, reference }= allValues
+    let newText= `${propName}.value = `
+    if(linkedName){
+      setDisabled(false)
+      newText += `${linkedName}.value`
+      if(rule && reference){
+        newText += ` ${rule} `
+        newText += referenceType === 'string' ? `"${reference}"` : reference
+      }
+    }else{
+      setDisabled(true)
+    }
+    setResultText(newText)
+  }
   
   const onFinish= () => {
     form.validateFields()
@@ -40,6 +60,14 @@ export function SetLink(props: React.PropsWithoutRef<{
       linkedSchemaNew.linkedValueList.push(linkedValue.current)
     })
   }
+
+  const onChangeType= (e: RadioChangeEvent) => {
+    const type= e.target.value
+    form.setFields([{ name: 'reference', value: undefined }])
+    const allValues= form.getFieldsValue(true)
+    onValuesChange(null, allValues)
+    setReferenceType(type)
+  }
   
   useEffect(() => {
     let temp= activeSchema.current.linking
@@ -61,26 +89,36 @@ export function SetLink(props: React.PropsWithoutRef<{
         onVisibleChange={setVisible}
         content={
           <div>
-            <Form form={form}>
+            <Form form={form} onValuesChange={onValuesChange}>
               <Form.Item label="关联对象" name="linkedName" rules={[{required: true, message: '必须选择关联对象！'}]}>
                 <Select options={schemaListOptions} />
               </Form.Item>
               <Form.Item label="计算规则" name="rule">
                 <Select>
-                  <Select.Option value='<'>&lt; 参考值</Select.Option>
-                  <Select.Option value='<='>&le; 参考值</Select.Option>
-                  <Select.Option value='==='>=== 参考值</Select.Option>
-                  <Select.Option value='>='>&ge; 参考值</Select.Option>
-                  <Select.Option value='>'>&gt; 参考值</Select.Option>
+                  <Select.Option value='<'>关联值 &lt; 参考值</Select.Option>
+                  <Select.Option value='<='>关联值 &le; 参考值</Select.Option>
+                  <Select.Option value='==='>关联值 === 参考值</Select.Option>
+                  <Select.Option value='>='>关联值 &ge; 参考值</Select.Option>
+                  <Select.Option value='>'>关联值 &gt; 参考值</Select.Option>
                 </Select>
               </Form.Item>
+              <Form.Item label="参考值类型：">
+                <Radio.Group size="small" defaultValue="string" buttonStyle="solid" onChange={onChangeType}>
+                  <Radio.Button value="string">string类型</Radio.Button>
+                  <Radio.Button value="number">number类型</Radio.Button>
+                </Radio.Group>
+              </Form.Item>
               <Form.Item label="参考值" name="reference">
-                <Input placeholder="参考值" />
+                {
+                  referenceType === 'string' ? <Input placeholder="参考值" /> : <InputNumber placeholder="参考值" bordered={false} />
+                }
+              </Form.Item>
+              <Form.Item label="关联结果：">
+               <div>{resultText}</div>
               </Form.Item>
             </Form>
-            <div>关联结果：</div>
             <div>
-              <Button onClick={onFinish} type="primary">确定</Button>
+              <Button disabled={disabled} onClick={onFinish} type="primary">确定</Button>
             </div>
           </div>
         }>

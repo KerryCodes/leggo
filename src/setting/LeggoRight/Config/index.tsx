@@ -17,7 +17,7 @@ export function Config(props: React.PropsWithoutRef<{
   const { namepath, propName, activeSchemaProp, defaultValue, forceRender, schemaList, activeSchema }= props
   const [value, setValue]= useState(defaultValue)
   const schemaListOptions= schemaList.map(schema => ({
-    label: schema.setting.itemProps.name as string,
+    label: `${schema.setting.itemProps.label} - ${schema.setting.itemProps.name}`,
     value: schema.setting.itemProps.name as string,
   }))
 
@@ -36,7 +36,7 @@ export function Config(props: React.PropsWithoutRef<{
           {
             configs.map(pName => 
               <Config key={pName}
-                namepath= {[...namepath, 'rules', 0, pName]}
+                namepath= {[...namepath, 0, pName]}
                 propName={pName}
                 activeSchemaProp={defaultValue[0]} 
                 defaultValue={defaultValue[0][pName]}
