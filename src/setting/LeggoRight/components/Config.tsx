@@ -53,9 +53,12 @@ export function Config(props: React.PropsWithoutRef<{
 
   if(propName === 'options'){
     return (
-      <Options options={defaultValue} activeSchema={activeSchema} handleChange={handleChange}>
-        <SetLink activeSchema={activeSchema} namepath={namepath} schemaList={schemaList} schemaListOptions={schemaListOptions} />
-      </Options>
+      <Options
+        options={defaultValue}
+        activeSchema={activeSchema}
+        schemaListOptions={schemaListOptions}
+        handleChange={handleChange}
+      />
     )
   }
 
@@ -65,7 +68,7 @@ export function Config(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Switch checked={value} onChange={handleChange} />
-          <SetLink activeSchema={activeSchema} namepath={namepath} schemaList={schemaList} schemaListOptions={schemaListOptions} />
+          <SetLink activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       )
     case 'string':
@@ -74,7 +77,7 @@ export function Config(props: React.PropsWithoutRef<{
           <strong>{propName}：</strong>
           <Input value={value} onChange={e => handleChange(e.target.value)} />
           {
-            propName !== 'name' && <SetLink activeSchema={activeSchema} namepath={namepath} schemaList={schemaList} schemaListOptions={schemaListOptions} />
+            propName !== 'name' && <SetLink activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
           }
         </Space>
       )
@@ -83,7 +86,7 @@ export function Config(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <InputNumber value={value} onChange={handleChange} bordered={false} />
-          <SetLink activeSchema={activeSchema} namepath={namepath} schemaList={schemaList} schemaListOptions={schemaListOptions} />
+          <SetLink activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       )
     default:

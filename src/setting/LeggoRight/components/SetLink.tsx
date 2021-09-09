@@ -8,9 +8,8 @@ export function SetLink(props: React.PropsWithoutRef<{
   namepath: (string|number)[],
   activeSchema: React.MutableRefObject<TSchema>,
   schemaListOptions: TOption[],
-  schemaList: TSchema[],
 }>){
-  const { namepath, activeSchema, schemaList, schemaListOptions }= props
+  const { namepath, activeSchema, schemaListOptions }= props
   const propName= namepath.slice(-1)[0]
   const [form]= Form.useForm()
   const [visible, setVisible]= useState(false)
@@ -20,11 +19,11 @@ export function SetLink(props: React.PropsWithoutRef<{
   const [disabled, setDisabled]= useState(true)
 
   const onValuesChange= (_, allValues) => {
-    const { linkedName, rule, reference }= allValues
+    const { observedName, rule, reference }= allValues
     let newText= `${propName}.value = `
-    if(linkedName){
+    if(observedName){
       setDisabled(false)
-      newText += `${linkedName}.value`
+      newText += `${observedName}.value`
       if(rule && reference){
         newText += ` ${rule} `
         newText += referenceType === 'string' ? `"${reference}"` : reference
@@ -39,12 +38,9 @@ export function SetLink(props: React.PropsWithoutRef<{
     form.validateFields()
     .then(values => {
       setVisible(false)
-      const { linkedName, rule, reference }= values
-      const linkedSchema= schemaList.find(schema => schema.getName() === linkedName)
+      const { observedName, rule, reference }= values
       const key= namepath.join()
-      const selfName= activeSchema.current.setting.itemProps.name as string
-      const getterInfo= { linkedName, selfName, namepath, reference, rule }
-      linkedSchema.linkingNames.add(selfName)
+      const getterInfo= { observedName, namepath, reference, rule }
       activeSchema.current.needDefineGetterMap.set(key, getterInfo)
     })
   }
@@ -75,7 +71,7 @@ export function SetLink(props: React.PropsWithoutRef<{
         content={
           <div>
             <Form form={form} onValuesChange={onValuesChange}>
-              <Form.Item label="关联对象" name="linkedName" required>
+              <Form.Item label="关联对象" name="observedName" required>
                 <Select options={schemaListOptions} />
               </Form.Item>
               <Form.Item label="计算规则" name="rule">

@@ -5,17 +5,11 @@ import { leggoItemStore } from "./leggoItemStore"
 
 export type TSchemaType= keyof typeof leggoItemStore
 
-
 export interface TLeggoItem{
   type: TSchemaType,
   setting: TSetting,
-  linking: {
-    itemProps: any,
-    inputProps: any,
-  },
   FormItemComponent: React.FC<any>,
 }
-
 
 export interface TSchema{
   id: string,
@@ -23,7 +17,7 @@ export interface TSchema{
   currentValue: any,
   setting: TSetting,
   getName: () => string,
-  needDefineGetterMap: Map<string, TLinkedValue>,
+  needDefineGetterMap: Map<string, TLinkedInfo>,
   linkingNames: Set<string>,
   postman?: {
     propName: 'options',
@@ -35,13 +29,11 @@ export interface TSchema{
   standardFormItem?: JSX.Element,
 }
 
-
 export interface TParam{
   key: string,
   value: string,
-  linking: TLinkedValue,
+  // linking: TLinkedValue,
 }
-
 
 export interface TSetting{
   itemProps: FormItemProps<any>,
@@ -49,18 +41,14 @@ export interface TSetting{
   customizedFormItem?: JSX.Element,
 }
 
-
 export type TFormItemComponentProps= React.PropsWithoutRef<{setting: TSetting}>
 
-
-export interface TLinkedValue{
-  linkedName: string,
-  selfName: string,
+export interface TLinkedInfo{
+  observedName: string,
   namepath: (string|number)[],
   reference: any,
   rule: '<' | '<=' | '===' | '>=' | '>',
 }
-
 
 export interface TFormLayout{
   labelCol: { span: 6 },
@@ -72,13 +60,11 @@ export interface TOption{
   value:any,
 }
 
-
 export interface TSchemasModel{
   name: string,
   description: string,
   formProps: FormProps,
   schemaList: TSchema[],
 }
-
 
 export type TPostSchemaModel= (schemasModel: TSchemasModel) => void

@@ -95,13 +95,15 @@ function LeggoFormItem(props: React.PropsWithoutRef<{
 
   useEffect(() => {
     needDefineGetterMap.forEach(getterInfo => {
-      const { linkedName, namepath, reference, rule }= getterInfo
-      let targetProp= setting
+      const { observedName, namepath, reference, rule } = getterInfo
+      const selfName= schema.getName()
+      const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
       const targetKey= namepath.slice(-1)[0]
-      namepath.slice(0, -1).forEach(key => { targetProp= targetProp[key] })
+      let targetProp= setting
+      namepath.slice(0, -1).forEach(key => { targetProp = targetProp[key] })
+      linkedSchema.linkingNames.add(selfName)
       Reflect.defineProperty(targetProp, targetKey, {
         get: () => {
-          const linkedSchema= schemaList.find(schema => schema.getName() === linkedName)
           let targetValue= linkedSchema.currentValue
           if(reference && rule){
             switch(rule){

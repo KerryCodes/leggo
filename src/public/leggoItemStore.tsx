@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import '../styles/public.less'
 import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, RadioChangeEvent, Select, Switch, Upload } from "antd"
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons'
-import { TFormItemComponentProps, TLeggoItem, TLinkedValue, TSchema, TSchemaType, TSetting } from "./interface"
+import { TFormItemComponentProps, TLeggoItem, TLinkedInfo, TSchema, TSchemaType, TSetting } from "./interface"
 import { cloneDeep } from "lodash"
 
 
@@ -11,7 +11,7 @@ export class LeggoSchema implements TSchema{
   type: TSchemaType
   currentValue: any
   setting: TSetting
-  needDefineGetterMap: Map<string, TLinkedValue>
+  needDefineGetterMap: Map<string, TLinkedInfo>
   linkingNames: Set<string>
   constructor(type, formItemInfo){
     this.type= type
@@ -41,17 +41,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         placeholder: '请输入',
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Input {...setting.inputProps} />
@@ -70,18 +59,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
         placeholder: '请输入',
         rows: 4,
-      },
-    },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        rows: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -103,17 +80,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         placeholder: '请输入',
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Input.Password {...setting.inputProps} />
@@ -131,20 +97,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       inputProps: {
         disabled: false,
         placeholder: '请输入',
-        max: 10,
-        min: 0,
-        bordered: true,
-      },
-    },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
         max: 10,
         min: 0,
         bordered: true,
@@ -170,18 +122,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        options: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Select {...setting.inputProps} />
@@ -201,18 +141,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        options: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Checkbox.Group {...setting.inputProps} />
@@ -230,18 +158,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       inputProps: {
         disabled: false,
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
-      },
-    },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        options: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -264,18 +180,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         picker: 'month',
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        picker: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <DatePicker {...setting.inputProps} />
@@ -293,18 +197,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
       inputProps: {
         disabled: false,
         picker: 'day',
-      },
-    },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        placeholder: {},
-        picker: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
@@ -329,20 +221,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         showUploadList: false,
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        valuePropName: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-        listType: {},
-        action: {},
-        showUploadList: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Upload {...setting.inputProps}>
@@ -364,16 +242,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <Switch {...setting.inputProps} />
@@ -392,16 +260,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
       },
     },
-    linking: {
-      itemProps: {
-        label: {},
-        colon: {},
-        rules: [{ required: {}, message: {} }],
-      },
-      inputProps: {
-        disabled: {},
-      },
-    },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 
       <Form.Item {...setting.itemProps}>
         <MultiCover {...setting.inputProps} />
@@ -418,12 +276,6 @@ export const leggoItemStore:{[key: string]: TLeggoItem}= {
         disabled: false,
         type: "primary",
         htmlType: "submit",
-      },
-    },
-    linking: {
-      itemProps: {},
-      inputProps: {
-        disabled: {},
       },
     },
     FormItemComponent: ({ setting }: TFormItemComponentProps) => 

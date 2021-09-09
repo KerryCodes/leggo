@@ -1,6 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import { Button, Form, Input, Radio, Space, InputNumber, RadioChangeEvent, Drawer, Popover, Modal } from 'antd'
-import { MinusCircleOutlined, PlusOutlined, CloudSyncOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
+import { Radio, RadioChangeEvent } from 'antd'
 import { TOption, TSchema } from '../../../public/interface'
 import { SetPostman } from './SetPostman'
 import { SetOptions } from './SetOptions'
@@ -9,9 +8,10 @@ import { SetOptions } from './SetOptions'
 export function Options(props: React.PropsWithChildren<{
   options: TOption[],
   activeSchema: React.MutableRefObject<TSchema>,
+  schemaListOptions: TOption[],
   handleChange: (value: any) => void
 }>){
-  const { options, activeSchema, handleChange }= props
+  const { options, activeSchema, schemaListOptions, handleChange }= props
   const postman= activeSchema.current.postman
   const [setType, setSetType]= useState(postman ? 'SetPostman' : 'SetOptions')
 
@@ -33,7 +33,7 @@ export function Options(props: React.PropsWithChildren<{
           setType === 'SetOptions' ? 
             <SetOptions options={options} handleChange={handleChange} />
             :
-            <SetPostman activeSchema={activeSchema} setLink={props.children} />
+            <SetPostman activeSchema={activeSchema} schemaListOptions={schemaListOptions} />
         }
       </div>
     </div>

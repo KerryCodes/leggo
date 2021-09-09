@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
 import { Button, Form, Input, Select, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { TSchema } from '../../../public/interface'
+import { TOption, TSchema } from '../../../public/interface'
+import { SetLink } from './SetLink'
 
 const layout= {
   labelCol: { span: 4 },
@@ -17,10 +18,10 @@ const options= [
 
 
 export function SetPostman(props: React.PropsWithoutRef<{
-  setLink: any,
   activeSchema: React.MutableRefObject<TSchema>,
+  schemaListOptions: TOption[]
 }>){
-  const { setLink, activeSchema }= props
+  const { activeSchema, schemaListOptions } = props
 
   const onValuesChange= (_, allValues) => {
     const { method, url, params }= allValues
@@ -44,14 +45,14 @@ export function SetPostman(props: React.PropsWithoutRef<{
         <Form.List name="params">
           {(fields, { add, remove }) => (
             <Fragment>
-              {fields.map(({ key, name, fieldKey, ...restField }) => (
+              {fields.map(({ key, name, fieldKey, ...restField }, index) => (
                 <Space key={key} align="baseline">
                   <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']}
                     rules={[{ required: true, message: '请定义key' }]}
                     >
                     <Input placeholder="key" />
                   </Form.Item>
-                  { setLink }
+                  <SetLink activeSchema={activeSchema} namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
