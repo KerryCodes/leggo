@@ -20,12 +20,11 @@ export interface TLeggoItem{
 export interface TSchema{
   id: string,
   type: TSchemaType,
+  currentValue: any,
   setting: TSetting,
-  linking: {
-    itemProps: any,
-    inputProps: any,
-  },
-  linkedValueList: TLinkedValue[],
+  getName: () => string,
+  needDefineGetterMap: Map<string, TLinkedValue>,
+  linkingNames: Set<string>,
   postman?: {
     propName: 'options',
     method: 'get' | 'post' | 'put' | 'delete',

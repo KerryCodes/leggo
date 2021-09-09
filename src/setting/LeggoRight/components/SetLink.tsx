@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../public/interface'
@@ -13,9 +13,8 @@ export function SetLink(props: React.PropsWithoutRef<{
   const { namepath, activeSchema, schemaList, schemaListOptions }= props
   const propName= namepath.slice(-1)[0]
   const [form]= Form.useForm()
-  const linkedValue= useRef(null)
   const [visible, setVisible]= useState(false)
-  const [isLinked, setIsLinked]= useState(linkedValue.current?.linkedName)
+  const [isLinked, setIsLinked]= useState(false)
   const [referenceType, setReferenceType]= useState('string')
   const [resultText, setResultText]= useState(`${propName}.value =`)
   const [disabled, setDisabled]= useState(true)
@@ -41,23 +40,12 @@ export function SetLink(props: React.PropsWithoutRef<{
     .then(values => {
       setVisible(false)
       const { linkedName, rule, reference }= values
-      const injectNewData= () => {
-        linkedValue.current.namepath= namepath
-        linkedValue.current.linkedName= linkedName
-        linkedValue.current.rule= rule
-        linkedValue.current.reference= reference
-      }
-      if(linkedValue.current.linkedName === linkedName){ 
-        injectNewData()
-        return 
-      }
-      if(linkedValue.current.linkedName && linkedValue.current.linkedName !== linkedName){
-        const linkedSchemaOld= schemaList.find(schema => schema.setting.itemProps.name === linkedValue.current.linkedName)
-        linkedSchemaOld.linkedValueList= linkedSchemaOld.linkedValueList.filter(item => item !== linkedValue.current)
-      }
-      const linkedSchemaNew= schemaList.find(schema => schema.setting.itemProps.name === linkedName)
-      injectNewData()
-      linkedSchemaNew.linkedValueList.push(linkedValue.current)
+      const linkedSchema= schemaList.find(schema => schema.getName() === linkedName)
+      const key= namepath.join()
+      const selfName= activeSchema.current.setting.itemProps.name as string
+      const getterInfo= { linkedName, selfName, namepath, reference, rule }
+      linkedSchema.linkingNames.add(selfName)
+      activeSchema.current.needDefineGetterMap.set(key, getterInfo)
     })
   }
 
@@ -68,18 +56,15 @@ export function SetLink(props: React.PropsWithoutRef<{
     onValuesChange(null, allValues)
     setReferenceType(type)
   }
-  
-  useEffect(() => {
-    let temp= activeSchema.current.linking
-    if(temp){
-      namepath.forEach(key => temp= temp[key])
-      linkedValue.current= temp
-      linkedValue.current.selfName= activeSchema.current.setting.itemProps.name
-    }
-  }, [])
 
   useEffect(() => {
-    !visible && setIsLinked(linkedValue.current?.linkedName)
+    const key= namepath.join()
+    const getterInfo= activeSchema.current.needDefineGetterMap.get(key)
+    if(!visible){
+      setIsLinked(!!getterInfo)
+    }else{
+      form.setFieldsValue(getterInfo)
+    }
   }, [visible])
 
   return (

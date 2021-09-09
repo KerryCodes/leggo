@@ -9,19 +9,20 @@ import { cloneDeep } from "lodash"
 export class LeggoSchema implements TSchema{
   id: string
   type: TSchemaType
+  currentValue: any
   setting: TSetting
-  linking: {
-    itemProps: any,
-    inputProps: any,
-  }
-  linkedValueList: TLinkedValue[]
+  needDefineGetterMap: Map<string, TLinkedValue>
+  linkingNames: Set<string>
   constructor(type, formItemInfo){
     this.type= type
     this.id= Date.now().toString()
+    this.currentValue= null
     this.setting= cloneDeep(formItemInfo).setting
-    this.linking= cloneDeep(formItemInfo).linking
-    this.linkedValueList= []
+    // this.linking= cloneDeep(formItemInfo).linking
+    this.needDefineGetterMap= new Map()
+    this.linkingNames= new Set()
   }
+  getName= () => this.setting.itemProps.name as string
 }
 
 

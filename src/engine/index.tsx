@@ -41,40 +41,14 @@ export function LeggoForm(props: React.PropsWithoutRef<any>){
   const { leggo, onValuesChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
 
-  const updateLinkedValue= (value, {namepath, selfName, rule, reference}) => {
-    if(namepath.length < 1){ return }
-    leggo.updateSchemaModelData(selfName, setting => {
-      let targetValue= value
-      let temp= setting
-      const targetKey= namepath.slice(-1)[0]
-      namepath.slice(0, -1).forEach(key => { temp= temp[key] })
-      if(reference && rule){
-        switch(rule){
-          case '<':
-            targetValue= value < reference
-            break;
-          case '<=':
-            targetValue= value <= reference
-            break;
-          case '===':
-            targetValue= value === reference
-            break;
-          case '>=':
-            targetValue= value >= reference
-            break;
-          case '>':
-            targetValue= value > reference
-            break;
-        }
-      }
-      temp[targetKey]= targetValue
-    })
-  }
-
   const handleValuesChange= (changedValues, allValues) => {
     for(const [name, value] of Object.entries(changedValues)){
-      const targetSchema= schemaList.find(schema => schema.setting.itemProps.name === name)
-      targetSchema.linkedValueList.forEach(updateLinkedValue.bind(null, value))
+      const changedSchema= schemaList.find(schema => schema.getName() === name)
+      changedSchema.currentValue= value
+      changedSchema.linkingNames.forEach(linkingName => {
+        const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
+        targetSchema.forceLeggoFormItemRender()
+      })
     }
     onValuesChange(changedValues, allValues)
   }
@@ -82,7 +56,7 @@ export function LeggoForm(props: React.PropsWithoutRef<any>){
   return (
     <Form {...formProps} {...overlapFormProps} onValuesChange={handleValuesChange}>
       {
-        schemaList?.map(schema => <LeggoFormItem key={schema.id} schema={schema} />)
+        schemaList?.map(schema => <LeggoFormItem key={schema.id} schema={schema} schemaList={schemaList} />)
       }
     </Form>
   )
@@ -90,8 +64,8 @@ export function LeggoForm(props: React.PropsWithoutRef<any>){
 LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
   const keyRef= useRef(null)
   const [ , setForceRender]= useState(0)
-  if(!leggoStores.has(keyRef)){
-    leggoStores.set(keyRef, new Leggo(keyRef, setForceRender, schemaModel))
+  if(!leggoStores.has(keyRef)){ 
+    leggoStores.set(keyRef, new Leggo(keyRef, setForceRender, schemaModel)) 
   }
   return leggoStores.get(keyRef)
 }
@@ -99,9 +73,10 @@ LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
 
 function LeggoFormItem(props: React.PropsWithoutRef<{
   schema: TSchema,
+  schemaList: TSchema[],
 }>){
-  const { schema }= props
-  const { type, setting, postman }= schema
+  const { schema, schemaList }= props
+  const { type, setting, needDefineGetterMap, postman,  }= schema
   const FormItemComponent= leggoItemStore[type].FormItemComponent
   const [ , setForceRender]= useState(0)
   schema.standardFormItem= <FormItemComponent setting={setting} />
@@ -116,6 +91,41 @@ function LeggoFormItem(props: React.PropsWithoutRef<{
         // setForceRender(pre => pre+1)
       })
     }
+  }, [])
+
+  useEffect(() => {
+    needDefineGetterMap.forEach(getterInfo => {
+      const { linkedName, namepath, reference, rule }= getterInfo
+      let targetProp= setting
+      const targetKey= namepath.slice(-1)[0]
+      namepath.slice(0, -1).forEach(key => { targetProp= targetProp[key] })
+      Reflect.defineProperty(targetProp, targetKey, {
+        get: () => {
+          const linkedSchema= schemaList.find(schema => schema.getName() === linkedName)
+          let targetValue= linkedSchema.currentValue
+          if(reference && rule){
+            switch(rule){
+              case '<':
+                targetValue= targetValue < reference
+                break;
+              case '<=':
+                targetValue= targetValue <= reference
+                break;
+              case '===':
+                targetValue= targetValue === reference
+                break;
+              case '>=':
+                targetValue= targetValue >= reference
+                break;
+              case '>':
+                targetValue= targetValue > reference
+                break;
+            }
+          }
+          return targetValue
+        }
+      }) 
+    })
   }, [])
 
   return setting.customizedFormItem || schema.standardFormItem
