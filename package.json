@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "antd": "^4.16.13",
+    "axios": "^0.21.4",
     "lodash": "^4.17.21",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"

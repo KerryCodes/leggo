@@ -1,7 +1,8 @@
 import { Form } from "antd"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { leggoItemStore } from "../public/leggoItemStore"
 import { TSchemasModel, TSchema, TSetting } from "../public/interface"
+import axios from 'axios'
 
 
 const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
@@ -96,13 +97,27 @@ LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
 }
 
 
-function LeggoFormItem(props: React.PropsWithoutRef<{schema: TSchema}>){
+function LeggoFormItem(props: React.PropsWithoutRef<{
+  schema: TSchema,
+}>){
   const { schema }= props
-  const { type, setting }= schema
+  const { type, setting, postman }= schema
   const FormItemComponent= leggoItemStore[type].FormItemComponent
   const [ , setForceRender]= useState(0)
   schema.standardFormItem= <FormItemComponent setting={setting} />
   schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
+
+  useEffect(() => {
+    if(postman){
+      const { method, url, params }= postman
+      axios({ method, url, data: params })
+      .then(res => {
+        setting.inputProps.options= res.data.data
+        // setForceRender(pre => pre+1)
+      })
+    }
+  }, [])
+
   return setting.customizedFormItem || schema.standardFormItem
 }
 

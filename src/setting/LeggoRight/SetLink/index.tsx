@@ -90,7 +90,7 @@ export function SetLink(props: React.PropsWithoutRef<{
         content={
           <div>
             <Form form={form} onValuesChange={onValuesChange}>
-              <Form.Item label="关联对象" name="linkedName" rules={[{required: true, message: '必须选择关联对象！'}]}>
+              <Form.Item label="关联对象" name="linkedName" required>
                 <Select options={schemaListOptions} />
               </Form.Item>
               <Form.Item label="计算规则" name="rule">

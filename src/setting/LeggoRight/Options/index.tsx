@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Form, Input, Radio, Space, InputNumber, RadioChangeEvent } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Form, Input, Radio, Space, InputNumber, RadioChangeEvent, Drawer, Popover } from 'antd'
+import { MinusCircleOutlined, PlusOutlined, CloudSyncOutlined } from '@ant-design/icons'
 import { TOption } from '../../../public/interface'
+import { SetPostman } from '../SetPostman'
 
 
 export function Options(props: React.PropsWithChildren<{
@@ -9,6 +10,7 @@ export function Options(props: React.PropsWithChildren<{
   handleChange: (value: any) => void
 }>){
   const { options, handleChange }= props
+  const [visible, setVisible]= useState(false)
   const [valueType, setValueType]= useState('number')
 
   const onValuesChange= (_, allValues) => {
@@ -29,8 +31,9 @@ export function Options(props: React.PropsWithChildren<{
   return (
     <div>
       <strong>options：</strong>
-      {props.children}
+      <span>{props.children}</span>
       <div className="configs-setting-area">
+        <SetPostman setLink={props.children} />
         <div>
           <strong>value类型：</strong>
           <Radio.Group size="small" defaultValue="number" buttonStyle="solid" onChange={onChangeType}>
