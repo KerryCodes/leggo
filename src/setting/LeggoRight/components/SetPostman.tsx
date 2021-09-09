@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import { Button, Form, Input, Select, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { TSchema } from '../../../public/interface'
 
 const layout= {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
 }
 
 const options= [
@@ -15,19 +16,31 @@ const options= [
 ]
 
 
-export function SetPostman(props: React.PropsWithoutRef<{setLink: any}>){
-  const { setLink }= props
+export function SetPostman(props: React.PropsWithoutRef<{
+  setLink: any,
+  activeSchema: React.MutableRefObject<TSchema>,
+}>){
+  const { setLink, activeSchema }= props
+
+  const onValuesChange= (_, allValues) => {
+    const { method, url, params }= allValues
+    activeSchema.current.postman= { 
+      propName: 'options',
+      method, 
+      url, 
+      params: params?.filter(item => item),
+    }
+  }
 
   return (
-    <div>
-      <Form>
-        <Form.Item label="method">
-          <Select options={options} />
-        </Form.Item>
-        <Form.Item label="url">
-          <Input />
-        </Form.Item>
-        <div>params：</div>
+    <Form {...layout} onValuesChange={onValuesChange} initialValues={activeSchema.current.postman}>
+      <Form.Item label="method" name="method" required>
+        <Select options={options} />
+      </Form.Item>
+      <Form.Item label="url" name="url" required>
+        <Input />
+      </Form.Item>
+      <Form.Item label='params'>
         <Form.List name="params">
           {(fields, { add, remove }) => (
             <Fragment>
@@ -53,7 +66,7 @@ export function SetPostman(props: React.PropsWithoutRef<{setLink: any}>){
             </Fragment>
           )}
         </Form.List>
-      </Form>
-    </div>
+      </Form.Item>
+    </Form>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { TSchema } from '../../public/interface'
-import { Config } from './Config'
+import { Config } from './components/Config'
 import { Divider } from 'antd'
 
 

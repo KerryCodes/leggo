@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Input, InputNumber, Space, Switch } from 'antd'
-import { Options } from '../Options'
+import { Options } from './Options'
 import { TSchema } from '../../../public/interface'
-import { SetLink } from '../SetLink'
+import { SetLink } from './SetLink'
 
 
 export function Config(props: React.PropsWithoutRef<{
@@ -53,7 +53,7 @@ export function Config(props: React.PropsWithoutRef<{
 
   if(propName === 'options'){
     return (
-      <Options options={defaultValue} handleChange={handleChange}>
+      <Options options={defaultValue} activeSchema={activeSchema} handleChange={handleChange}>
         <SetLink activeSchema={activeSchema} namepath={namepath} schemaList={schemaList} schemaListOptions={schemaListOptions} />
       </Options>
     )

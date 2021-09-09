@@ -108,7 +108,7 @@ function LeggoFormItem(props: React.PropsWithoutRef<{
   schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
 
   useEffect(() => {
-    if(postman){
+    if(postman?.method && postman?.url){
       const { method, url, params }= postman
       axios({ method, url, data: params })
       .then(res => {
