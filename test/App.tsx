@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import './App.less'
 import { Button, Divider, Drawer, Form } from 'antd'
 import 'antd/dist/antd.css';
-import { LeggoSetting, LeggoForm } from '../src'
+import { LeggoConfigs, LeggoForm } from '../src'
 import { cloneDeep } from 'lodash'
-import { TSchema, TSchemasModel } from '../src/public/interface';
+import { TSchemasModel } from '../src/public/interface';
 
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
     <div className="App">
       <Button type="primary" onClick={() => setVisible(true)}>创建表单模板</Button>
       <Drawer title="拖拽生成表单" placement="top" height='100%' visible={visible} onClose={() => setVisible(false)}>
-        <LeggoSetting onPostSchemaModel={postSchemaModelData} />
+        <LeggoConfigs onPostSchemaModel={postSchemaModelData} />
       </Drawer>
       <div className="show-area">
         {
@@ -39,14 +39,14 @@ export default function App() {
 
 function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const { schemaModel }= props
-  const { name, description, schemaList }= schemaModel
+  const { name, description }= schemaModel
   const [form] =Form.useForm()
   const leggo= LeggoForm.useLeggo()
     
   const changeOptions= () => {
-    leggo.updateSchema('select', (setting, StandardFormItem) => {
-      setting.customizedFormItem= <div>已填充选项：{StandardFormItem}</div>
-      setting.inputProps.options= [
+    leggo.updateSchema('select', (configs, StandardFormItem) => {
+      configs.customizedFormItem= <div>已填充选项：{StandardFormItem}</div>
+      configs.inputProps.options= [
         {label: 'A', value: 1}, 
         {label: 'B', value: 2},
         {label: 'C', value: 3},
@@ -57,8 +57,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   }
 
   useEffect(() => {
-    schemaList.forEach(middleware)
-    leggo.updateSchemaModel(schemaModel)
+    leggo.resetSchemaModel(schemaModel)
   }, [schemaModel])
 
   return (
@@ -75,12 +74,4 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
       <LeggoForm leggo={leggo} form={form} onValuesChange={console.log} onFinish={console.log} />
     </div>
   )
-}
-
-
-function middleware(schema: TSchema, index: number){
-  const { type, setting }= schema
-  if(type === 'input'){
-    setting.inputProps.placeholder= 'placeholder已被middleware更改!'
-  }
 }

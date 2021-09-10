@@ -1,18 +1,19 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Form, Input, Radio, Space, InputNumber, RadioChangeEvent } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { TOption } from '../../../public/interface'
+import { TOption, TSchema } from '../../../interface'
 
 
-export function SetOptions(props: React.PropsWithChildren<{
-  options: TOption[],
+export function OptionsSet(props: React.PropsWithChildren<{
+  activeSchema: React.MutableRefObject<TSchema>,
   handleChange: (value: any) => void
 }>){
-  const { options, handleChange }= props
+  const { activeSchema, handleChange }= props
+  const options= activeSchema.current.configs.inputProps.options
   const [valueType, setValueType]= useState('number')
 
-  const onValuesChange= (_, allValues) => {
-    const newOptions= allValues.options.filter(item => item?.label !== undefined && item?.value !== undefined)
+  const onValuesChange= (_: any, allValues: any) => {
+    const newOptions= allValues.options.filter((item: TOption) => item?.label !== undefined && item?.value !== undefined)
     newOptions.length && handleChange(newOptions)
   }
 
@@ -20,6 +21,7 @@ export function SetOptions(props: React.PropsWithChildren<{
     const type= e.target.value
     options.forEach(option => {
       const optionValue= option.value
+      // @ts-ignore
       option.value= type === 'string' ? String(optionValue) : (Number(optionValue) || optionValue.charCodeAt())
     })
     handleChange(options)

@@ -1,18 +1,19 @@
 import React from 'react'
 import { Button } from 'antd'
-import { TSchema } from '../../../public/interface'
-import { leggoItemStore } from '../../../public/leggoItemStore'
+import { TSchema } from '../../../interface'
+import { leggoItemStore } from '../../../service'
 
 
 export function DroppedFormItem(props: React.PropsWithoutRef<{
+  activeSchema: React.MutableRefObject<TSchema>,
   schema: TSchema,
   setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
-  activeSchema: React.MutableRefObject<TSchema>,
   forceRender: () => void,
 }>){
-  const { schema, setSchemaList, activeSchema, forceRender }= props
-  const { id, type, setting }= schema
-  const FormItemComponent= leggoItemStore[type].FormItemComponent
+  const { activeSchema, schema, setSchemaList, forceRender }= props
+  const { id, type, configs }= schema
+  const { itemProps, inputProps }= configs
+  const StandardFormItemFC= leggoItemStore[type].StandardFormItemFC
   const active= activeSchema.current === schema
 
   const deleteSchema= (e: React.MouseEvent) => {
@@ -31,7 +32,7 @@ export function DroppedFormItem(props: React.PropsWithoutRef<{
   return (
     <div className={`dropped-item ${active ? 'active-item' : ''}`} onClick={activateSchema}>
       <Button type="text" className="delete-butt" onClick={deleteSchema}>X</Button>
-      <FormItemComponent setting={setting} />
+      <StandardFormItemFC itemProps={itemProps} inputProps={inputProps} />
     </div>
   )
 }

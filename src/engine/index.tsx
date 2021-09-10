@@ -1,7 +1,7 @@
-import { Form } from "antd"
+import { Form, FormProps } from "antd"
 import React, { useEffect, useRef, useState } from "react"
-import { leggoItemStore } from "../public/leggoItemStore"
-import { TSchemasModel, TSchema, TSetting } from "../public/interface"
+import { leggoItemStore } from "../service"
+import { TSchemasModel, TSchema, TConfigs } from "../interface"
 import axios from 'axios'
 
 
@@ -20,31 +20,31 @@ class Leggo{
     this.forceRender= () => setForceRender(pre => pre+1)
     this.schemaModel= schemaModel
   }
-  public updateSchemaModel(newSchemaModel: TSchemasModel){
+  public resetSchemaModel(newSchemaModel: TSchemasModel){
     this.schemaModel= newSchemaModel
     this.forceRender()
   }
-  public updateSchema(formItemName: string, changeDataFunc: (setting: TSetting, standardFormItem: JSX.Element) => void){
-    const pickedSchema= this.schemaModel?.schemaList.find(item => item.setting.itemProps.name === formItemName)
+  public updateSchema(formItemName: string, changeDataFunc: (configs: TConfigs, standardFormItem: JSX.Element) => void){
+    const pickedSchema= this.schemaModel?.schemaList.find(item => item.configs.itemProps.name === formItemName)
     if(!pickedSchema){ return }
-    const { setting, standardFormItem }= pickedSchema
-    changeDataFunc(setting, standardFormItem)
+    const { configs, standardFormItem }= pickedSchema
+    changeDataFunc(configs, standardFormItem)
     pickedSchema.forceLeggoFormItemRender?.()
   }
   public getForItem(type: string){
-    return leggoItemStore[type]?.FormItemComponent
+    return leggoItemStore[type]?.StandardFormItemFC
   }
 }
 
 
-export function LeggoForm(props: React.PropsWithoutRef<any>){
+export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
   const { leggo, onValuesChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
 
-  const handleValuesChange= (changedValues, allValues) => {
+  const handleValuesChange= (changedValues: any, allValues: any) => {
     for(const [name, value] of Object.entries(changedValues)){
       const changedSchema= schemaList.find(schema => schema.getName() === name)
-      changedSchema.currentValue= Array.isArray(value) ? value.join() : value
+      changedSchema.currentFormItemValue= Array.isArray(value) ? value.join() : value
       changedSchema.linkingNames.forEach(linkingName => {
         const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
         targetSchema.forceLeggoFormItemRender()
@@ -56,7 +56,7 @@ export function LeggoForm(props: React.PropsWithoutRef<any>){
   return (
     <Form {...formProps} {...overlapFormProps} onValuesChange={handleValuesChange}>
       {
-        schemaList?.map(schema => <LeggoFormItem key={schema.id} schema={schema} schemaList={schemaList} />)
+        schemaList?.map(schema => <LeggoItem key={schema.id} schema={schema} schemaList={schemaList} />)
       }
     </Form>
   )
@@ -71,17 +71,21 @@ LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
 }
 
 
-function LeggoFormItem(props: React.PropsWithoutRef<{
+function LeggoItem(props: React.PropsWithoutRef<{
   schema: TSchema,
   schemaList: TSchema[],
 }>){
   const { schema, schemaList }= props
-  const { type, setting, needDefineGetterMap, postman }= schema
-  const FormItemComponent= leggoItemStore[type].FormItemComponent
+  const { type, configs, needDefineGetterMap }= schema
+  const { itemProps, inputProps, postman }= configs
+  const StandardFormItemFC= leggoItemStore[type].StandardFormItemFC
   const postmanDependencies= postman?.params.map(item => item.value) || []
   const [ , setForceRender]= useState(0)
-  schema.standardFormItem= <FormItemComponent setting={setting} />
-  schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
+  schema.standardFormItem= <StandardFormItemFC itemProps={itemProps} inputProps={inputProps} />
+  
+  useEffect(() => {
+    schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
+  }, [])
 
   useEffect(() => {
     needDefineGetterMap.forEach(getterInfo => {
@@ -89,29 +93,24 @@ function LeggoFormItem(props: React.PropsWithoutRef<{
       const selfName= schema.getName()
       const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
       const targetKey= namepath.slice(-1)[0]
-      let targetProp= schema
-      namepath.slice(0, -1).forEach(key => { targetProp = targetProp[key] })
+      //@ts-ignore
+      const targetProp= namepath.slice(0, -1).reduce((pre, cur) => pre[cur], configs)
       linkedSchema.linkingNames.add(selfName)
       Reflect.defineProperty(targetProp, targetKey, {
         get: () => {
-          let targetValue= linkedSchema.currentValue
+          let targetValue= linkedSchema.currentFormItemValue
           if(reference && rule){
             switch(rule){
               case '<':
-                targetValue= targetValue < reference
-                break;
+                return targetValue < reference
               case '<=':
-                targetValue= targetValue <= reference
-                break;
+                return targetValue <= reference
               case '===':
-                targetValue= targetValue === reference
-                break;
+                return targetValue === reference
               case '>=':
-                targetValue= targetValue >= reference
-                break;
+                return targetValue >= reference
               case '>':
-                targetValue= targetValue > reference
-                break;
+                return targetValue > reference
             }
           }
           return targetValue
@@ -121,25 +120,27 @@ function LeggoFormItem(props: React.PropsWithoutRef<{
   }, [])
 
   useEffect(() => {
-    if(postman?.method && postman?.url){
-      const { method, url, params, data }= postman
+    const { method, url, params, data }= postman || {}
+    if(method && url){
       const paramsParsed= params?.reduce((pre, cur) => {
-        pre[cur.key]= cur.value
+        //@ts-ignore
+        pre[cur.key]= cur.value || undefined
         return pre
       }, {})
       const dataParsed= data?.reduce((pre, cur) => {
+        //@ts-ignore
         pre[cur.key]= cur.value
         return pre
       }, {})
       axios({ method, url, params: paramsParsed, data: dataParsed })
       .then(res => {
-        setting.inputProps.options= res.data.data
+        configs.inputProps.options= res.data.data
         setForceRender(pre => pre+1)
       })
     }
   }, postmanDependencies)
 
-  return setting.customizedFormItem || schema.standardFormItem
+  return configs.customizedFormItem || schema.standardFormItem
 }
 
 

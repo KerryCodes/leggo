@@ -1,6 +1,6 @@
 import { Button, Form, FormProps, Input, Modal } from 'antd'
 import React, { useState } from 'react'
-import { TPostSchemaModel, TSchema } from '../../../public/interface'
+import { TPostSchemaModel, TSchema } from '../../../interface'
 
 const layout= {
   labelCol: { span: 6 },
@@ -18,11 +18,7 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
   const [visible, setVisible]= useState(false)
 
   const handleSend= (values: {name:string, description:string}) => {
-    onPostSchemaModel({
-      ...values, 
-      formProps,
-      schemaList,
-    })
+    onPostSchemaModel({ ...values, formProps, schemaList })
     setVisible(false)
   }
   

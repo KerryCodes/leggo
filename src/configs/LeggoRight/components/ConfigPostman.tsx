@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { Button, Form, Input, Select, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { TOption, TSchema } from '../../../public/interface'
-import { SetLink } from './SetLink'
+import { TOption, TParam, TSchema } from '../../../interface'
+import { LinkSet } from './LinkSet'
 
 const layout= {
   labelCol: { span: 4 },
@@ -17,25 +17,25 @@ const options= [
 ]
 
 
-export function SetPostman(props: React.PropsWithoutRef<{
+export function ConfigPostman(props: React.PropsWithoutRef<{
   activeSchema: React.MutableRefObject<TSchema>,
   schemaListOptions: TOption[]
 }>){
   const { activeSchema, schemaListOptions } = props
 
-  const onValuesChange= (_, allValues) => {
+  const onValuesChange= (_: any, allValues: any) => {
     const { method, url, params, data }= allValues
-    activeSchema.current.postman= { 
+    activeSchema.current.configs.postman= { 
       propName: 'options',
       method, 
       url, 
-      params: params?.filter(item => item),
-      data: data?.filter(item => item),
+      params: params?.filter((item: TParam) => item),
+      data: data?.filter((item: TParam) => item),
     }
   }
 
   return (
-    <Form {...layout} onValuesChange={onValuesChange} initialValues={activeSchema.current.postman}>
+    <Form {...layout} onValuesChange={onValuesChange} initialValues={activeSchema.current.configs.postman}>
       <Form.Item label="method" name="method" required>
         <Select options={options} />
       </Form.Item>
@@ -53,7 +53,7 @@ export function SetPostman(props: React.PropsWithoutRef<{
                     >
                     <Input placeholder="key" />
                   </Form.Item>
-                  <SetLink activeSchema={activeSchema} namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
+                  <LinkSet activeSchema={activeSchema} namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
@@ -80,7 +80,7 @@ export function SetPostman(props: React.PropsWithoutRef<{
                     >
                     <Input placeholder="key" />
                   </Form.Item>
-                  <SetLink activeSchema={activeSchema} namepath={['postman', 'data', index, 'value']} schemaListOptions={schemaListOptions} />
+                  <LinkSet activeSchema={activeSchema} namepath={['postman', 'data', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >

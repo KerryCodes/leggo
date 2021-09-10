@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
-import { TOption, TSchema } from '../../../public/interface'
+import { TOption, TSchema } from '../../../interface'
 
 
-export function SetLink(props: React.PropsWithoutRef<{
+export function LinkSet(props: React.PropsWithoutRef<{
   namepath: (string|number)[],
   activeSchema: React.MutableRefObject<TSchema>,
   schemaListOptions: TOption[],
@@ -18,7 +18,7 @@ export function SetLink(props: React.PropsWithoutRef<{
   const [resultText, setResultText]= useState(`${propName}.value =`)
   const [disabled, setDisabled]= useState(true)
 
-  const onValuesChange= (_, allValues) => {
+  const onValuesChange= (_: any, allValues: any) => {
     const { observedName, rule, reference }= allValues
     let newText= `${propName}.value = `
     if(observedName){
