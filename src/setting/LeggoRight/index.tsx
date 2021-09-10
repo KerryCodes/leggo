@@ -22,7 +22,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         {
           itemPropsConfigs.map(propName => 
             <Config key={id + propName} 
-              namepath={['itemProps', propName]}
+              namepath={['setting', 'itemProps', propName]}
               propName={propName}
               activeSchemaProp={setting.itemProps} 
               defaultValue={setting.itemProps[propName]}
@@ -38,7 +38,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         {
           inputPropsConfigs.map(propName => 
             <Config key={id + propName} 
-              namepath={['inputProps', propName]}
+              namepath={['setting', 'inputProps', propName]}
               propName={propName}
               activeSchemaProp={setting.inputProps} 
               defaultValue={setting.inputProps[propName]}

@@ -44,7 +44,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const leggo= LeggoForm.useLeggo()
     
   const changeOptions= () => {
-    leggo.updateSchemaModelData('select', (setting, StandardFormItem) => {
+    leggo.updateSchema('select', (setting, StandardFormItem) => {
       setting.customizedFormItem= <div>已填充选项：{StandardFormItem}</div>
       setting.inputProps.options= [
         {label: 'A', value: 1}, 

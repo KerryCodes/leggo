@@ -24,6 +24,7 @@ export interface TSchema{
     method: 'get' | 'post' | 'put' | 'delete',
     url: string,
     params: TParam[],
+    data: TParam[],
   },
   forceLeggoFormItemRender?: () => void,
   standardFormItem?: JSX.Element,
@@ -32,7 +33,6 @@ export interface TSchema{
 export interface TParam{
   key: string,
   value: string,
-  // linking: TLinkedValue,
 }
 
 export interface TSetting{
