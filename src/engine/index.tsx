@@ -8,7 +8,7 @@ import axios from 'axios'
 const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
 
 class Leggo{
-  private readonly forceRender: () => void
+  private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
   public schemaModel: TSchemasModel
   constructor(
@@ -17,21 +17,22 @@ class Leggo{
     schemaModel?: TSchemasModel,
   ){
     this.ref= keyRef
-    this.forceRender= () => setForceRender(pre => pre+1)
+    this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
     this.schemaModel= schemaModel
   }
   public resetSchemaModel(newSchemaModel: TSchemasModel){
     this.schemaModel= newSchemaModel
-    this.forceRender()
+    this.forceLeggoFormRender()
   }
-  public updateSchema(formItemName: string, changeDataFunc: (configs: TConfigs, standardFormItem: JSX.Element) => void){
-    const pickedSchema= this.schemaModel?.schemaList.find(item => item.configs.itemProps.name === formItemName)
-    if(!pickedSchema){ return }
-    const { configs, standardFormItem }= pickedSchema
-    changeDataFunc(configs, standardFormItem)
-    pickedSchema.forceLeggoFormItemRender?.()
+  public resetSchema(formItemName: string, changeDataFunc: (configs: TConfigs, standardFormItem: JSX.Element) => void){
+    const targetSchema= this.schemaModel?.schemaList.find(schema => schema.getName() === formItemName)
+    if (targetSchema) {
+      const { configs, standardFormItem }= targetSchema
+      changeDataFunc(configs, standardFormItem)
+      targetSchema.forceLeggoFormItemRender?.()
+    }
   }
-  public getForItem(type: string){
+  public getStandardFormItemFC(type: string){
     return leggoItemStore[type]?.StandardFormItemFC
   }
 }
@@ -61,13 +62,15 @@ export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProp
     </Form>
   )
 }
-LeggoForm.useLeggo= (schemaModel?: TSchemasModel) => {
+LeggoForm.useLeggo = (schemaModel?: TSchemasModel): Leggo => {
+  let leggo= null
   const keyRef= useRef(null)
   const [ , setForceRender]= useState(0)
-  if(!leggoStores.has(keyRef)){ 
-    leggoStores.set(keyRef, new Leggo(keyRef, setForceRender, schemaModel)) 
+  if (!leggoStores.has(keyRef)) {
+    leggo= new Leggo(keyRef, setForceRender, schemaModel)
+    leggoStores.set(keyRef, leggo) 
   }
-  return leggoStores.get(keyRef)
+  return leggo || leggoStores.get(keyRef)
 }
 
 
@@ -78,10 +81,11 @@ function LeggoItem(props: React.PropsWithoutRef<{
   const { schema, schemaList }= props
   const { type, configs, needDefineGetterMap }= schema
   const { itemProps, inputProps, postman }= configs
-  const StandardFormItemFC= leggoItemStore[type].StandardFormItemFC
-  const postmanDependencies= postman?.params.map(item => item.value) || []
+  const StandardFormItemFC= leggoItemStore[type]?.StandardFormItemFC
+  const postmanParamsValueList = postman?.params?.map(item => item.value) || []
+  const postmanDataValueList= postman?.data?.map(item => item.value) || []
   const [ , setForceRender]= useState(0)
-  schema.standardFormItem= <StandardFormItemFC itemProps={itemProps} inputProps={inputProps} />
+  schema.standardFormItem= StandardFormItemFC && <StandardFormItemFC itemProps={itemProps} inputProps={inputProps} />
   
   useEffect(() => {
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
@@ -122,9 +126,10 @@ function LeggoItem(props: React.PropsWithoutRef<{
   useEffect(() => {
     const { method, url, params, data }= postman || {}
     if(method && url){
-      const paramsParsed= params?.reduce((pre, cur) => {
+      const paramsParsed = params?.reduce((pre, cur) => {
+        const value= cur.value
         //@ts-ignore
-        pre[cur.key]= cur.value || undefined
+        pre[cur.key]= value === '' ? undefined : value
         return pre
       }, {})
       const dataParsed= data?.reduce((pre, cur) => {
@@ -138,7 +143,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
         setForceRender(pre => pre+1)
       })
     }
-  }, postmanDependencies)
+  }, [...postmanParamsValueList, ...postmanDataValueList])
 
   return configs.customizedFormItem || schema.standardFormItem
 }

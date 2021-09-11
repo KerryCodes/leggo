@@ -5,7 +5,7 @@ import { TOption, TParam, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 
 const layout= {
-  labelCol: { span: 4 },
+  labelCol: { span: 6 },
   wrapperCol: { span: 18 },
 }
 
