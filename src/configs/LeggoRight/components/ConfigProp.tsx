@@ -79,6 +79,31 @@ export function ConfigProp(props: React.PropsWithoutRef<{
     )
   }
 
+  if(propName === 'wordsLimit'){
+    const limitRule= propDefaultValue
+    const limitRuleEntries= Object.entries(limitRule)
+    return (
+      <div>
+        <strong>wordsLimit：</strong>
+        <div className="configs-configs-area">
+          {
+            limitRuleEntries.map(([pName, value]) => 
+              <ConfigProp key={pName}
+                propOwner={limitRule} 
+                namepath= {[...namepath, 'wordsLimit', pName]}
+                propName={pName}
+                propDefaultValue={value}
+                activeSchema={activeSchema}
+                schemaList={schemaList}
+                forceRender={forceRender}
+              />
+            )
+          }
+        </div>
+      </div>
+    )
+  }
+
   switch(typeof propDefaultValue){
     case 'boolean':
       return (

@@ -35,7 +35,7 @@ function createLeggoItems(){
     const item= (
       <div key={type} className="item" draggable onDragStart={handleDragStart} data-type={type}>
         <div className="item-forbidden">
-          <StandardFormItemFC itemProps={configs.itemProps} inputProps={configs.inputProps} />
+          <StandardFormItemFC {...configs} />
         </div>
       </div>
     )

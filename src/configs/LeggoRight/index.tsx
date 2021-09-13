@@ -11,9 +11,10 @@ export function LeggoRight(props: React.PropsWithoutRef<{
 }>) {
   const { activeSchema, schemaList, forceRender }= props
   const { id, configs }= activeSchema.current || {}
-  const { itemProps, inputProps }= configs || {}
+  const { itemProps, inputProps, extra }= configs || {}
   const itemPropsEntries= useMemo(() => Object.entries(itemProps || {}), [activeSchema.current])
   const inputPropsEntries= useMemo(() => Object.entries(inputProps || {}), [activeSchema.current])
+  const extraEntries= useMemo(() => Object.entries(extra || {}), [activeSchema.current])
 
   return (
     <div className="leggo-configs-right">
@@ -53,10 +54,10 @@ export function LeggoRight(props: React.PropsWithoutRef<{
       <div className="configs-configs-area">
         <Divider>Extra</Divider>
         {
-          inputPropsEntries.map(([propName, value]) => 
+          extraEntries.map(([propName, value]) => 
             <ConfigProp key={id + propName} 
-              propOwner={inputProps} 
-              namepath={['inputProps', propName]}
+              propOwner={extra} 
+              namepath={['extra', propName]}
               propName={propName}
               propDefaultValue={value}
               activeSchema={activeSchema}

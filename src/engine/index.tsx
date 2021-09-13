@@ -80,12 +80,12 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { schema, schemaList }= props
   const { type, configs, needDefineGetterMap }= schema
-  const { itemProps, inputProps, postman }= configs
+  const { postman }= configs
   const StandardFormItemFC= leggoItemStore[type]?.StandardFormItemFC
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
   const [ , setForceRender]= useState(0)
-  schema.standardFormItem= StandardFormItemFC && <StandardFormItemFC itemProps={itemProps} inputProps={inputProps} />
+  schema.standardFormItem= StandardFormItemFC && <StandardFormItemFC {...configs} />
   
   useEffect(() => {
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)

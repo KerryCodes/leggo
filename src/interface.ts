@@ -8,7 +8,7 @@ export type TSchemaType= keyof typeof leggoItemStore
 export interface TLeggoItemInfo{
   type: TSchemaType,
   configs: TConfigs,
-  StandardFormItemFC: React.FC<{itemProps: FormItemProps, inputProps: TInputProps}>,
+  StandardFormItemFC: React.FC<TConfigs>,
 }
 
 export interface TSchema{
@@ -26,6 +26,14 @@ export interface TSchema{
 export interface TConfigs{
   itemProps: FormItemProps<any>,
   inputProps: TInputProps,
+  extra?: {
+    wordsLimit?: {
+      max: 10,
+      min: 0,
+      message: '输入字符数需要在0～10之间！',
+    },
+    buttonText?: string,
+  },
   postman?: {
     propName: 'options',
     method: 'get' | 'post' | 'put' | 'delete',
