@@ -30,81 +30,54 @@ export function ConfigProp(props: React.PropsWithoutRef<{
     forceRender()
   }
 
-  if(propName === 'rules'){
-    const rule0= propDefaultValue[0]
-    const ruleEntries= Object.entries(rule0)
-    return (
-      <div>
-        <strong>rules：</strong>
-        <div className="configs-configs-area">
-          {
-            ruleEntries.map(([pName, value]) => 
-              <ConfigProp key={pName}
-                propOwner={rule0} 
-                namepath= {[...namepath, 0, pName]}
-                propName={pName}
-                propDefaultValue={value}
-                activeSchema={activeSchema}
-                schemaList={schemaList}
-                forceRender={forceRender}
-              />
-            )
-          }
-        </div>
-      </div>
-    )
-  }
-
-  if(propName === 'options'){
-    return (
-      <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
-    )
-  }
-
-  if(propName === 'picker'){
-    const options= [
-      {label: 'time', value: 'time'},
-      {label: 'date', value: 'date'},
-      {label: 'week', value: 'week'},
-      {label: 'month', value: 'month'},
-      {label: 'quarter', value: 'quarter'},
-      {label: 'year', value: 'year'},
-    ]
-    return (
-      <Space>
-        <strong>{propName}：</strong>
-        <Select options={options} defaultValue={propCurrentValue} onChange={handleChangePropValue} />
-        <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
-      </Space>
-    )
-  }
-
-  if(propName === 'wordsLimit'){
-    const limitRule= propDefaultValue
-    const limitRuleEntries= Object.entries(limitRule)
-    return (
-      <div>
-        <strong>wordsLimit：</strong>
-        <div className="configs-configs-area">
-          {
-            limitRuleEntries.map(([pName, value]) => 
-              <ConfigProp key={pName}
-                propOwner={limitRule} 
-                namepath= {[...namepath, 'wordsLimit', pName]}
-                propName={pName}
-                propDefaultValue={value}
-                activeSchema={activeSchema}
-                schemaList={schemaList}
-                forceRender={forceRender}
-              />
-            )
-          }
-        </div>
-      </div>
-    )
+  switch(propName){
+    case 'options':
+      return (
+        <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
+      )
+    case 'picker':
+      const options= [
+        {label: 'time', value: 'time'},
+        {label: 'date', value: 'date'},
+        {label: 'week', value: 'week'},
+        {label: 'month', value: 'month'},
+        {label: 'quarter', value: 'quarter'},
+        {label: 'year', value: 'year'},
+      ]
+      return (
+        <Space>
+          <strong>{propName}：</strong>
+          <Select options={options} defaultValue={propCurrentValue} onChange={handleChangePropValue} />
+          <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+        </Space>
+      )
   }
 
   switch(typeof propDefaultValue){
+    case 'object':
+      if(!propDefaultValue){ return null}
+      const propOwner= propDefaultValue
+      const propOwnerEntries= Object.entries(propOwner)
+      return (
+        <div>
+          <strong>{propName}：</strong>
+          <div className="configs-configs-area">
+            {
+              propOwnerEntries.map(([pName, value]) => 
+                <ConfigProp key={pName}
+                  propOwner={propOwner} 
+                  namepath= {[...namepath, pName]}
+                  propName={pName}
+                  propDefaultValue={value}
+                  activeSchema={activeSchema}
+                  schemaList={schemaList}
+                  forceRender={forceRender}
+                />
+              )
+            }
+          </div>
+        </div>
+      );
     case 'boolean':
       return (
         <Space>
@@ -112,7 +85,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
           <Switch checked={propCurrentValue} onChange={handleChangePropValue} />
           <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
-      )
+      );
     case 'string':
       return (
         <Space>
@@ -122,7 +95,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
             propName !== 'name' && <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
           }
         </Space>
-      )
+      );
     case 'number':
       return (
         <Space>
@@ -130,9 +103,9 @@ export function ConfigProp(props: React.PropsWithoutRef<{
           <InputNumber value={propCurrentValue} onChange={handleChangePropValue} bordered={false} />
           <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
-      )
+      );
     default:
-      return null
+      return null;
   }
 }
 

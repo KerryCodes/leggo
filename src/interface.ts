@@ -26,14 +26,7 @@ export interface TSchema{
 export interface TConfigs{
   itemProps: FormItemProps<any>,
   inputProps: TInputProps,
-  extra?: {
-    wordsLimit?: {
-      max: 10,
-      min: 0,
-      message: '输入字符数需要在0～10之间！',
-    },
-    buttonText?: string,
-  },
+  extra?: Partial<TExtra>,
   postman?: {
     propName: 'options',
     method: 'get' | 'post' | 'put' | 'delete',
@@ -42,6 +35,15 @@ export interface TConfigs{
     data: TParam[],
   },
   customizedFormItem?: JSX.Element,
+}
+
+export interface TExtra{
+  wordsLimit: {
+    max: 10,
+    min: 0,
+    message: '输入字符数需要在0～10之间！',
+  },
+  buttonText: string,
 }
 
 export interface TInputProps{

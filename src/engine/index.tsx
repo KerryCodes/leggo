@@ -1,5 +1,5 @@
 import { Form, FormProps } from "antd"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { leggoItemStore } from "../service"
 import { TSchemasModel, TSchema, TConfigs } from "../interface"
 import axios from 'axios'
@@ -91,7 +91,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     needDefineGetterMap.forEach(getterInfo => {
       const { observedName, namepath, reference, rule } = getterInfo
       const selfName= schema.getName()
