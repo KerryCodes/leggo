@@ -16,6 +16,11 @@ const options= [
   {label: 'DELETE', value: 'delete'},
 ]
 
+const selectBeforeOptions= [
+  {label: 'http://', value: 'http://'},
+  {label: 'https://', value: 'https://'},
+]
+
 
 export function ConfigPostman(props: React.PropsWithoutRef<{
   activeSchema: React.MutableRefObject<TSchema>,
@@ -39,8 +44,8 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
       <Form.Item label="method" name="method" required>
         <Select options={options} />
       </Form.Item>
-      <Form.Item label="url" name="url" required>
-        <Input />
+      <Form.Item label="url" name="url" required initialValue='www.'>
+        <Input addonBefore={<Select options={selectBeforeOptions} defaultValue="http://" />} />
       </Form.Item>
       <Form.Item label='params'>
         <Form.List name="params">

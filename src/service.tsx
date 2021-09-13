@@ -176,7 +176,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
       inputProps: {
         disabled: false,
         placeholder: '请选择',
-        picker: 'month',
+        picker: 'date',
       },
     },
     StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<{itemProps: FormItemProps, inputProps: TInputProps}>) => 

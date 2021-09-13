@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, InputNumber, Space, Switch } from 'antd'
+import { Input, InputNumber, Select, Space, Switch } from 'antd'
 import { ConfigOptions } from './ConfigOptions'
 import { TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
@@ -58,6 +58,24 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   if(propName === 'options'){
     return (
       <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
+    )
+  }
+
+  if(propName === 'picker'){
+    const options= [
+      {label: 'time', value: 'time'},
+      {label: 'date', value: 'date'},
+      {label: 'week', value: 'week'},
+      {label: 'month', value: 'month'},
+      {label: 'quarter', value: 'quarter'},
+      {label: 'year', value: 'year'},
+    ]
+    return (
+      <Space>
+        <strong>{propName}：</strong>
+        <Select options={options} defaultValue={propCurrentValue} onChange={handleChangePropValue} />
+        <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+      </Space>
     )
   }
 

@@ -50,6 +50,22 @@ export function LeggoRight(props: React.PropsWithoutRef<{
           )
         }
       </div>
+      <div className="configs-configs-area">
+        <Divider>Extra</Divider>
+        {
+          inputPropsEntries.map(([propName, value]) => 
+            <ConfigProp key={id + propName} 
+              propOwner={inputProps} 
+              namepath={['inputProps', propName]}
+              propName={propName}
+              propDefaultValue={value}
+              activeSchema={activeSchema}
+              schemaList={schemaList} 
+              forceRender={forceRender}
+            />
+          )
+        }
+      </div>
     </div>
   )
 }
