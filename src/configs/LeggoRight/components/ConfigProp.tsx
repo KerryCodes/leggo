@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Input, InputNumber, Select, Space, Switch } from 'antd'
 import { ConfigOptions } from './ConfigOptions'
 import { TSchema } from '../../../interface'
@@ -15,6 +15,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   forceRender: () => void,
 }>){
   const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaList, forceRender }= props
+  const typeofPropDefaultValue= useRef(typeof propDefaultValue)
   const [propCurrentValue, setPropCurrentValue]= useState(propDefaultValue)
   const schemaListOptions= schemaList.map(schema => {
     const { label, name }= schema.configs.itemProps
@@ -53,7 +54,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
       )
   }
 
-  switch(typeof propDefaultValue){
+  switch(typeofPropDefaultValue.current){
     case 'object':
       if(!propDefaultValue){ return null}
       const propOwner= propDefaultValue

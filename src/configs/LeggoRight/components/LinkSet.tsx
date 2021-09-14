@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select } from 'antd'
+import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select, Space } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../interface'
 
@@ -10,17 +10,16 @@ export function LinkSet(props: React.PropsWithoutRef<{
   schemaListOptions: TOption[],
 }>){
   const { namepath, activeSchema, schemaListOptions }= props
-  const propName= namepath.slice(-1)[0]
   const [form]= Form.useForm()
   const [visible, setVisible]= useState(false)
   const [isLinked, setIsLinked]= useState(false)
   const [referenceType, setReferenceType]= useState('string')
-  const [resultText, setResultText]= useState(`${propName}.value =`)
+  const [resultText, setResultText]= useState('value = ')
   const [disabled, setDisabled]= useState(true)
 
   const onValuesChange= (_: any, allValues: any) => {
     const { observedName, rule, reference }= allValues
-    let newText= `${propName}.value = `
+    let newText= 'value = '
     if(observedName){
       setDisabled(false)
       newText += `${observedName}.value`
@@ -37,12 +36,18 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const onFinish= () => {
     form.validateFields()
     .then(values => {
-      setVisible(false)
       const { observedName, rule, reference }= values
       const key= namepath.join()
       const getterInfo= { observedName, namepath, reference, rule }
       activeSchema.current.needDefineGetterMap.set(key, getterInfo)
+      setVisible(false)
     })
+  }
+
+  const onCancel= () => {
+    const key= namepath.join()
+    activeSchema.current.needDefineGetterMap.delete(key)
+    setVisible(false)
   }
 
   const onChangeType= (e: RadioChangeEvent) => {
@@ -59,7 +64,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
     if(!visible){
       setIsLinked(!!getterInfo)
     }else{
-      form.setFieldsValue(getterInfo)
+      getterInfo ? form.setFieldsValue(getterInfo) : form.resetFields()
     }
   }, [visible])
 
@@ -98,9 +103,10 @@ export function LinkSet(props: React.PropsWithoutRef<{
                <div>{resultText}</div>
               </Form.Item>
             </Form>
-            <div>
+            <Space>
               <Button disabled={disabled} onClick={onFinish} type="primary">确定</Button>
-            </div>
+              <Button disabled={disabled} onClick={onCancel} danger>删除关联</Button>
+            </Space>
           </div>
         }>
         <Button type={isLinked ? "link" : "text"} icon={<DisconnectOutlined />}></Button>

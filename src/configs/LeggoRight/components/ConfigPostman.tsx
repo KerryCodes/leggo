@@ -42,7 +42,7 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
   return (
     <Form {...layout} onValuesChange={onValuesChange} initialValues={activeSchema.current.configs.postman}>
       <Form.Item label="method" name="method" required>
-        <Select options={options} />
+        <Select options={options} allowClear />
       </Form.Item>
       <Form.Item label="url" name="url" required initialValue='www.'>
         <Input addonBefore={<Select options={selectBeforeOptions} defaultValue="http://" />} />
