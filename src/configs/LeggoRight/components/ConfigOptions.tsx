@@ -27,7 +27,7 @@ export function ConfigOptions(props: React.PropsWithChildren<{
         <Radio.Button value="static">静态数据</Radio.Button>
         <Radio.Button value="dynamic">远程数据</Radio.Button>
       </Radio.Group>
-      <div className="configs-configs-area">
+      <div className="configs-area">
         {
           dataType === 'static' ? 
             <OptionsSet activeSchema={activeSchema} handleChange={handleChangePropValue} />

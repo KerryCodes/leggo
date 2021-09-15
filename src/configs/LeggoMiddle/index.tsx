@@ -50,18 +50,20 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
 
   return (
     <div className="leggo-configs-middle">
-      <strong>表单模板</strong>
-      <div className="top-actions">
-        <div>
-          <span>labelCol：</span>
-          <InputNumber min={0} max={24-formProps.wrapperCol.span} value={formProps.labelCol.span} onChange={value => changeFormProps({labelCol:{span:value}})} />
+      <div className="top-area">
+        <strong>表单模板</strong>
+        <div className="top-actions">
+          <div>
+            <strong>labelCol：</strong>
+            <InputNumber min={0} max={24-formProps.wrapperCol.span} value={formProps.labelCol.span} onChange={value => changeFormProps({labelCol:{span:value}})} />
+          </div>
+          <div>
+            <strong>wrapperCol：</strong>
+            <InputNumber min={0} max={24-formProps.labelCol.span} value={formProps.wrapperCol.span} onChange={value => changeFormProps({wrapperCol:{span:value}})} />
+          </div>
+          <CreateSchemasModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
+          <Button onClick={clearAllSchemas}>clear</Button>
         </div>
-        <div>
-          <span>wrapperCol：</span>
-          <InputNumber min={0} max={24-formProps.labelCol.span} value={formProps.wrapperCol.span} onChange={value => changeFormProps({wrapperCol:{span:value}})} />
-        </div>
-        <CreateSchemasModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
-        <Button onClick={clearAllSchemas}>clear</Button>
       </div>
       <Form form={form} {...formProps} className="leggo-configs-middle-form">
         <div className="drop-area" onDragOver={handleDragOver} onDrop={handleDrop}>

@@ -1,5 +1,5 @@
 import { Button, Form, FormProps, Input, Modal } from 'antd'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { TPostSchemaModel, TSchema } from '../../../interface'
 
 const layout= {
@@ -23,7 +23,7 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
   }
   
   return (
-    <div>
+    <Fragment>
       <Button type="primary" disabled={!schemaList.length} onClick={() => setVisible(true)}>生成模板</Button>
       <Modal title="创建并发送模板" visible={visible} onOk={() => form.submit()} onCancel={() => setVisible(false)} getContainer={false}>
         <Form form={form} {...layout} onFinish={handleSend}>
@@ -35,6 +35,6 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
           </Form.Item>
         </Form>
       </Modal>
-    </div>
+    </Fragment>
   )
 }

@@ -67,7 +67,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
       return (
         <div>
           <strong>{propName}：</strong>
-          <div className="configs-configs-area">
+          <div className="configs-area">
             {
               propOwnerEntries.map(([pName, value]) => 
                 <ConfigProp key={pName}

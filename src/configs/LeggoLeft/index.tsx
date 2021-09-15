@@ -16,7 +16,9 @@ export function LeggoLeft() {
   return (
     <Fragment>
       <div>
-        <strong>组件库</strong>
+        <div className="top-area">
+          <strong>组件库</strong>
+        </div>
         <Menu defaultSelectedKeys={['antd']} mode="inline" onSelect={({key}) => setStoreKey(key)}>
           { menuItems }
         </Menu>

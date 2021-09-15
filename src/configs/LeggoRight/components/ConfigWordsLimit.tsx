@@ -58,7 +58,7 @@ export function ConfigWordsLimit(props: React.PropsWithChildren<{
         }>
         <Button type="link" size="small">字符数统计规则</Button>
       </Popover>
-      <div className="configs-configs-area">
+      <div className="configs-area">
         <Space>
           <strong>max：</strong>
           <InputNumber min={1} defaultValue={max} onChange={value => handleChangePropValue('max', value)} bordered={false} />
