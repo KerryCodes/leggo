@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './App.less'
-import { Button, Divider, Drawer, Form } from 'antd'
+import React, { useEffect, useRef, useState } from 'react';
+import './App.less';
+import './multiCover.less';
 import 'antd/dist/antd.css';
-import { LeggoConfigs, LeggoForm } from '../src'
-import { cloneDeep } from 'lodash'
-import { TSchemasModel } from '../src/interface';
+import { Button, Divider, Drawer, Form, Radio, RadioChangeEvent } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { LeggoConfigs, LeggoForm } from '../src';
+import { cloneDeep } from 'lodash';
+import { TConfigs, TSchemasModel } from '../src/interface';
 
 
 export default function App() {
@@ -16,6 +18,10 @@ export default function App() {
     modelList.current[modelName]= cloneDeep(schemaModel)
     console.log('发送schema～～～～～～', schemaModel);
   }
+
+  useEffect(() => {
+    LeggoConfigs.registerItemStore(testStore)
+  }, [])
 
   return (
     <div className="App">
@@ -42,8 +48,8 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const leggo= LeggoForm.useLeggo()
     
   const changeOptions= () => {
-    leggo.resetSchema('select', (configs, StandardFormItem) => {
-      configs.customizedFormItem= <div>已填充选项：{StandardFormItem}</div>
+    leggo.updateSchema('select', configs => {
+      configs.CustomizedItemFC= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
       configs.inputProps.options= [
         {label: 'A', value: 1}, 
         {label: 'B', value: 2},
@@ -70,6 +76,80 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
       </div>
       <Divider></Divider>
       <LeggoForm leggo={leggo} form={form} onValuesChange={console.log} onFinish={console.log} />
+    </div>
+  )
+}
+
+
+
+const testStore= {
+  storeName: 'test',
+  store: {
+    multiCover: {
+      type: 'multiCover',
+      configs: {
+        itemProps: {
+          name: 'cover_type',
+          label: ' 封面图',
+          colon: true,
+          rules: [{ required: true, message: '请上传封面图！' }],
+        },
+        inputProps: {
+          disabled: false,
+        },
+      },
+      StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+        <Form.Item {...itemProps}>
+          <MultiCover {...inputProps} />
+        </Form.Item>,
+    },
+  }
+}
+
+
+const MultiCover: React.FC<{disabled: boolean} & { 
+  value?: any, 
+  onChange?: (value: any) => void 
+}>= props => {
+  const { disabled, value, onChange }= props
+  const [dataList, setDataList]= useState(value?.slice(0, 1) || [''])
+
+  const changePicCount = (e: RadioChangeEvent) => {
+    const count= e.target.value
+    const newDataList = [...value?.slice(0, count) || [], '', '', '']
+    newDataList.length= count
+    onChange(newDataList)
+    setDataList(newDataList)
+  }
+
+  const pickPic= (index: number) => {
+    // onChangeCover(index);
+    console.log(index);
+  }
+
+  return (
+    <div className='multi-cover' >
+      <Radio.Group defaultValue={1} onChange={changePicCount} disabled={disabled}>
+        <Radio value={1}>单图</Radio>
+        <Radio value={3}>三图</Radio>
+      </Radio.Group>
+      <div className='multi-cover-list'>
+        {
+          disabled && <div className='multi-cover-list-mask'></div>
+        }
+        {
+          dataList.map((src: string, index: number) => 
+            <div key={src + index} className='multi-cover-list-item' onClick={() => pickPic(index)}>
+              {
+                src && <div className='multi-cover-list-item-mask'><span>替换</span></div>
+              }
+              {
+                src ? <img src={src} alt='封面图' width="100%" /> : <PlusOutlined />
+              }
+            </div>
+          )
+        }
+      </div>
     </div>
   )
 }

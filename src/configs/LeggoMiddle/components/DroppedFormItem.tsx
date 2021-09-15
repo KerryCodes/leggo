@@ -12,7 +12,7 @@ export function DroppedFormItem(props: React.PropsWithoutRef<{
 }>){
   const { activeSchema, schema, setSchemaList, forceRender }= props
   const { id, type, configs }= schema
-  const StandardFormItemFC= leggoItemStore[type].StandardFormItemFC
+  const StandardItemFC= leggoItemStore.total[type].StandardItemFC
   const active= activeSchema.current === schema
 
   const deleteSchema= (e: React.MouseEvent) => {
@@ -31,7 +31,7 @@ export function DroppedFormItem(props: React.PropsWithoutRef<{
   return (
     <div className={`dropped-item ${active ? 'active-item' : ''}`} onClick={activateSchema}>
       <Button type="text" className="delete-butt" onClick={deleteSchema}>X</Button>
-      <StandardFormItemFC {...configs} />
+      <StandardItemFC {...configs} />
     </div>
   )
 }

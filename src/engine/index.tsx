@@ -15,25 +15,25 @@ class Leggo{
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
     schemaModel?: TSchemasModel,
+    middleware?: (value: TSchema, index: number, array: TSchema[]) => void,
   ){
     this.ref= keyRef
     this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
+    middleware && schemaModel.schemaList.forEach(middleware)
     this.schemaModel= schemaModel
   }
-  public resetSchemaModel(newSchemaModel: TSchemasModel){
+  public resetSchemaModel(newSchemaModel: TSchemasModel, middleware?: (value: TSchema, index: number, array: TSchema[]) => void){
+    middleware && newSchemaModel.schemaList.forEach(middleware)
     this.schemaModel= newSchemaModel
     this.forceLeggoFormRender()
   }
-  public resetSchema(formItemName: string, changeDataFunc: (configs: TConfigs, standardFormItem: JSX.Element) => void){
+  public updateSchema(formItemName: string, changeSchemaFunc: (configs: TConfigs) => void){
     const targetSchema= this.schemaModel?.schemaList.find(schema => schema.getName() === formItemName)
     if (targetSchema) {
-      const { configs, standardFormItem }= targetSchema
-      changeDataFunc(configs, standardFormItem)
+      const { configs }= targetSchema
+      changeSchemaFunc(configs)
       targetSchema.forceLeggoFormItemRender?.()
     }
-  }
-  public getStandardFormItemFC(type: string){
-    return leggoItemStore[type]?.StandardFormItemFC
   }
 }
 
@@ -80,12 +80,12 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { schema, schemaList }= props
   const { type, configs, needDefineGetterMap }= schema
-  const { postman }= configs
-  const StandardFormItemFC= leggoItemStore[type]?.StandardFormItemFC
+  const { postman, CustomizedItemFC }= configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
   const [ , setForceRender]= useState(0)
-  schema.standardFormItem= StandardFormItemFC && <StandardFormItemFC {...configs} />
+  const StandardFormItemFC= leggoItemStore.total[type]?.StandardItemFC
+  const standardItem= StandardFormItemFC && <StandardFormItemFC {...configs} />
   
   useEffect(() => {
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
@@ -145,7 +145,5 @@ function LeggoItem(props: React.PropsWithoutRef<{
     }
   }, [...postmanParamsValueList, ...postmanDataValueList])
 
-  return configs.customizedFormItem || schema.standardFormItem
+  return CustomizedItemFC ? <CustomizedItemFC>{standardItem}</CustomizedItemFC> : standardItem
 }
-
-

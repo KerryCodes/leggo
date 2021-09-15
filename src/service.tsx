@@ -1,7 +1,6 @@
-import React, { useState } from "react"
-import './styles/public.less'
-import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, RadioChangeEvent, Select, Switch, Upload } from "antd"
-import { UploadOutlined, PlusOutlined } from '@ant-design/icons'
+import React from "react"
+import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Switch, Upload } from "antd"
+import { UploadOutlined } from '@ant-design/icons'
 import { TLeggoItemInfo, TLinkedInfo, TSchema, TSchemaType, TConfigs } from "./interface"
 import { cloneDeep } from "lodash"
 import { wordsLimitValidator } from "./utils"
@@ -26,7 +25,7 @@ export class LeggoSchema implements TSchema{
 }
 
 
-export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
+const antdItemStore:{[key: string]: TLeggoItemInfo}= {
   input: {
     type: 'input',
     configs: {
@@ -48,7 +47,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         }
       }
     },
-    StandardFormItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps} rules={[ ...itemProps.rules, {validator: wordsLimitValidator.bind(null, extra.wordsLimit)} ]}>
         <Input {...inputProps}  />
       </Form.Item>,
@@ -68,7 +67,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         rows: 4,
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Input.TextArea {...inputProps} />
       </Form.Item>,
@@ -87,7 +86,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         placeholder: '请输入',
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Input.Password {...inputProps} />
       </Form.Item>,
@@ -109,7 +108,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         bordered: true,
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <InputNumber {...inputProps} />
       </Form.Item>,
@@ -129,7 +128,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Select {...inputProps} />
       </Form.Item>,
@@ -148,7 +147,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Checkbox.Group {...inputProps} />
       </Form.Item>,
@@ -167,7 +166,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Radio.Group {...inputProps} />
       </Form.Item>,
@@ -187,7 +186,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         picker: 'date',
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <DatePicker {...inputProps} />
       </Form.Item>,
@@ -206,7 +205,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         picker: 'day',
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <DatePicker.RangePicker {...inputProps} />
       </Form.Item>,
@@ -228,7 +227,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         showUploadList: false,
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Upload {...inputProps}>
           <Button icon={<UploadOutlined />}>Click to Upload</Button>
@@ -249,27 +248,9 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         disabled: false,
       },
     },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Switch {...inputProps} />
-      </Form.Item>,
-  },
-  multiCover: {
-    type: 'multiCover',
-    configs: {
-      itemProps: {
-        name: 'cover_type',
-        label: ' 封面图',
-        colon: true,
-        rules: [{ required: true, message: '请上传封面图！' }],
-      },
-      inputProps: {
-        disabled: false,
-      },
-    },
-    StandardFormItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <MultiCover {...inputProps} />
       </Form.Item>,
   },
   submit: {
@@ -288,7 +269,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
         buttonText: 'Submit'
       }
     },
-    StandardFormItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
+    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Button {...inputProps}>{extra.buttonText}</Button>
       </Form.Item>,
@@ -296,50 +277,7 @@ export const leggoItemStore:{[key: string]: TLeggoItemInfo}= {
 }
 
 
-
-export const MultiCover: React.FC<{disabled: boolean} & { 
-  value?: any, 
-  onChange?: (value: any) => void 
-}>= props => {
-  const { disabled, value, onChange }= props
-  const [dataList, setDataList]= useState(value?.slice(0, 1) || [''])
-
-  const changePicCount = (e: RadioChangeEvent) => {
-    const count= e.target.value
-    const newDataList = [...value?.slice(0, count) || [], '', '', '']
-    newDataList.length= count
-    onChange(newDataList)
-    setDataList(newDataList)
-  }
-
-  const pickPic= (index: number) => {
-    // onChangeCover(index);
-    console.log(index);
-  }
-
-  return (
-    <div className='multi-cover' >
-      <Radio.Group defaultValue={1} onChange={changePicCount} disabled={disabled}>
-        <Radio value={1}>单图</Radio>
-        <Radio value={3}>三图</Radio>
-      </Radio.Group>
-      <div className='multi-cover-list'>
-        {
-          disabled && <div className='multi-cover-list-mask'></div>
-        }
-        {
-          dataList.map((src: string, index: number) => 
-            <div key={src + index} className='multi-cover-list-item' onClick={() => pickPic(index)}>
-              {
-                src && <div className='multi-cover-list-item-mask'><span>替换</span></div>
-              }
-              {
-                src ? <img src={src} alt='封面图' width="100%" /> : <PlusOutlined />
-              }
-            </div>
-          )
-        }
-      </div>
-    </div>
-  )
+export const leggoItemStore= {
+  total: {...antdItemStore},
+  antd: antdItemStore,
 }

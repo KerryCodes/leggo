@@ -3,12 +3,19 @@ import { FormItemProps, FormProps } from "antd"
 import { leggoItemStore } from "./service"
 
 
-export type TSchemaType= keyof typeof leggoItemStore
+export type TSchemaType= keyof typeof leggoItemStore.total
+
+export interface TItemStore{
+  storeName: string,
+  store: {
+    [key: string]: TLeggoItemInfo,
+  }
+}
 
 export interface TLeggoItemInfo{
   type: TSchemaType,
   configs: TConfigs,
-  StandardFormItemFC: React.FC<TConfigs>,
+  StandardItemFC: React.FC<TConfigs>,
 }
 
 export interface TSchema{
@@ -18,7 +25,6 @@ export interface TSchema{
   currentFormItemValue: any,
   linkingNames: Set<string>,
   needDefineGetterMap: Map<string, TLinkedInfo>,
-  standardFormItem?: JSX.Element,
   getName: () => string,
   forceLeggoFormItemRender?: () => void,
 }
@@ -34,7 +40,7 @@ export interface TConfigs{
     params: TParam[],
     data: TParam[],
   },
-  customizedFormItem?: JSX.Element,
+  CustomizedItemFC?: React.FC<React.PropsWithChildren<any>>,
 }
 
 export interface TExtra{

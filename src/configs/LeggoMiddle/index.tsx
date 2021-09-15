@@ -29,7 +29,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     e.preventDefault()
     const schemaType= e.dataTransfer.getData('text/plain')
     if(!schemaType){ return }
-    const leggoItemInfo= leggoItemStore[schemaType]
+    const leggoItemInfo= leggoItemStore.total[schemaType]
     const newSchema= new LeggoSchema(schemaType, leggoItemInfo)
     setSchemaList([...schemaList, newSchema])
   }

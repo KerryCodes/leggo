@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import '../styles/configs.less'
-import { TPostSchemaModel, TSchema } from '../interface'
+import { TItemStore, TPostSchemaModel, TSchema } from '../interface'
 import { LeggoLeft } from './LeggoLeft';
 import { LeggoRight } from './LeggoRight'
 import { LeggoMiddle } from './LeggoMiddle'
+import { leggoItemStore } from '../service';
 
 
 export function LeggoConfigs(props: React.PropsWithChildren<{ onPostSchemaModel: TPostSchemaModel }>) {
@@ -31,4 +32,12 @@ export function LeggoConfigs(props: React.PropsWithChildren<{ onPostSchemaModel:
   )
 }
 
-
+LeggoConfigs.registerItemStore= (itemStore: TItemStore) => {
+  const { storeName, store }= itemStore
+  //@ts-ignore
+  if(!leggoItemStore[storeName]){
+    //@ts-ignore
+    leggoItemStore[storeName]= store
+    leggoItemStore.total= {...store, ...leggoItemStore.total}
+  }
+}
