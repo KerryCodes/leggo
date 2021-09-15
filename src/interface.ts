@@ -45,9 +45,14 @@ export interface TConfigs{
 
 export interface TExtra{
   wordsLimit: {
-    max: 10,
-    min: 0,
-    message: '输入字符数需要在0～10之间！',
+    max: number,
+    min: number,
+    message: string,
+    rules: {
+      zh: number, 
+      others: number, 
+      blank: boolean,
+    }
   },
   buttonText: string,
 }

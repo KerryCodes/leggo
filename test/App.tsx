@@ -103,6 +103,24 @@ const testStore= {
           <MultiCover {...inputProps} />
         </Form.Item>,
     },
+    carInfos: {
+      type: 'carInfos',
+      configs: {
+        itemProps: {
+          name: 'carInfos',
+          label: '车系-车型',
+          colon: true,
+          rules: [{ required: false }],
+        },
+        inputProps: {
+          disabled: false,
+        },
+      },
+      StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
+        <Form.Item {...itemProps}>
+          <div>定制化组件</div>
+        </Form.Item>,
+    },
   }
 }
 

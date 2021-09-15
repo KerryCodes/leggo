@@ -3,6 +3,7 @@ import { Input, InputNumber, Select, Space, Switch } from 'antd'
 import { ConfigOptions } from './ConfigOptions'
 import { TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
+import { ConfigWordsLimit } from './ConfigWordsLimit'
 
 
 export function ConfigProp(props: React.PropsWithoutRef<{
@@ -35,6 +36,10 @@ export function ConfigProp(props: React.PropsWithoutRef<{
     case 'options':
       return (
         <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
+      )
+    case 'wordsLimit':
+      return (
+        <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
       )
     case 'picker':
       const options= [

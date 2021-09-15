@@ -26,6 +26,24 @@ export class LeggoSchema implements TSchema{
 
 
 const antdItemStore:{[key: string]: TLeggoItemInfo}= {
+  empty: {
+    type: 'empty',
+    configs: {
+      itemProps: {
+        name: 'empty',
+        label: '占位表单',
+        colon: true,
+        rules: [{ required: true }],
+      },
+      inputProps: {
+        disabled: false,
+      },
+    },
+    StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
+      <Form.Item {...itemProps}>
+        <div>占位表单仅作为表单结构的一部分，表单实际渲染前将被中间件识别并替换！</div>
+      </Form.Item>,
+  },
   input: {
     type: 'input',
     configs: {
@@ -44,6 +62,11 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
           max: 10,
           min: 0,
           message: '输入字符数需要在0～10之间！',
+          rules: {
+            zh: 1, 
+            others: 1, 
+            blank: true,
+          }
         }
       }
     },
@@ -66,10 +89,22 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         placeholder: '请输入',
         rows: 4,
       },
+      extra: {
+        wordsLimit: {
+          max: 10,
+          min: 0,
+          message: '输入字符数需要在0～10之间！',
+          rules: {
+            zh: 1, 
+            others: 1, 
+            blank: true,
+          }
+        }
+      }
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Input.TextArea {...inputProps} />
+    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
+      <Form.Item {...itemProps} rules={[ ...itemProps.rules, {validator: wordsLimitValidator.bind(null, extra.wordsLimit)} ]}>
+        <Input.TextArea {...inputProps}  />
       </Form.Item>,
   },
   inputPassword: {
