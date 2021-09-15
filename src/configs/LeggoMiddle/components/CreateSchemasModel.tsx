@@ -1,5 +1,5 @@
 import { Button, Form, FormProps, Input, Modal } from 'antd'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import { TPostSchemaModel, TSchema } from '../../../interface'
 
 const layout= {
@@ -15,11 +15,21 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
 }>){
   const { formProps, schemaList, onPostSchemaModel }= props
   const [form]= Form.useForm()
+  const schemaModel= useRef(null)
   const [visible, setVisible]= useState(false)
+  const [visibleJSON, setVisibleJSON]= useState(false)
 
   const handleSend= (values: {name:string, description:string}) => {
-    onPostSchemaModel({ ...values, formProps, schemaList })
+    schemaModel.current= { ...values, formProps, schemaList }
+    onPostSchemaModel(schemaModel.current)
     setVisible(false)
+    setVisibleJSON(true)
+  }
+
+  const handleCopy= () => {
+    const contentJSON= JSON.stringify(schemaModel.current, null, 4)
+    navigator.clipboard.writeText(contentJSON)
+    setVisibleJSON(false)
   }
   
   return (
@@ -34,6 +44,15 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
             <Input.TextArea />
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal title="schemaModel" width='50vw'
+        bodyStyle={{height: '70vh', overflow: 'auto'}} 
+        visible={visibleJSON} 
+        onOk={handleCopy} 
+        okText="复制JSON"
+        onCancel={() => setVisibleJSON(false)}
+        >
+        <pre>{JSON.stringify(schemaModel.current, null, 4)}</pre>
       </Modal>
     </Fragment>
   )

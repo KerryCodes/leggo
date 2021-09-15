@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
-import { Button, Divider, Drawer, Form, Radio, RadioChangeEvent } from 'antd';
+import { Button, Divider, Drawer, Form, Modal, Radio, RadioChangeEvent, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { LeggoConfigs, LeggoForm } from '../src';
 import { cloneDeep } from 'lodash';
@@ -46,7 +46,8 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
   const { name, description }= schemaModel
   const [form] =Form.useForm()
   const leggo= LeggoForm.useLeggo()
-    
+  const [visibleJSON, setVisibleJSON]= useState(false)
+
   const changeOptions= () => {
     leggo.updateSchema('select', configs => {
       configs.CustomizedItemFC= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
@@ -60,6 +61,12 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
     })
   }
 
+  const handleCopy= () => {
+    const contentJSON= JSON.stringify(schemaModel, null, 4)
+    navigator.clipboard.writeText(contentJSON)
+    setVisibleJSON(false)
+  }
+
   useEffect(() => {
     leggo.resetSchemaModel(schemaModel)
   }, [schemaModel])
@@ -70,12 +77,24 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
         <div>模板名：{name}</div>
         <div>描述：{description}</div>
         <div>
-          操作：
-          <Button onClick={changeOptions}>填充选项</Button>
+          <span>操作：</span>
+          <Space>
+            <Button onClick={() => setVisibleJSON(true)}>查看schemaModel</Button>
+            <Button onClick={changeOptions}>填充选项</Button>
+          </Space>
         </div>
       </div>
       <Divider></Divider>
       <LeggoForm leggo={leggo} form={form} onValuesChange={console.log} onFinish={console.log} />
+      <Modal title="schemaModel" width='50vw'
+        bodyStyle={{height: '70vh', overflow: 'auto'}} 
+        visible={visibleJSON} 
+        onOk={handleCopy} 
+        okText="复制"
+        onCancel={() => setVisibleJSON(false)}
+        >
+        <pre>{JSON.stringify(schemaModel, null, 4)}</pre>
+      </Modal>
     </div>
   )
 }
