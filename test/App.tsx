@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
-import { Button, Divider, Drawer, Form, Modal, Radio, RadioChangeEvent, Space } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Divider, Form, Menu, Modal, Radio, RadioChangeEvent, Space } from 'antd';
+import { PlusOutlined, SettingOutlined } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
 import { LeggoConfigs, LeggoForm } from '../src';
 import { TConfigs, TSchemasModel } from '../src/interface';
@@ -12,29 +12,43 @@ import '../src/styles/configs.less'
 
 export default function App() {
   const modelList= useRef<{[key:string]: TSchemasModel}>({})
-  const [visible, setVisible]= useState(false)
+  const [ menuKey, setMenuKey]= useState(['configs'])
+  const [selectedModel, setSelectedModel]= useState(null)
+  const [count, setForceRender]= useState(0)
+  const modelListEntries= useMemo(() => Object.entries(modelList.current), [count])
 
   const postSchemaModelData= (schemaModel: TSchemasModel) => {
     const modelName= schemaModel.name
     modelList.current[modelName]= cloneDeep(schemaModel)
-    console.log('发送schema～～～～～～', schemaModel);
+    console.log('发送schema～～～～～～', schemaModel)
+    setForceRender(pre => pre + 1)
   }
-
-  useEffect(() => {
+  
+  useMemo(() => {
     LeggoConfigs.registerItemStore(testStore)
   }, [])
 
   return (
     <div className="App">
-      <Button type="primary" onClick={() => setVisible(true)}>创建表单模板</Button>
-      <Drawer title="拖拽生成表单" placement="top" height='100%' visible={visible} onClose={() => setVisible(false)}>
-        <LeggoConfigs onPostSchemaModel={postSchemaModelData} />
-      </Drawer>
-      <div className="show-area">
+      <div className="header">
+        <div className="slogan">Leggo，拖拽式表单生成低代码平台！</div>
+        <Menu onSelect={({key}) => setMenuKey([key])} defaultSelectedKeys={['configs']} mode="horizontal">
+          <Menu.Item key="configs" icon={<SettingOutlined />}>配置模板</Menu.Item>
+          <Menu.SubMenu key="list" title="模板列表" disabled={!modelListEntries.length} icon={<SettingOutlined />}>
+            {
+              modelListEntries.map(([modelName, schemaModel]) => 
+                <Menu.Item key={modelName} onClick={() => setSelectedModel(schemaModel)}>{modelName}</Menu.Item>
+              )
+            }
+          </Menu.SubMenu>
+        </Menu>
+      </div>
+      <div className="content-area">
         {
-          Object.entries(modelList.current).map(([modelName, schemaModel]) => 
-            <ShowForm key={modelName} schemaModel={schemaModel} />
-          )
+          menuKey[0] === 'configs' ? 
+            <LeggoConfigs onPostSchemaModel={postSchemaModelData} />
+            :
+            <ShowForm schemaModel={selectedModel} />
         }
       </div>
     </div>

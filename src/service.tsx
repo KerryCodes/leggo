@@ -26,24 +26,6 @@ export class LeggoSchema implements TSchema{
 
 
 const antdItemStore:{[key: string]: TLeggoItemInfo}= {
-  empty: {
-    type: 'empty',
-    configs: {
-      itemProps: {
-        name: 'empty',
-        label: '占位表单',
-        colon: true,
-        rules: [{ required: true }],
-      },
-      inputProps: {
-        disabled: false,
-      },
-    },
-    StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <div>占位表单仅作为表单结构的一部分，表单实际渲染前将被中间件识别并替换！</div>
-      </Form.Item>,
-  },
   input: {
     type: 'input',
     configs: {
@@ -286,6 +268,24 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
     StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
       <Form.Item {...itemProps}>
         <Switch {...inputProps} />
+      </Form.Item>,
+  },
+  empty: {
+    type: 'empty',
+    configs: {
+      itemProps: {
+        name: 'empty',
+        label: '占位表单',
+        colon: true,
+        rules: [{ required: true }],
+      },
+      inputProps: {
+        disabled: false,
+      },
+    },
+    StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
+      <Form.Item {...itemProps}>
+        <div>占位表单仅作为表单结构的一部分，表单实际渲染前将被中间件识别并替换！</div>
       </Form.Item>,
   },
   submit: {
