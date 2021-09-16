@@ -4,9 +4,10 @@ import './multiCover.less';
 import 'antd/dist/antd.css';
 import { Button, Divider, Drawer, Form, Modal, Radio, RadioChangeEvent, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { LeggoConfigs, LeggoForm } from '../src';
 import { cloneDeep } from 'lodash';
+import { LeggoConfigs, LeggoForm } from '../src';
 import { TConfigs, TSchemasModel } from '../src/interface';
+import '../src/styles/configs.less'
 
 
 export default function App() {

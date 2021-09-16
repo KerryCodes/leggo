@@ -38,7 +38,7 @@ class Leggo{
 }
 
 
-export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
+function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
   const { leggo, onValuesChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
 
@@ -147,3 +147,8 @@ function LeggoItem(props: React.PropsWithoutRef<{
 
   return CustomizedItemFC ? <CustomizedItemFC>{standardItem}</CustomizedItemFC> : standardItem
 }
+
+
+
+
+export { LeggoForm }

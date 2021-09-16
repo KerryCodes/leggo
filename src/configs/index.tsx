@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import '../styles/configs.less'
 import { TItemStore, TPostSchemaModel, TSchema } from '../interface'
 import { LeggoLeft } from './LeggoLeft';
 import { LeggoRight } from './LeggoRight'

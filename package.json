@@ -1,6 +1,6 @@
 {
   "name": "leggo",
-  "version": "0.0.26",
+  "version": "0.0.30",
   "private": false,
   "description": "A drag and drop front-end form configuration generation tool ",
   "files": [
@@ -22,8 +22,8 @@
   "homepage": "https://github.com/KerryCodes/leggo#readme",
   "author": "974381983@qq.com",
   "scripts": {
+    "start": "vite",
     "build": "tsc && vite build",
-    "test": "cd test && vite",
     "tsc": "tsc",
     "wp": "webpack",
     "serve": "vite preview"
