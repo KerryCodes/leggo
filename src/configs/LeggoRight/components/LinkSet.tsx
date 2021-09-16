@@ -10,6 +10,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
   schemaListOptions: TOption[],
 }>){
   const { namepath, activeSchema, schemaListOptions }= props
+  const needDefineGetterProps= activeSchema.current.needDefineGetterProps
   const [form]= Form.useForm()
   const [visible, setVisible]= useState(false)
   const [isLinked, setIsLinked]= useState(false)
@@ -39,14 +40,14 @@ export function LinkSet(props: React.PropsWithoutRef<{
       const { observedName, rule, reference }= values
       const key= namepath.join()
       const getterInfo= { observedName, namepath, reference, rule }
-      activeSchema.current.needDefineGetterProps[key]= getterInfo
+      needDefineGetterProps[key]= getterInfo
       setVisible(false)
     })
   }
 
   const onCancel= () => {
     const key= namepath.join()
-    delete activeSchema.current.needDefineGetterProps[key]
+    delete needDefineGetterProps[key]
     setVisible(false)
   }
 
@@ -60,11 +61,6 @@ export function LinkSet(props: React.PropsWithoutRef<{
 
   useEffect(() => {
     const key= namepath.join()
-    let needDefineGetterProps= activeSchema.current.needDefineGetterProps
-    if(!needDefineGetterProps){
-      needDefineGetterProps= {}
-      activeSchema.current.needDefineGetterProps= needDefineGetterProps
-    }
     const getterInfo= needDefineGetterProps[key]
     if(!visible){
       setIsLinked(!!getterInfo)

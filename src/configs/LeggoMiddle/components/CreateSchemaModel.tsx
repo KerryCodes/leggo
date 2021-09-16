@@ -35,7 +35,7 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
   return (
     <Fragment>
       <Button type="primary" disabled={!schemaList.length} onClick={() => setVisible(true)}>生成模板</Button>
-      <Modal title="创建并发送模板" visible={visible} onOk={() => form.submit()} onCancel={() => setVisible(false)} getContainer={false}>
+      <Modal title="生成并发送模板" visible={visible} onOk={() => form.submit()} onCancel={() => setVisible(false)} getContainer={false}>
         <Form form={form} {...layout} onFinish={handleSend}>
           <Form.Item label="模板名称" name="name" rules={[{ required: true, message: '请填写模板名称！' }]}>
             <Input />
@@ -49,7 +49,7 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
         bodyStyle={{height: '70vh', overflow: 'auto'}} 
         visible={visibleJSON} 
         onOk={handleCopy} 
-        okText="复制JSON"
+        okText="复制"
         onCancel={() => setVisibleJSON(false)}
         >
         <pre>{schemaModelJSON.current}</pre>
