@@ -33,7 +33,8 @@
     "axios": "^0.21.4",
     "lodash": "^4.17.21",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "less": "^4.1.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.172",
@@ -42,7 +43,6 @@
     "@vitejs/plugin-react-refresh": "^1.3.1",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.2.0",
-    "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.2.5",

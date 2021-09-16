@@ -103,7 +103,7 @@ function ShowForm(props: React.PropsWithoutRef<{schemaModel: TSchemasModel}>){
 
 
 const testStore= {
-  storeName: 'test',
+  storeName: 'other1',
   store: {
     multiCover: {
       type: 'multiCover',
