@@ -18,13 +18,13 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaList, forceRender }= props
   const typeofPropDefaultValue= useRef(typeof propDefaultValue)
   const [propCurrentValue, setPropCurrentValue]= useState(propDefaultValue)
-  const schemaListOptions= schemaList.map(schema => {
+  const schemaListOptions= [{label: '公共值 - publicStates', value: 'publicStates'}].concat(schemaList.map(schema => {
     const { label, name }= schema.configs.itemProps
     return {
       label: `${label} - ${name}`,
-      value: name,
+      value: name as string,
     }
-  })
+  }))
 
   const handleChangePropValue= (newValue: any) => {
     propOwner[propName]= newValue

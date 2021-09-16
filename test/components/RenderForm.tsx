@@ -8,7 +8,9 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
   const { schemaModel }= props
   const { name, description }= schemaModel
   const [form] =Form.useForm()
-  const leggo= LeggoForm.useLeggo()
+  const leggo= LeggoForm.useLeggo(null, null, {
+    test: true
+  })
   const [visibleJSON, setVisibleJSON]= useState(false)
 
   const changeOptions= () => {

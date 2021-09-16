@@ -75,6 +75,7 @@ export interface TInputProps{
 
 export interface TLinkedInfo{
   observedName: string,
+  publicStateKey?: string,
   namepath: (string | number)[],
   reference: string | number,
   rule: '<' | '<=' | '===' | '>=' | '>',

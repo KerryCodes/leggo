@@ -1,5 +1,5 @@
 import { Form, FormProps, message } from "antd"
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { leggoItemStore } from "../service"
 import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
 import axios from 'axios'
@@ -10,15 +10,18 @@ const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
 class Leggo{
   private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
+  public readonly publicStates: object
   public schemaModel: TSchemaModel
   constructor(
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
     schemaModel0: TSchemaModel,
     middleware?: (value: TSchema, index: number, array: TSchema[]) => void,
+    publicStates?: object,
   ){
     const schemaModel= this.parseSchemaModel(schemaModel0)
     this.ref= keyRef
+    this.publicStates= publicStates || {}
     this.schemaModel= schemaModel
     this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
     middleware && schemaModel.schemaList.forEach(middleware)
@@ -72,17 +75,17 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
   return (
     <Form {...formProps} {...overlapFormProps} onValuesChange={handleValuesChange}>
       {
-        schemaList?.map(schema => <LeggoItem key={schema.id} schema={schema} schemaList={schemaList} />)
+        schemaList?.map(schema => <LeggoItem key={schema.id} leggo={leggo} schema={schema} schemaList={schemaList} />)
       }
     </Form>
   )
 }
-LeggoForm.useLeggo = (schemaModel0?: TSchemaModel, middleware?: TMiddleware): Leggo => {
+LeggoForm.useLeggo = (schemaModel0?: TSchemaModel, middleware?: TMiddleware, publicStates?: object): Leggo => {
   let leggo= null
   const keyRef= useRef(null)
   const [ , setForceRender]= useState(0)
   if (!leggoStores.has(keyRef)) {
-    leggo= new Leggo(keyRef, setForceRender, schemaModel0, middleware)
+    leggo= new Leggo(keyRef, setForceRender, schemaModel0, middleware, publicStates)
     leggoStores.set(keyRef, leggo) 
   }
   return leggo || leggoStores.get(keyRef)
@@ -90,10 +93,11 @@ LeggoForm.useLeggo = (schemaModel0?: TSchemaModel, middleware?: TMiddleware): Le
 
 
 function LeggoItem(props: React.PropsWithoutRef<{
+  leggo: Leggo,
   schema: TSchema,
   schemaList: TSchema[],
 }>){
-  const { schema, schemaList }= props
+  const { leggo, schema, schemaList }= props
   const { type, configs, needDefineGetterProps }= schema
   const { postman, CustomizedItemFC }= configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
@@ -101,23 +105,20 @@ function LeggoItem(props: React.PropsWithoutRef<{
   const [ , setForceRender]= useState(0)
   const StandardFormItemFC= leggoItemStore.total[type]?.StandardItemFC
   const standardItem= StandardFormItemFC && <StandardFormItemFC {...configs} />
-  
-  useEffect(() => {
-    schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
-  }, [])
 
-  useLayoutEffect(() => {
+  useMemo(() => {
     Object.values(needDefineGetterProps).forEach(getterInfo => {
-      const { observedName, namepath, reference, rule } = getterInfo
+      const { observedName, namepath, publicStateKey, reference, rule } = getterInfo
       const selfName= schema.getName()
       const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
       const targetKey= namepath.slice(-1)[0]
       //@ts-ignore
       const targetProp= namepath.slice(0, -1).reduce((pre, cur) => pre[cur], configs)
-      linkedSchema.linkingNames.add(selfName)
+      observedName !== 'publicStates' && linkedSchema.linkingNames.add(selfName)
       Reflect.defineProperty(targetProp, targetKey, {
         get: () => {
-          let targetValue= linkedSchema.currentFormItemValue
+          // @ts-ignore
+          let targetValue= observedName === 'publicStates' ? leggo.publicStates[publicStateKey] : linkedSchema.currentFormItemValue
           if(reference && rule){
             switch(rule){
               case '<':
@@ -136,6 +137,10 @@ function LeggoItem(props: React.PropsWithoutRef<{
         }
       }) 
     })
+  }, [])
+
+  useEffect(() => {
+    schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
   }, [])
 
   useEffect(() => {

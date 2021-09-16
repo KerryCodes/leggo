@@ -17,13 +17,20 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const [referenceType, setReferenceType]= useState('string')
   const [resultText, setResultText]= useState('value = ')
   const [disabled, setDisabled]= useState(true)
+  const [isFromPublicStates, setIsFromPublicStates]= useState(false)
 
   const onValuesChange= (_: any, allValues: any) => {
-    const { observedName, rule, reference }= allValues
+    const { observedName, publicStateKey, rule, reference }= allValues
     let newText= 'value = '
     if(observedName){
       setDisabled(false)
-      newText += `${observedName}.value`
+      if(observedName === 'publicStates'){
+        newText += `publicStates[${publicStateKey}]`
+        setIsFromPublicStates(true)
+      }else{
+        newText += `${observedName}.value`
+        setIsFromPublicStates(false)
+      }
       if(rule && reference){
         newText += ` ${rule} `
         newText += referenceType === 'string' ? `"${reference}"` : reference
@@ -37,9 +44,9 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const onFinish= () => {
     form.validateFields()
     .then(values => {
-      const { observedName, rule, reference }= values
+      const { observedName, publicStateKey, rule, reference }= values
       const key= namepath.join()
-      const getterInfo= { observedName, namepath, reference, rule }
+      const getterInfo= { observedName, publicStateKey, namepath, reference, rule }
       needDefineGetterProps[key]= getterInfo
       setVisible(false)
     })
@@ -80,6 +87,9 @@ export function LinkSet(props: React.PropsWithoutRef<{
               <Form.Item label="关联对象" name="observedName" required>
                 <Select options={schemaListOptions} />
               </Form.Item>
+              { 
+                isFromPublicStates && <Form.Item label="公共值key名" name="publicStateKey" required><Input /></Form.Item> 
+              }
               <Form.Item label="计算规则" name="rule">
                 <Select>
                   <Select.Option value='<'>关联值 &lt; 参考值</Select.Option>
