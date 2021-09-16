@@ -11,16 +11,18 @@ export function LinkSet(props: React.PropsWithoutRef<{
 }>){
   const { namepath, activeSchema, schemaListOptions }= props
   const needDefineGetterProps= activeSchema.current.needDefineGetterProps
+  const key= namepath.join()
+  const getterInfo= needDefineGetterProps[key]
   const [form]= Form.useForm()
   const [visible, setVisible]= useState(false)
   const [isLinked, setIsLinked]= useState(false)
   const [referenceType, setReferenceType]= useState('string')
   const [resultText, setResultText]= useState('value = ')
   const [disabled, setDisabled]= useState(true)
-  const [isFromPublicStates, setIsFromPublicStates]= useState(false)
+  const [isFromPublicStates, setIsFromPublicStates]= useState(getterInfo?.observedName === 'publicStates')
 
-  const onValuesChange= (_: any, allValues: any) => {
-    const { observedName, publicStateKey, rule, reference }= allValues
+  const setText= (getterInfo: any) => {
+    const { observedName, publicStateKey, rule, reference }= getterInfo || {}
     let newText= 'value = '
     if(observedName){
       setDisabled(false)
@@ -40,12 +42,13 @@ export function LinkSet(props: React.PropsWithoutRef<{
     }
     setResultText(newText)
   }
+
+  const onValuesChange= (_: any, allValues: any) => setText(allValues)
   
   const onFinish= () => {
     form.validateFields()
     .then(values => {
       const { observedName, publicStateKey, rule, reference }= values
-      const key= namepath.join()
       const getterInfo= { observedName, publicStateKey, namepath, reference, rule }
       needDefineGetterProps[key]= getterInfo
       setVisible(false)
@@ -53,7 +56,6 @@ export function LinkSet(props: React.PropsWithoutRef<{
   }
 
   const onCancel= () => {
-    const key= namepath.join()
     delete needDefineGetterProps[key]
     setVisible(false)
   }
@@ -67,12 +69,11 @@ export function LinkSet(props: React.PropsWithoutRef<{
   }
 
   useEffect(() => {
-    const key= namepath.join()
-    const getterInfo= needDefineGetterProps[key]
     if(!visible){
       setIsLinked(!!getterInfo)
     }else{
       getterInfo ? form.setFieldsValue(getterInfo) : form.resetFields()
+      setText(getterInfo)
     }
   }, [visible])
 
