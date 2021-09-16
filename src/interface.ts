@@ -23,8 +23,8 @@ export interface TSchema{
   type: TSchemaType,
   configs: TConfigs,
   currentFormItemValue: any,
-  linkingNames: Set<string>,
-  needDefineGetterMap: Map<string, TLinkedInfo>,
+  needDefineGetterProps: { [namepath: string]: TLinkedInfo },
+  linkingNames?: Set<string>,
   getName: () => string,
   forceLeggoFormItemRender?: () => void,
 }
@@ -95,11 +95,11 @@ export interface TOption{
   value:any,
 }
 
-export interface TSchemasModel{
+export interface TSchemaModel{
   name: string,
   description: string,
   formProps: FormProps,
   schemaList: TSchema[],
 }
 
-export type TPostSchemaModel= (schemasModel: TSchemasModel) => void
+export type TPostSchemaModel= (schemaModel: TSchemaModel) => void

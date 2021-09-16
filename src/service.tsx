@@ -11,15 +11,13 @@ export class LeggoSchema implements TSchema{
   type: TSchemaType
   configs: TConfigs
   currentFormItemValue: any
-  linkingNames: Set<string>
-  needDefineGetterMap: Map<string, TLinkedInfo>
+  needDefineGetterProps: { [namepath: string]: TLinkedInfo }
   constructor(schemaType: TSchemaType, leggoItemInfo: TLeggoItemInfo){
     this.id= Date.now().toString()
     this.type= schemaType
     this.configs= cloneDeep(leggoItemInfo).configs
     this.currentFormItemValue= null
-    this.linkingNames= new Set()
-    this.needDefineGetterMap= new Map()
+    this.needDefineGetterProps= {}
   }
   public getName= () => this.configs.itemProps.name as string
 }

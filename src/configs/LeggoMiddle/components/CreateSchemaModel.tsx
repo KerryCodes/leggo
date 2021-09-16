@@ -8,27 +8,27 @@ const layout= {
 }
 
 
-export function CreateSchemasModel(props: React.PropsWithoutRef<{
+export function CreateSchemaModel(props: React.PropsWithoutRef<{
   formProps: FormProps, 
   schemaList: TSchema[],
   onPostSchemaModel: TPostSchemaModel,
 }>){
   const { formProps, schemaList, onPostSchemaModel }= props
   const [form]= Form.useForm()
-  const schemaModel= useRef(null)
+  const schemaModelJSON= useRef('')
   const [visible, setVisible]= useState(false)
   const [visibleJSON, setVisibleJSON]= useState(false)
 
   const handleSend= (values: {name:string, description:string}) => {
-    schemaModel.current= { ...values, formProps, schemaList }
-    onPostSchemaModel(schemaModel.current)
+    const schemaModel= { ...values, formProps, schemaList }
+    onPostSchemaModel(schemaModel)
+    schemaModelJSON.current= JSON.stringify(schemaModel, null, 4)
     setVisible(false)
     setVisibleJSON(true)
   }
 
   const handleCopy= () => {
-    const contentJSON= JSON.stringify(schemaModel.current, null, 4)
-    navigator.clipboard.writeText(contentJSON)
+    navigator.clipboard.writeText(schemaModelJSON.current)
     setVisibleJSON(false)
   }
   
@@ -52,7 +52,7 @@ export function CreateSchemasModel(props: React.PropsWithoutRef<{
         okText="复制JSON"
         onCancel={() => setVisibleJSON(false)}
         >
-        <pre>{JSON.stringify(schemaModel.current, null, 4)}</pre>
+        <pre>{schemaModelJSON.current}</pre>
       </Modal>
     </Fragment>
   )

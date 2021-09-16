@@ -4,7 +4,7 @@ import { TSchema } from '../../../interface'
 import { leggoItemStore } from '../../../service'
 
 
-export function DroppedFormItem(props: React.PropsWithoutRef<{
+export function DroppedItem(props: React.PropsWithoutRef<{
   activeSchema: React.MutableRefObject<TSchema>,
   schema: TSchema,
   setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,

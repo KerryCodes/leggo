@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, InputNumber } from 'antd'
 import { TPostSchemaModel, TSchema } from '../../interface'
-import { DroppedFormItem } from './components/DroppedFormItem'
-import { CreateSchemasModel } from './components/CreateSchemasModel'
+import { DroppedItem } from './components/DroppedItem'
+import { CreateSchemaModel } from './components/CreateSchemaModel'
 import { leggoItemStore, LeggoSchema } from '../../service'
+import { InjectSchemaModel } from './components/InjectSchemaModel'
 
 
 export function LeggoMiddle(props: React.PropsWithoutRef<{
@@ -41,7 +42,6 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
   const clearAllSchemas= () => {
     activeSchema.current= null
     setSchemaList([])
-    forceRender()
   }
 
   useEffect(() => {
@@ -61,7 +61,8 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
             <strong>wrapperCol：</strong>
             <InputNumber min={0} max={24-formProps.labelCol.span} value={formProps.wrapperCol.span} onChange={value => changeFormProps({wrapperCol:{span:value}})} />
           </div>
-          <CreateSchemasModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
+          <InjectSchemaModel setSchemaList={setSchemaList} />
+          <CreateSchemaModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
           <Button onClick={clearAllSchemas}>clear</Button>
         </div>
       </div>
@@ -69,7 +70,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
         <div className="drop-area" onDragOver={handleDragOver} onDrop={handleDrop}>
           {
             schemaList.map(schema => 
-              <DroppedFormItem key={schema.id} 
+              <DroppedItem key={schema.id} 
                 activeSchema={activeSchema}
                 schema={schema} 
                 setSchemaList={setSchemaList} 

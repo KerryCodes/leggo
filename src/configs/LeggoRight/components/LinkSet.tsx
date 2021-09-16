@@ -39,14 +39,14 @@ export function LinkSet(props: React.PropsWithoutRef<{
       const { observedName, rule, reference }= values
       const key= namepath.join()
       const getterInfo= { observedName, namepath, reference, rule }
-      activeSchema.current.needDefineGetterMap.set(key, getterInfo)
+      activeSchema.current.needDefineGetterProps[key]= getterInfo
       setVisible(false)
     })
   }
 
   const onCancel= () => {
     const key= namepath.join()
-    activeSchema.current.needDefineGetterMap.delete(key)
+    delete activeSchema.current.needDefineGetterProps[key]
     setVisible(false)
   }
 
@@ -60,7 +60,12 @@ export function LinkSet(props: React.PropsWithoutRef<{
 
   useEffect(() => {
     const key= namepath.join()
-    const getterInfo= activeSchema.current.needDefineGetterMap.get(key)
+    let needDefineGetterProps= activeSchema.current.needDefineGetterProps
+    if(!needDefineGetterProps){
+      needDefineGetterProps= {}
+      activeSchema.current.needDefineGetterProps= needDefineGetterProps
+    }
+    const getterInfo= needDefineGetterProps[key]
     if(!visible){
       setIsLinked(!!getterInfo)
     }else{

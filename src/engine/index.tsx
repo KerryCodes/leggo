@@ -1,7 +1,7 @@
-import { Form, FormProps } from "antd"
+import { Form, FormProps, message } from "antd"
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { leggoItemStore } from "../service"
-import { TSchemasModel, TSchema, TConfigs } from "../interface"
+import { TSchemaModel, TSchema, TConfigs } from "../interface"
 import axios from 'axios'
 
 
@@ -10,19 +10,34 @@ const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
 class Leggo{
   private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
-  public schemaModel: TSchemasModel
+  public schemaModel: TSchemaModel
   constructor(
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
-    schemaModel?: TSchemasModel,
+    schemaModel0?: TSchemaModel,
     middleware?: (value: TSchema, index: number, array: TSchema[]) => void,
   ){
+    const schemaModel= this.parseSchemaModel(schemaModel0)
     this.ref= keyRef
+    this.schemaModel= schemaModel
     this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
     middleware && schemaModel.schemaList.forEach(middleware)
-    this.schemaModel= schemaModel
   }
-  public resetSchemaModel(newSchemaModel: TSchemasModel, middleware?: (value: TSchema, index: number, array: TSchema[]) => void){
+  private parseSchemaModel(schemaModel0: TSchemaModel): TSchemaModel{
+    try{
+      schemaModel0?.schemaList.forEach(schema => {
+        schema.linkingNames= new Set()
+        schema.getName= () => schema.configs.itemProps.name as string
+      })
+    }catch(e){
+      message.error('解析失败!')
+      console.log(e);
+    }finally{
+      return schemaModel0
+    }
+  }
+  public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: (value: TSchema, index: number, array: TSchema[]) => void){
+    const newSchemaModel= this.parseSchemaModel(newSchemaModel0)
     middleware && newSchemaModel.schemaList.forEach(middleware)
     this.schemaModel= newSchemaModel
     this.forceLeggoFormRender()
@@ -62,7 +77,7 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
     </Form>
   )
 }
-LeggoForm.useLeggo = (schemaModel?: TSchemasModel): Leggo => {
+LeggoForm.useLeggo = (schemaModel?: TSchemaModel): Leggo => {
   let leggo= null
   const keyRef= useRef(null)
   const [ , setForceRender]= useState(0)
@@ -79,7 +94,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
   schemaList: TSchema[],
 }>){
   const { schema, schemaList }= props
-  const { type, configs, needDefineGetterMap }= schema
+  const { type, configs, needDefineGetterProps }= schema
   const { postman, CustomizedItemFC }= configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
@@ -92,7 +107,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
   }, [])
 
   useLayoutEffect(() => {
-    needDefineGetterMap.forEach(getterInfo => {
+    Object.values(needDefineGetterProps).forEach(getterInfo => {
       const { observedName, namepath, reference, rule } = getterInfo
       const selfName= schema.getName()
       const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
