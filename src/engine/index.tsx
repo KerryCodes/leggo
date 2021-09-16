@@ -1,7 +1,7 @@
 import { Form, FormProps, message } from "antd"
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { leggoItemStore } from "../service"
-import { TSchemaModel, TSchema, TConfigs } from "../interface"
+import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
 import axios from 'axios'
 
 
@@ -14,7 +14,7 @@ class Leggo{
   constructor(
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
-    schemaModel0?: TSchemaModel,
+    schemaModel0: TSchemaModel,
     middleware?: (value: TSchema, index: number, array: TSchema[]) => void,
   ){
     const schemaModel= this.parseSchemaModel(schemaModel0)
@@ -36,7 +36,7 @@ class Leggo{
       return schemaModel0
     }
   }
-  public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: (value: TSchema, index: number, array: TSchema[]) => void){
+  public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: TMiddleware){
     const newSchemaModel= this.parseSchemaModel(newSchemaModel0)
     middleware && newSchemaModel.schemaList.forEach(middleware)
     this.schemaModel= newSchemaModel
@@ -77,12 +77,12 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
     </Form>
   )
 }
-LeggoForm.useLeggo = (schemaModel?: TSchemaModel): Leggo => {
+LeggoForm.useLeggo = (schemaModel0?: TSchemaModel, middleware?: TMiddleware): Leggo => {
   let leggo= null
   const keyRef= useRef(null)
   const [ , setForceRender]= useState(0)
   if (!leggoStores.has(keyRef)) {
-    leggo= new Leggo(keyRef, setForceRender, schemaModel)
+    leggo= new Leggo(keyRef, setForceRender, schemaModel0, middleware)
     leggoStores.set(keyRef, leggo) 
   }
   return leggo || leggoStores.get(keyRef)

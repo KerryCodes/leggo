@@ -103,3 +103,5 @@ export interface TSchemaModel{
 }
 
 export type TPostSchemaModel= (schemaModel: TSchemaModel) => void
+
+export type TMiddleware= (value: TSchema, index: number, array: TSchema[]) => void
