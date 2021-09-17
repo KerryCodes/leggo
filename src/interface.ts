@@ -15,7 +15,7 @@ export interface TItemStore{
 export interface TLeggoItemInfo{
   type: TSchemaType,
   configs: TConfigs,
-  StandardItemFC: React.FC<TConfigs>,
+  StandardItemFC: React.FC<TStandardInputProps>,
 }
 
 export interface TSchema{
@@ -28,6 +28,8 @@ export interface TSchema{
   getName: () => string,
   forceLeggoFormItemRender?: () => void,
 }
+
+export type TStandardInputProps= TConfigs & {value?: any, onChange?: () => void}
 
 export interface TConfigs{
   itemProps: FormItemProps<any>,

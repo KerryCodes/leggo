@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
-import { TSchemaModel } from '../../src/interface';
+import { TSchema, TSchemaModel } from '../../src/interface';
 
+function middleware(value: TSchema) {
+  // value.configs.CustomizedItemFC = (props: any) => <Space>123{props.children}</Space>
+}
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
   const { schemaModel }= props
@@ -33,7 +36,7 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
   }
 
   useEffect(() => {
-    leggo.resetSchemaModel(schemaModel)
+    leggo.resetSchemaModel(schemaModel, middleware)
   }, [schemaModel])
 
   return (

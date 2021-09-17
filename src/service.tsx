@@ -1,9 +1,8 @@
 import React from "react"
 import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Switch, Upload } from "antd"
 import { UploadOutlined } from '@ant-design/icons'
-import { TLeggoItemInfo, TLinkedInfo, TSchema, TSchemaType, TConfigs } from "./interface"
+import { TLeggoItemInfo, TLinkedInfo, TSchema, TSchemaType, TConfigs, TStandardInputProps } from "./interface"
 import { cloneDeep } from "lodash"
-import { wordsLimitValidator } from "./utils"
 
 
 export class LeggoSchema implements TSchema{
@@ -50,10 +49,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         }
       }
     },
-    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps} rules={[ ...itemProps.rules, {validator: wordsLimitValidator.bind(null, extra.wordsLimit)} ]}>
-        <Input {...inputProps}  />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) =>
+      <Input value={value} onChange={onChange} {...inputProps} />
   },
   inputTexArea: {
     type: 'inputTexArea',
@@ -82,10 +79,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         }
       }
     },
-    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps} rules={[ ...itemProps.rules, {validator: wordsLimitValidator.bind(null, extra.wordsLimit)} ]}>
-        <Input.TextArea {...inputProps}  />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) =>
+      <Input.TextArea value={value} onChange={onChange} {...inputProps} />
   },
   inputPassword: {
     type: 'inputPassword',
@@ -101,10 +96,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         placeholder: '请输入',
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Input.Password {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) =>
+      <Input.Password value={value} onChange={onChange} {...inputProps} />
   },
   inputNumber: {
     type: 'inputNumber',
@@ -123,10 +116,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         bordered: true,
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <InputNumber {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <InputNumber value={value} onChange={onChange} {...inputProps} />
   },
   select: {
     type: 'select',
@@ -143,10 +134,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Select {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <Select value={value} onChange={onChange} {...inputProps} />
   },
   checkboxGroup: {
     type: 'checkboxGroup',
@@ -162,10 +151,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Checkbox.Group {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <Checkbox.Group value={value} onChange={onChange} {...inputProps} />
   },
   radioGroup: {
     type: 'radioGroup',
@@ -181,10 +168,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         options: [{label: 'A', value: 1}, {label: 'B', value: 2}],
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Radio.Group {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <Radio.Group value={value} onChange={onChange}{...inputProps} />
   },
   datePicker: {
     type: 'datePicker',
@@ -201,10 +186,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         picker: 'date',
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <DatePicker {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <DatePicker value={value} onChange={onChange} {...inputProps} />
   },
   rangePicker: {
     type: 'rangePicker',
@@ -220,77 +203,68 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         picker: 'day',
       },
     },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <DatePicker.RangePicker {...inputProps} />
-      </Form.Item>,
+    StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+      <DatePicker.RangePicker value={value} onChange={onChange} {...inputProps} />
   },
-  upload: {
-    type: 'upload',
-    configs: {
-      itemProps: {
-        name: 'upload',
-        label: '上传',
-        valuePropName: 'fileList',
-        colon: true,
-        rules: [{ required: true, message: '请上传！' }],
-      },
-      inputProps: {
-        disabled: false,
-        listType: "picture",
-        action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-        showUploadList: false,
-      },
-    },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Upload {...inputProps}>
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
-      </Form.Item>,
-  },
-  switch: {
-    type: 'switch',
-    configs: {
-      itemProps: {
-        name: 'switch',
-        label: '开关',
-        valuePropName: 'checked',
-        colon: true,
-        rules: [{ required: false, message: '' }],
-      },
-      inputProps: {
-        disabled: false,
-      },
-    },
-    StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Switch {...inputProps} />
-      </Form.Item>,
-  },
-  empty: {
-    type: 'empty',
-    configs: {
-      itemProps: {
-        name: 'empty',
-        label: '占位表单',
-        colon: true,
-        rules: [{ required: true }],
-      },
-      inputProps: {
-        disabled: false,
-      },
-    },
-    StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <div>占位表单仅作为表单结构的一部分，表单实际渲染前将被中间件识别并替换！</div>
-      </Form.Item>,
-  },
+  // upload: {
+  //   type: 'upload',
+  //   configs: {
+  //     itemProps: {
+  //       name: 'upload',
+  //       label: '上传',
+  //       valuePropName: 'fileList',
+  //       colon: true,
+  //       rules: [{ required: true, message: '请上传！' }],
+  //     },
+  //     inputProps: {
+  //       disabled: false,
+  //       listType: "picture",
+  //       action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+  //       showUploadList: false,
+  //     },
+  //   },
+  //   StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+  //     <Upload value={value} onChange={onChange} {...inputProps}>
+  //       <Button icon={<UploadOutlined />}>Click to Upload</Button>
+  //     </Upload>
+  // },
+  // switch: {
+  //   type: 'switch',
+  //   configs: {
+  //     itemProps: {
+  //       name: 'switch',
+  //       label: '开关',
+  //       valuePropName: 'checked',
+  //       colon: true,
+  //       rules: [{ required: false, message: '' }],
+  //     },
+  //     inputProps: {
+  //       disabled: false,
+  //     },
+  //   },
+  //   StandardItemFC: ({ value, onChange, inputProps }: TStandardInputProps) => 
+  //     <Switch value={value} onChange={onChange} {...inputProps} />
+  // },
+  // empty: {
+  //   type: 'empty',
+  //   configs: {
+  //     itemProps: {
+  //       name: 'empty',
+  //       label: '占位表单',
+  //       colon: true,
+  //       rules: [{ required: true }],
+  //     },
+  //     inputProps: {
+  //       disabled: false,
+  //     },
+  //   },
+  //   StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
+  //     <div>占位表单仅作为表单结构的一部分，表单实际渲染前将被中间件识别并替换！</div>
+  // },
   submit: {
     type: 'submit',
     configs: {
       itemProps: {
-        name: 'submit',
         wrapperCol: { offset: 8, span: 16 },
       },
       inputProps: {
@@ -302,10 +276,8 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         buttonText: 'Submit'
       }
     },
-    StandardItemFC: ({ itemProps, inputProps, extra }: React.PropsWithoutRef<TConfigs>) => 
-      <Form.Item {...itemProps}>
-        <Button {...inputProps}>{extra.buttonText}</Button>
-      </Form.Item>,
+    StandardItemFC: ({ inputProps, extra }: TStandardInputProps) =>
+      <Button {...inputProps}>{extra.buttonText}</Button>
   }
 }
 

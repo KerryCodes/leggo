@@ -47,7 +47,9 @@ function createLeggoItems(storeKey: keyof typeof leggoItemStore){
     const item= (
       <div key={type} className="item" draggable onDragStart={handleDragStart} data-type={type}>
         <div className="item-forbidden">
-          <StandardItemFC {...configs} />
+          <Form.Item {...configs.itemProps}>
+            <StandardItemFC {...configs} />
+          </Form.Item>
         </div>
       </div>
     )

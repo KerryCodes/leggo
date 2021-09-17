@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Button, Form } from 'antd'
 import { TSchema } from '../../../interface'
 import { leggoItemStore } from '../../../service'
 
@@ -31,7 +31,9 @@ export function DroppedItem(props: React.PropsWithoutRef<{
   return (
     <div className={`dropped-item ${active ? 'active-item' : ''}`} onClick={activateSchema}>
       <Button type="text" className="delete-butt" onClick={deleteSchema}>X</Button>
-      <StandardItemFC {...configs} />
+      <Form.Item {...configs.itemProps}>
+        <StandardItemFC {...configs} />
+      </Form.Item>
     </div>
   )
 }
