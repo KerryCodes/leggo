@@ -16,11 +16,6 @@ const options= [
   {label: 'DELETE', value: 'delete'},
 ]
 
-const selectBeforeOptions= [
-  {label: 'http://', value: 'http://'},
-  {label: 'https://', value: 'https://'},
-]
-
 
 export function ConfigPostman(props: React.PropsWithoutRef<{
   activeSchema: React.MutableRefObject<TSchema>,
@@ -34,18 +29,21 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
       propName: 'options',
       method, 
       url, 
-      params: params?.filter((item: TParam) => item),
-      data: data?.filter((item: TParam) => item),
+      params: params?.filter((item: TParam) => item) || [],
+      data: data?.filter((item: TParam) => item) || [],
     }
   }
 
   return (
     <Form {...layout} onValuesChange={onValuesChange} initialValues={activeSchema.current.configs.postman}>
       <Form.Item label="method" name="method" required>
-        <Select options={options} allowClear />
+        <Select options={options} />
       </Form.Item>
-      <Form.Item label="url" name="url" required initialValue='www.'>
-        <Input addonBefore={<Select options={selectBeforeOptions} defaultValue="http://" />} />
+      <Form.Item label="url" required>
+        <Form.Item name="url">
+          <Input />
+        </Form.Item>
+        <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
       </Form.Item>
       <Form.Item label='params'>
         <Form.List name="params">
@@ -58,7 +56,7 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
                     >
                     <Input placeholder="key" />
                   </Form.Item>
-                  <LinkSet activeSchema={activeSchema} namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
+                  <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
@@ -85,7 +83,7 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
                     >
                     <Input placeholder="key" />
                   </Form.Item>
-                  <LinkSet activeSchema={activeSchema} namepath={['postman', 'data', index, 'value']} schemaListOptions={schemaListOptions} />
+                  <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'data', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >

@@ -22,7 +22,7 @@ export interface TSchema{
   id: string,
   type: TSchemaType,
   configs: TConfigs,
-  currentFormItemValue: any,
+  currentItemValue: any,
   needDefineGetterProps: { [namepath: string]: TLinkedInfo },
   linkingNames?: Set<string>,
   getName: () => string,

@@ -54,7 +54,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Select options={options} defaultValue={propCurrentValue} onChange={handleChangePropValue} />
-          <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       )
   }
@@ -89,7 +89,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Switch checked={propCurrentValue} onChange={handleChangePropValue} />
-          <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet activeSchema={activeSchema} targetType='boolean' namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       );
     case 'string':
@@ -98,7 +98,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
           <strong>{propName}：</strong>
           <Input value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
           {
-            propName !== 'name' && <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+            propName !== 'name' && <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
           }
         </Space>
       );
@@ -107,7 +107,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <InputNumber value={propCurrentValue} onChange={handleChangePropValue} bordered={false} />
-          <LinkSet activeSchema={activeSchema} namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet activeSchema={activeSchema} targetType='number' namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       );
     default:

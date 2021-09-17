@@ -63,7 +63,7 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
   const handleValuesChange= (changedValues: any, allValues: any) => {
     for(const [name, value] of Object.entries(changedValues)){
       const changedSchema= schemaList.find(schema => schema.getName() === name)
-      changedSchema.currentFormItemValue= Array.isArray(value) ? value.join() : value
+      changedSchema.currentItemValue= value
       changedSchema.linkingNames.forEach(linkingName => {
         const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
         targetSchema.forceLeggoFormItemRender()
@@ -109,17 +109,19 @@ function LeggoItem(props: React.PropsWithoutRef<{
   useMemo(() => {
     Object.values(needDefineGetterProps).forEach(getterInfo => {
       const { observedName, namepath, publicStateKey, reference, rule } = getterInfo
-      const selfName= schema.getName()
+      const isFromPublicStates= observedName === 'publicStates'
       const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
-      const targetKey= namepath.slice(-1)[0]
       //@ts-ignore
       const targetProp= namepath.slice(0, -1).reduce((pre, cur) => pre[cur], configs)
-      observedName !== 'publicStates' && linkedSchema.linkingNames.add(selfName)
+      const targetKey= namepath.slice(-1)[0]
+      const targetType= typeof targetProp[targetKey]
+      !isFromPublicStates && linkedSchema.linkingNames.add(schema.getName())
       Reflect.defineProperty(targetProp, targetKey, {
         get: () => {
           // @ts-ignore
-          let targetValue= observedName === 'publicStates' ? leggo.publicStates[publicStateKey] : linkedSchema.currentFormItemValue
+          let targetValue= isFromPublicStates ? leggo.publicStates[publicStateKey] : linkedSchema.currentItemValue
           if(reference && rule){
+            targetValue= targetValue?.toString()
             switch(rule){
               case '<':
                 return targetValue < reference
@@ -132,8 +134,18 @@ function LeggoItem(props: React.PropsWithoutRef<{
               case '>':
                 return targetValue > reference
             }
+          }else{
+            switch(targetType){
+              case 'boolean':
+                return Boolean(targetValue)
+              case 'number':
+                return Number(targetValue)
+              case 'string':
+                return targetValue?.toString()
+              default:
+                return targetValue
+            }
           }
-          return targetValue
         }
       }) 
     })
@@ -147,9 +159,8 @@ function LeggoItem(props: React.PropsWithoutRef<{
     const { method, url, params, data }= postman || {}
     if(method && url){
       const paramsParsed = params?.reduce((pre, cur) => {
-        const value= cur.value
         //@ts-ignore
-        pre[cur.key]= value === '' ? undefined : value
+        pre[cur.key]= cur.value === '' ? undefined : cur.value
         return pre
       }, {})
       const dataParsed= data?.reduce((pre, cur) => {

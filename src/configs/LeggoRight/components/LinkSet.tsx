@@ -1,22 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Button, Form, Input, InputNumber, Popover, Radio, RadioChangeEvent, Select, Space } from 'antd'
+import { Button, Form, Input, Popover, Select, Space } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../interface'
 
 
 export function LinkSet(props: React.PropsWithoutRef<{
   namepath: (string|number)[],
+  targetType: string,
   activeSchema: React.MutableRefObject<TSchema>,
   schemaListOptions: TOption[],
 }>){
-  const { namepath, activeSchema, schemaListOptions }= props
+  const { namepath, targetType, activeSchema, schemaListOptions }= props
   const needDefineGetterProps= activeSchema.current.needDefineGetterProps
   const key= namepath.join()
   const getterInfo= needDefineGetterProps[key]
   const [form]= Form.useForm()
   const [visible, setVisible]= useState(false)
   const [isLinked, setIsLinked]= useState(false)
-  const [referenceType, setReferenceType]= useState('string')
   const [resultText, setResultText]= useState('value = ')
   const [disabled, setDisabled]= useState(true)
   const [isFromPublicStates, setIsFromPublicStates]= useState(getterInfo?.observedName === 'publicStates')
@@ -30,12 +30,20 @@ export function LinkSet(props: React.PropsWithoutRef<{
         newText += `publicStates[${publicStateKey}]`
         setIsFromPublicStates(true)
       }else{
-        newText += `${observedName}.value`
+        switch(targetType){
+          case 'boolean':
+            newText += `Boolean(${observedName}.value)`
+            break;
+          case 'number':
+            newText += `Number(${observedName}.value)`
+            break;
+          default:
+            newText += `${observedName}.value?.toString()`
+        }
         setIsFromPublicStates(false)
       }
       if(rule && reference){
-        newText += ` ${rule} `
-        newText += referenceType === 'string' ? `"${reference}"` : reference
+        newText= `value = ${observedName}.value?.toString() ${rule} "${reference}"`
       }
     }else{
       setDisabled(true)
@@ -43,8 +51,6 @@ export function LinkSet(props: React.PropsWithoutRef<{
     setResultText(newText)
   }
 
-  const onValuesChange= (_: any, allValues: any) => setText(allValues)
-  
   const onFinish= () => {
     form.validateFields()
     .then(values => {
@@ -58,14 +64,6 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const onCancel= () => {
     delete needDefineGetterProps[key]
     setVisible(false)
-  }
-
-  const onChangeType= (e: RadioChangeEvent) => {
-    const type= e.target.value
-    form.setFields([{ name: 'reference', value: undefined }])
-    const allValues= form.getFieldsValue(true)
-    onValuesChange(null, allValues)
-    setReferenceType(type)
   }
 
   useEffect(() => {
@@ -84,7 +82,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
         onVisibleChange={setVisible}
         content={
           <div>
-            <Form form={form} onValuesChange={onValuesChange}>
+            <Form form={form} onValuesChange={(_, allValues) => setText(allValues)}>
               <Form.Item label="关联对象" name="observedName" required>
                 <Select options={schemaListOptions} />
               </Form.Item>
@@ -100,16 +98,8 @@ export function LinkSet(props: React.PropsWithoutRef<{
                   <Select.Option value='>'>关联值 &gt; 参考值</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="参考值类型：">
-                <Radio.Group size="small" defaultValue="string" buttonStyle="solid" onChange={onChangeType}>
-                  <Radio.Button value="string">string类型</Radio.Button>
-                  <Radio.Button value="number">number类型</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
               <Form.Item label="参考值" name="reference">
-                {
-                  referenceType === 'string' ? <Input placeholder="参考值" /> : <InputNumber placeholder="参考值" bordered={false} />
-                }
+                <Input placeholder="参考值" />
               </Form.Item>
               <Form.Item label="关联结果：">
                <div>{resultText}</div>

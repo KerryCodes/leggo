@@ -16,7 +16,17 @@ export function ConfigOptions(props: React.PropsWithChildren<{
 
   const handleChangeDataType= (e: RadioChangeEvent) => {
     const newType= e.target.value
-    if(newType === 'static'){ activeSchema.current.configs.postman= null }
+    if(newType === 'static'){ 
+      activeSchema.current.configs.postman= undefined 
+    }else{
+      activeSchema.current.configs.postman={
+        propName: 'options',
+        method: 'get', 
+        url: 'https://www.', 
+        params: [],
+        data: [],
+      }
+    }
     setDataType(newType)
   }
 
