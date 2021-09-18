@@ -1,19 +1,34 @@
 import { Form, FormProps, message } from "antd"
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { leggoItemStore } from "../service"
-import { TSchemaModel, TSchema, TConfigs, TMiddleware, TStandardInputProps } from "../interface"
+import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
 import axios from 'axios'
 import { wordsLimitValidator } from "../utils"
 
 
 const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
 
-class Leggo{
-  static createCustomizedInput(CustomizedItemFC: React.FC, StandardItemFC: React.FC<TStandardInputProps>, configs: TConfigs) {
-    return ({ value, onChange }: any) =>
-      <CustomizedItemFC>
-        <StandardItemFC value={value} onChange={onChange} {...configs} />
-      </CustomizedItemFC>
+export class Leggo{
+  static createRules(rules: any, wordsLimit: any){
+    return wordsLimit ? [...rules, { validator: wordsLimitValidator.bind(null, wordsLimit) }] : rules
+  }
+  static createChildren(childrenNode: string | React.FC){
+    if(!childrenNode){ return }
+    const childrenType= typeof childrenNode
+    if(childrenType === 'function'){
+      const Node= childrenNode
+      return <Node />
+    }
+    if(childrenType === 'string'){
+      return childrenNode
+    }
+  }
+  static createCustomizedInput(CustomizedInputFC: React.FC, StandardInput: any, configs: TConfigs) {
+    const { inputProps, extra }= configs
+    return (injectedProps: any) =>
+      <CustomizedInputFC>
+        <StandardInput {...inputProps} {...injectedProps}>{Leggo.createChildren(extra?.childrenNode)}</StandardInput>
+      </CustomizedInputFC>
   }
   private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
@@ -106,19 +121,12 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { leggo, schema, schemaList }= props
   const { type, configs, needDefineGetterProps }= schema
-  const { itemProps, extra, postman, CustomizedItemFC } = configs
+  const { itemProps, inputProps, extra, postman, CustomizedInputFC } = configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
-  const StandardItemFC= leggoItemStore.total[type]?.StandardItemFC || (() => <div />)
-  const CustomizedInput= CustomizedItemFC && Leggo.createCustomizedInput(CustomizedItemFC, StandardItemFC, configs)
+  const StandardInput= leggoItemStore.total[type]?.StandardInput || (() => <div />)
+  const CustomizedInput= CustomizedInputFC && Leggo.createCustomizedInput(CustomizedInputFC, StandardInput, configs)
   const [ , setForceRender] = useState(0)
-  const rules = useMemo(() => {
-    if (extra?.wordsLimit) {
-      return [...itemProps.rules, { validator: wordsLimitValidator.bind(null, extra.wordsLimit) }]
-    } else {
-      return itemProps.rules
-    }
-  }, [itemProps, extra])
   
   useMemo(() => {
     Object.values(needDefineGetterProps).forEach(getterInfo => {
@@ -191,9 +199,9 @@ function LeggoItem(props: React.PropsWithoutRef<{
   }, [...postmanParamsValueList, ...postmanDataValueList])
 
   return (
-    <Form.Item {...configs.itemProps} rules={rules}>
+    <Form.Item {...itemProps} rules={Leggo.createRules(itemProps.rules, extra?.wordsLimit)}>
       {
-        CustomizedInput ? <CustomizedInput /> : <StandardItemFC {...configs} />
+        CustomizedInput ? <CustomizedInput /> : <StandardInput {...inputProps}>{Leggo.createChildren(extra?.childrenNode)}</StandardInput>
       }
     </Form.Item>
   )

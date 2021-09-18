@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useState } from 'react'
 import { Form, Menu } from 'antd'
-import { leggoItemStore } from '../../service'
+import { leggoItemStore, StandardFormItem } from '../../service'
 
 const layout= {
   labelCol: { span: 6 },
@@ -43,13 +43,11 @@ function createLeggoItems(storeKey: keyof typeof leggoItemStore){
   }
 
   for(const value of Object.values(selectedStore)){
-    const { type, StandardItemFC, configs }= value
+    const { type, StandardInput, configs }= value
     const item= (
       <div key={type} className="item" draggable onDragStart={handleDragStart} data-type={type}>
         <div className="item-forbidden">
-          <Form.Item {...configs.itemProps}>
-            <StandardItemFC {...configs} />
-          </Form.Item>
+          <StandardFormItem StandardInput={StandardInput} configs={configs} />
         </div>
       </div>
     )

@@ -4,7 +4,7 @@ import { LeggoForm } from '../../src';
 import { TSchema, TSchemaModel } from '../../src/interface';
 
 function middleware(value: TSchema) {
-  // value.configs.CustomizedItemFC = (props: any) => <Space>123{props.children}</Space>
+  // value.configs.CustomizedInputFC = (props: any) => <Space>123{props.children}</Space>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
@@ -18,7 +18,7 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
 
   const changeOptions= () => {
     leggo.updateSchema('select', configs => {
-      configs.CustomizedItemFC= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
+      configs.CustomizedInputFC= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
       configs.inputProps.options= [
         {label: 'A', value: 1}, 
         {label: 'B', value: 2},

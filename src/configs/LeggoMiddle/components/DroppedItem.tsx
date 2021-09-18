@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Form } from 'antd'
+import { Button } from 'antd'
 import { TSchema } from '../../../interface'
-import { leggoItemStore } from '../../../service'
+import { leggoItemStore, StandardFormItem } from '../../../service'
 
 
 export function DroppedItem(props: React.PropsWithoutRef<{
@@ -12,7 +12,7 @@ export function DroppedItem(props: React.PropsWithoutRef<{
 }>){
   const { activeSchema, schema, setSchemaList, forceRender }= props
   const { id, type, configs }= schema
-  const StandardItemFC= leggoItemStore.total[type].StandardItemFC
+  const StandardInput= leggoItemStore.total[type].StandardInput
   const active= activeSchema.current === schema
 
   const deleteSchema= (e: React.MouseEvent) => {
@@ -31,9 +31,7 @@ export function DroppedItem(props: React.PropsWithoutRef<{
   return (
     <div className={`dropped-item ${active ? 'active-item' : ''}`} onClick={activateSchema}>
       <Button type="text" className="delete-butt" onClick={deleteSchema}>X</Button>
-      <Form.Item {...configs.itemProps}>
-        <StandardItemFC {...configs} />
-      </Form.Item>
+      <StandardFormItem StandardInput={StandardInput} configs={configs} />
     </div>
   )
 }

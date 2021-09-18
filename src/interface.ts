@@ -15,7 +15,7 @@ export interface TItemStore{
 export interface TLeggoItemInfo{
   type: TSchemaType,
   configs: TConfigs,
-  StandardItemFC: React.FC<TStandardInputProps>,
+  StandardInput: any,
 }
 
 export interface TSchema{
@@ -29,7 +29,6 @@ export interface TSchema{
   forceLeggoFormItemRender?: () => void,
 }
 
-export type TStandardInputProps= TConfigs & {value?: any, onChange?: () => void}
 
 export interface TConfigs{
   itemProps: FormItemProps<any>,
@@ -42,7 +41,7 @@ export interface TConfigs{
     params: TParam[],
     data: TParam[],
   },
-  CustomizedItemFC?: React.FC<React.PropsWithChildren<any>>,
+  CustomizedInputFC?: React.FC<React.PropsWithChildren<any>>,
 }
 
 export interface TExtra{
@@ -56,7 +55,7 @@ export interface TExtra{
       blank: boolean,
     }
   },
-  buttonText: string,
+  childrenNode: any,
 }
 
 export interface TInputProps{

@@ -73,7 +73,7 @@ const testStore= {
           disabled: false,
         },
       },
-      StandardItemFC: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
+      StandardInput: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
         <Form.Item {...itemProps}>
           <MultiCover {...inputProps} />
         </Form.Item>,
@@ -91,7 +91,7 @@ const testStore= {
           disabled: false,
         },
       },
-      StandardItemFC: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
+      StandardInput: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
         <Form.Item {...itemProps}>
           <div>定制化组件</div>
         </Form.Item>,
