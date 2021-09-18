@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
-import { TSchema, TSchemaModel } from '../../src/interface';
+import { TConfigs, TSchemaModel } from '../../src/interface';
 
-function middleware(value: TSchema) {
-  // value.configs.CustomizedInputFC = (props: any) => <Space>123{props.children}</Space>
+function middleware(value: TConfigs) {
+  // value.CustomizedInputFC = (props: any) => <Space>123{props.children}</Space>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){

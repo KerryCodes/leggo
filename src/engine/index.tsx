@@ -34,25 +34,26 @@ export class Leggo{
   public readonly ref: React.MutableRefObject<any>
   public readonly publicStates: object
   public schemaModel: TSchemaModel
+  public allDisabledIsLockedToTrue= false
   constructor(
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
     schemaModel0: TSchemaModel,
-    middleware?: (value: TSchema, index: number, array: TSchema[]) => void,
+    middleware?: TMiddleware,
     publicStates?: object,
   ){
-    const schemaModel= this.parseSchemaModel(schemaModel0)
+    const schemaModel= this.parseSchemaModel(schemaModel0, middleware)
     this.ref= keyRef
     this.publicStates= publicStates || {}
     this.schemaModel= schemaModel
     this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
-    middleware && schemaModel?.schemaList.forEach(middleware)
   }
-  private parseSchemaModel(schemaModel0: TSchemaModel): TSchemaModel{
+  private parseSchemaModel(schemaModel0: TSchemaModel, middleware?: TMiddleware): TSchemaModel{
     try{
-      schemaModel0?.schemaList.forEach(schema => {
+      schemaModel0?.schemaList.forEach((schema, index) => {
         schema.linkingNames= new Set()
         schema.getName= () => schema.configs.itemProps.name as string
+        middleware && middleware(schema.configs, index)
       })
     }catch(e){
       message.error('解析失败!')
@@ -63,7 +64,6 @@ export class Leggo{
   }
   public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: TMiddleware){
     const newSchemaModel= this.parseSchemaModel(newSchemaModel0)
-    middleware && newSchemaModel.schemaList.forEach(middleware)
     this.schemaModel= newSchemaModel
     this.forceLeggoFormRender()
   }
@@ -75,10 +75,15 @@ export class Leggo{
       targetSchema.forceLeggoFormItemRender?.()
     }
   }
+  public lockAllDisabledToTrue(status: boolean = true){
+    this.allDisabledIsLockedToTrue= status
+    status && this.schemaModel.schemaList.forEach(schema => schema.configs.inputProps.disabled= true)
+    this.forceLeggoFormRender()
+  }
 }
 
 
-function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
+export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
   const { leggo, onValuesChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
 
@@ -91,7 +96,7 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
         targetSchema.forceLeggoFormItemRender()
       })
     }
-    onValuesChange(changedValues, allValues)
+    onValuesChange?.(changedValues, allValues)
   }
 
   return (
@@ -139,7 +144,9 @@ function LeggoItem(props: React.PropsWithoutRef<{
       const targetType= typeof targetProp[targetKey]
       !isFromPublicStates && linkedSchema.linkingNames.add(schema.getName())
       Reflect.defineProperty(targetProp, targetKey, {
+        set: () => null,
         get: () => {
+          if(targetKey === 'disabled' && leggo.allDisabledIsLockedToTrue){ return true }
           // @ts-ignore
           let targetValue= isFromPublicStates ? leggo.publicStates[publicStateKey] : linkedSchema.currentItemValue
           if(reference && rule){
@@ -207,7 +214,3 @@ function LeggoItem(props: React.PropsWithoutRef<{
   )
 }
 
-
-
-
-export { LeggoForm }
