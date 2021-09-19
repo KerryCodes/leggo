@@ -19,7 +19,7 @@ export function OptionsSet(props: React.PropsWithChildren<{
 
   const onChangeType= (e: RadioChangeEvent) => {
     const type= e.target.value
-    options.forEach(option => {
+    options.forEach((option: TOption) => {
       const optionValue= option.value
       // @ts-ignore
       option.value= type === 'string' ? String(optionValue) : (Number(optionValue) || optionValue.charCodeAt())
