@@ -32,7 +32,7 @@ export interface TSchema{
 
 export interface TConfigs{
   itemProps: FormItemProps<any>,
-  inputProps: TInputProps,
+  inputProps: any,
   extra?: Partial<TExtra>,
   postman?: {
     propName: 'options',
@@ -58,21 +58,27 @@ export interface TExtra{
   childrenNode: any,
 }
 
-export interface TInputProps{
-  disabled: boolean,
-  placeholder?: any,
-  rows?: number,
-  max?: number,
-  min?: number,
-  bordered?: boolean,
-  options?: { label: string, value: string | number }[],
-  picker?: any,
-  listType?: "text" | "picture" | "picture-card",
-  action?: string,
-  showUploadList?: boolean,
-  type?: any,
-  htmlType?: "submit" | "button" | "reset",
-}
+// export interface TInputProps{
+//   disabled: boolean,
+//   placeholder?: any,
+//   rows?: number,
+//   max?: number,
+//   min?: number,
+//   bordered?: boolean,
+//   options?: { label: string, value: string | number }[],
+//   picker?: any,
+//   listType?: "text" | "picture" | "picture-card",
+//   action?: string,
+//   showUploadList?: boolean,
+//   type?: any,
+//   htmlType?: "submit" | "button" | "reset",
+//   allowClear?: boolean,
+//   size?: "small" | "middle" | "large",
+//   maxLength?: number,
+//   id?: string,
+//   showCount?: boolean,
+//   autoSize? :boolean,
+// }
 
 export interface TLinkedInfo{
   observedName: string,

@@ -22,6 +22,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     labelCol: { span: 6, offset: 0 },
     wrapperCol: { span: 16, offset: 0 },
     colon: true,
+    labelAlign: 'right',
     layout: 'horizontal',
     scrollToFirstError: false,
     size: undefined,

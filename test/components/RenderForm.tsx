@@ -10,7 +10,7 @@ function middleware(value: TSchema) {
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
   const { schemaModel }= props
   const { name, description }= schemaModel
-  const [form] =Form.useForm()
+  const [form]= Form.useForm()
   const leggo= LeggoForm.useLeggo(null, null, {
     test: true
   })

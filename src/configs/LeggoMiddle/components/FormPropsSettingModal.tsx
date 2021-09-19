@@ -69,6 +69,12 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
           <Form.Item label="colon" name="colon" required valuePropName='checked'>
             <Switch />
           </Form.Item>
+          <Form.Item label="labelAlign" name="labelAlign" required>
+            <Radio.Group>
+              <Radio value='left'>left</Radio>
+              <Radio value='right'>right</Radio>
+            </Radio.Group>
+          </Form.Item>
           <Form.Item label="layout" name="layout" required>
             <Radio.Group>
               <Radio value='horizontal'>horizontal</Radio>
