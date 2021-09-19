@@ -20,7 +20,7 @@ export function InjectSchemaModel(props: React.PropsWithoutRef<{
     <Fragment>
       <Button type="primary" onClick={() => setVisible(true)}>注入模板</Button>
       <Modal title="注入schemaModel" width='50vw'
-        bodyStyle={{height: '70vh', overflow: 'auto'}} 
+        bodyStyle={{height: '60vh', overflow: 'auto'}} 
         visible={visible} 
         onOk={handleInjectSchemaModel} 
         okButtonProps={{disabled: !value}}
