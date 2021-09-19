@@ -41,8 +41,18 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'input',
         label: '标题',
-        colon: true,
         rules: [{ required: true, message: '请输入标题！' }],
+        labelAlign: 'right',
+        noStyle: false,
+        preserve: true,
+        hidden: false,
+        shouldUpdate: false,
+        htmlFor: '',
+        initialValue: '',
+        trigger: 'onChange',
+        validateTrigger: 'onChange',
+        validateFirst: false,
+        valuePropName: 'value',
       },
       inputProps: {
         disabled: false,
@@ -69,7 +79,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'inputTexArea',
         label: '多行文本',
-        colon: true,
         rules: [{ required: true, message: '请输入文本！' }],
       },
       inputProps: {
@@ -98,7 +107,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'inputPassword',
         label: '密码',
-        colon: true,
         rules: [{ required: true, message: '请输入密码！' }],
       },
       inputProps: {
@@ -114,7 +122,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'inputNumber',
         label: '数字',
-        colon: true,
         rules: [{ required: true, message: '请输入数字！' }],
       },
       inputProps: {
@@ -133,7 +140,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'select',
         label: '选项',
-        colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
       inputProps: {
@@ -150,7 +156,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'checkboxGroup',
         label: '多选',
-        colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
       inputProps: {
@@ -166,7 +171,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'radioGroup',
         label: '单选',
-        colon: true,
         rules: [{ required: true, message: '请选择！' }],
       },
       inputProps: {
@@ -182,7 +186,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'datePicker',
         label: '日期',
-        colon: true,
         rules: [{ required: true, message: '请选择日期！' }],
       },
       inputProps: {
@@ -199,7 +202,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'rangePicker',
         label: '日期',
-        colon: true,
         rules: [{ required: true, message: '请选择日期！' }],
       },
       inputProps: {
@@ -216,7 +218,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         name: 'upload',
         label: '上传',
         valuePropName: 'fileList',
-        colon: true,
         rules: [{ required: true, message: '请上传！' }],
       },
       inputProps: {
@@ -238,7 +239,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         name: 'switch',
         label: '开关',
         valuePropName: 'checked',
-        colon: true,
         rules: [{ required: false, message: '' }],
       },
       inputProps: {
@@ -253,7 +253,6 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'empty',
         label: '占位表单',
-        colon: true,
         rules: [{ required: true }],
       },
       inputProps: {

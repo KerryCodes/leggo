@@ -91,7 +91,7 @@ function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
         targetSchema.forceLeggoFormItemRender()
       })
     }
-    onValuesChange(changedValues, allValues)
+    onValuesChange?.(changedValues, allValues)
   }
 
   return (
