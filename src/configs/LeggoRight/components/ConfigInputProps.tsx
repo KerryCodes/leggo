@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Input, InputNumber, Select, Space, Switch } from 'antd'
 import { ConfigOptions } from './ConfigOptions'
-import { TSchema } from '../../../interface'
+import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 
 
@@ -11,7 +11,7 @@ export function ConfigInputProp(props: React.PropsWithoutRef<{
   propName: string,
   propDefaultValue: any,
   activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: {label: string, value: string}[],
+  schemaListOptions: TOption[],
   forceRender: () => void,
 }>){
   const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaListOptions, forceRender } = props

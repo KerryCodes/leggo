@@ -7,9 +7,7 @@ export type TSchemaType= keyof typeof leggoItemStore.total
 
 export interface TItemStore{
   storeName: string,
-  store: {
-    [key: string]: TLeggoItemInfo,
-  }
+  store: Record<string, TLeggoItemInfo>,
 }
 
 export interface TLeggoItemInfo{
@@ -58,28 +56,6 @@ export interface TExtra{
   childrenNode: any,
 }
 
-// export interface TInputProps{
-//   disabled: boolean,
-//   placeholder?: any,
-//   rows?: number,
-//   max?: number,
-//   min?: number,
-//   bordered?: boolean,
-//   options?: { label: string, value: string | number }[],
-//   picker?: any,
-//   listType?: "text" | "picture" | "picture-card",
-//   action?: string,
-//   showUploadList?: boolean,
-//   type?: any,
-//   htmlType?: "submit" | "button" | "reset",
-//   allowClear?: boolean,
-//   size?: "small" | "middle" | "large",
-//   maxLength?: number,
-//   id?: string,
-//   showCount?: boolean,
-//   autoSize? :boolean,
-// }
-
 export interface TLinkedInfo{
   observedName: string,
   publicStateKey?: string,
@@ -91,11 +67,6 @@ export interface TLinkedInfo{
 export interface TParam{
   key: string,
   value: string,
-}
-
-export interface TFormLayout{
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
 }
 
 export interface TOption{

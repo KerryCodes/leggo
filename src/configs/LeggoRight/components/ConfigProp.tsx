@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Input, InputNumber, Space, Switch } from 'antd'
-import { TSchema } from '../../../interface'
+import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigWordsLimit } from './ConfigWordsLimit'
 
@@ -11,7 +11,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   propName: string,
   propDefaultValue: any,
   activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: {label: string, value: string}[],
+  schemaListOptions: TOption[],
   forceRender: () => void,
 }>){
   const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaListOptions, forceRender }= props
