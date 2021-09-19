@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react'
 import { Input, InputNumber, Space, Switch } from 'antd'
-import { ConfigOptions } from './ConfigOptions'
 import { TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigWordsLimit } from './ConfigWordsLimit'
@@ -26,18 +25,10 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   }
 
   switch(propName){
-    case 'options':
-      return (
-        <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
-      )
     case 'wordsLimit':
       return (
         <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
       )
-  }
-
-  if(!propDefaultValue) {
-    return null
   }
 
   switch(typeofPropDefaultValue.current){
