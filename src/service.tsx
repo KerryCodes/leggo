@@ -446,7 +446,7 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       itemProps: {
         name: 'empty',
         label: '占位表单',
-        rules: [{ required: true }],
+        rules: [{ required: true, message: '' }],
         noStyle: false,
         trigger: 'onChange',
         hidden: false,

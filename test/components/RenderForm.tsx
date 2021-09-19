@@ -3,8 +3,9 @@ import { Button, Divider, Form, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
 import { TSchema, TSchemaModel } from '../../src/interface';
 
+
 function middleware(value: TSchema) {
-  // value.configs.CustomizedInputFC = (props: any) => <Space>123{props.children}</Space>
+  // value.configs.CustomizedInputFC = (props: any) => <div><span>123</span>{props.children}</div>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
