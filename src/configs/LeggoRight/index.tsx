@@ -3,6 +3,7 @@ import { TSchema } from '../../interface'
 import { ConfigProp } from './components/ConfigProp'
 import { Divider } from 'antd'
 import { ConfigInputProp } from './components/ConfigInputProps'
+import { ConfigStyle } from './components/ConfigStyle'
 
 
 export function LeggoRight(props: React.PropsWithoutRef<{
@@ -48,6 +49,10 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         </div>
         <div className="configs-area">
           <Divider>InputProps</Divider>
+          {
+            activeSchema.current &&
+              <ConfigStyle key={id} activeSchema={activeSchema} forceRender={forceRender} />
+          }
           {
             inputPropsEntries.map(([propName, value]) => 
               <ConfigInputProp key={id + propName} 
