@@ -17,7 +17,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
   const itemPropsEntries= useMemo(() => Object.entries(itemProps || {}), [activeSchema.current])
   const inputPropsEntries= useMemo(() => Object.entries(inputProps || {}), [activeSchema.current])
   const extraEntries = useMemo(() => Object.entries(extra || {}), [activeSchema.current])
-  const schemaListOptions= [{label: '公共值 - publicStates', value: 'publicStates'}].concat(schemaList.map(schema => {
+  const schemaListOptions= [{label: '公共状态 - publicStates', value: 'publicStates'}].concat(schemaList.map(schema => {
     const { label, name }= schema.configs.itemProps
     return {
       label: `${label} - ${name}`,

@@ -135,8 +135,12 @@ function LeggoItem(props: React.PropsWithoutRef<{
       !isFromPublicStates && linkedSchema.linkingNames.add(schema.getName())
       Reflect.defineProperty(targetProp, targetKey, {
         get: () => {
-          // @ts-ignore
-          let targetValue= isFromPublicStates ? leggo.publicStates[publicStateKey] : linkedSchema.currentItemValue
+          let targetValue= linkedSchema?.currentItemValue
+          if (isFromPublicStates) {
+            // @ts-ignore
+            const publicState = leggo.publicStates[publicStateKey]
+            targetValue= (typeof publicState === 'function') ? publicState() : publicState
+          }
           if(reference && rule){
             targetValue= targetValue?.toString()
             switch(rule){
