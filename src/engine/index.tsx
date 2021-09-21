@@ -1,5 +1,5 @@
-import { Form, FormProps, message } from "antd"
 import React, { useEffect, useMemo, useRef, useState } from "react"
+import { Form, FormProps, message } from "antd"
 import { leggoItemStore } from "../service"
 import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
 import axios from 'axios'
@@ -114,7 +114,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { leggo, schema, schemaList }= props
   const { type, configs, needDefineGetterProps }= schema
-  const { itemProps, inputProps, extra, postman, CustomizedInputFC } = configs
+  const { itemProps, inputProps, extra, postman, Successor } = configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
   const StandardInput = leggoItemStore.total[type]?.StandardInput || (() => <div />)
@@ -191,13 +191,13 @@ function LeggoItem(props: React.PropsWithoutRef<{
 
 
   return (
-    CustomizedInputFC ?
+    Successor ?
       <Form.Item label={itemProps.label} required={rules?.[0]?.required}>
-        <CustomizedInputFC>
+        <Successor>
           <Form.Item {...itemProps} rules={rules} noStyle={true}>
             <StandardInput {...inputProps}>{children}</StandardInput>
           </Form.Item>
-        </CustomizedInputFC>
+        </Successor>
       </Form.Item>
       :
       <Form.Item {...itemProps} rules={rules}>

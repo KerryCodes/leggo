@@ -27,7 +27,6 @@ export interface TSchema{
   forceLeggoFormItemRender?: () => void,
 }
 
-
 export interface TConfigs{
   itemProps: FormItemProps<any>,
   inputProps: any,
@@ -39,7 +38,7 @@ export interface TConfigs{
     params: TParam[],
     data: TParam[],
   },
-  CustomizedInputFC?: React.FC<React.PropsWithChildren<any>>,
+  Successor?: React.FC<React.PropsWithChildren<any>>,
 }
 
 export interface TExtra{
