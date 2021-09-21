@@ -29,10 +29,6 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
     setVisible(false)
   }
 
-  useEffect(() => {
-    handleCancel()
-  }, [])
-
   return (
     <Fragment>
       <Button type="link" onClick={() => setVisible(true)}>FormProps</Button>
@@ -42,7 +38,7 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
         onOk={handleChangeFormProps}
         onCancel={handleCancel}
         >
-        <Form form={form} {...layout}>
+        <Form form={form} {...layout} initialValues={formProps.current}>
           <Form.Item label="name" name="name">
             <Input />
           </Form.Item>
