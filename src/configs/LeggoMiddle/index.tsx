@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Form, InputNumber } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Form, FormProps } from 'antd'
 import { TPostSchemaModel, TSchema } from '../../interface'
 import { DroppedItem } from './components/DroppedItem'
 import { CreateSchemaModel } from './components/CreateSchemaModel'
 import { leggoItemStore, LeggoSchema } from '../../service'
 import { InjectSchemaModel } from './components/InjectSchemaModel'
+import { FormPropsSettingModal } from './components/FormPropsSettingModal'
 
 
 export function LeggoMiddle(props: React.PropsWithoutRef<{
@@ -15,11 +16,21 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
   onPostSchemaModel: TPostSchemaModel,
 }>){
   const { activeSchema, schemaList, setSchemaList, forceRender, onPostSchemaModel }= props
-  const [form]= Form.useForm()
-  const [formProps, setFormProps]= useState({
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+  const [form] = Form.useForm()
+  const formProps = useRef<FormProps>({
+    name: undefined,
+    labelCol: { span: 6, offset: 0 },
+    wrapperCol: { span: 16, offset: 0 },
+    colon: true,
+    labelAlign: 'right',
+    layout: 'horizontal',
+    scrollToFirstError: false,
+    size: undefined,
+    validateTrigger: 'onChange',
+    preserve: true,
+    requiredMark: true,
   })
+  const [visible, setVisible] = useState(false)
   
   const handleDragOver= (e: React.DragEvent) => {
     e.preventDefault()
@@ -33,10 +44,6 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     const leggoItemInfo= leggoItemStore.total[schemaType]
     const newSchema= new LeggoSchema(schemaType, leggoItemInfo)
     setSchemaList([...schemaList, newSchema])
-  }
-
-  const changeFormProps= (propItem: any) => {
-    setFormProps(pre => ({ ...pre, ...propItem }))
   }
 
   const clearAllSchemas= () => {
@@ -53,20 +60,13 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
       <div className="top-area">
         <strong>表单模板</strong>
         <div className="top-actions">
-          <div>
-            <strong>labelCol：</strong>
-            <InputNumber min={0} max={24-formProps.wrapperCol.span} value={formProps.labelCol.span} onChange={value => changeFormProps({labelCol:{span:value}})} />
-          </div>
-          <div>
-            <strong>wrapperCol：</strong>
-            <InputNumber min={0} max={24-formProps.labelCol.span} value={formProps.wrapperCol.span} onChange={value => changeFormProps({wrapperCol:{span:value}})} />
-          </div>
+          <FormPropsSettingModal formProps={formProps} visible={visible} setVisible={setVisible} />
           <InjectSchemaModel setSchemaList={setSchemaList} />
-          <CreateSchemaModel formProps={formProps} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
+          <CreateSchemaModel formProps={formProps.current} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
           <Button onClick={clearAllSchemas}>clear</Button>
         </div>
       </div>
-      <Form form={form} {...formProps} className="leggo-configs-middle-form">
+      <Form form={form} {...formProps.current} className="leggo-configs-middle-form">
         <div className="drop-area" onDragOver={handleDragOver} onDrop={handleDrop}>
           {
             schemaList.map(schema => 

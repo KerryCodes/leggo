@@ -3,22 +3,24 @@ import { Button, Divider, Form, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
 
-function middleware(value: TConfigs) {
-  // value.CustomizedInputFC = (props: any) => <Space>123{props.children}</Space>
+
+function middleware(configs: TConfigs) {
+  configs.Successor = (props: any) => <div><span>123</span>{props.children}</div>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
   const { schemaModel }= props
   const { name, description }= schemaModel
-  const [form] =Form.useForm()
+  const [form]= Form.useForm()
   const leggo= LeggoForm.useLeggo(null, null, {
-    test: true
+    test: true,
+    func: () => false,
   })
   const [visibleJSON, setVisibleJSON]= useState(false)
 
   const changeOptions= () => {
     leggo.updateSchema('select', configs => {
-      configs.CustomizedInputFC= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
+      configs.Successor= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
       configs.inputProps.options= [
         {label: 'A', value: 1}, 
         {label: 'B', value: 2},

@@ -46,7 +46,7 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
         </Form>
       </Modal>
       <Modal title="schemaModel" width='50vw'
-        bodyStyle={{height: '70vh', overflow: 'auto'}} 
+        bodyStyle={{height: '60vh', overflow: 'auto'}} 
         visible={visibleJSON} 
         onOk={handleCopy} 
         okText="复制"

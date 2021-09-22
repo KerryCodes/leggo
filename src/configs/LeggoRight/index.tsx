@@ -2,6 +2,8 @@ import React, { useMemo } from 'react'
 import { TSchema } from '../../interface'
 import { ConfigProp } from './components/ConfigProp'
 import { Divider } from 'antd'
+import { ConfigInputProp } from './components/ConfigInputProps'
+import { ConfigStyle } from './components/ConfigStyle'
 
 
 export function LeggoRight(props: React.PropsWithoutRef<{
@@ -14,7 +16,14 @@ export function LeggoRight(props: React.PropsWithoutRef<{
   const { itemProps, inputProps, extra }= configs || {}
   const itemPropsEntries= useMemo(() => Object.entries(itemProps || {}), [activeSchema.current])
   const inputPropsEntries= useMemo(() => Object.entries(inputProps || {}), [activeSchema.current])
-  const extraEntries= useMemo(() => Object.entries(extra || {}), [activeSchema.current])
+  const extraEntries = useMemo(() => Object.entries(extra || {}), [activeSchema.current])
+  const schemaListOptions= [{label: '公共状态 - publicStates', value: 'publicStates'}].concat(schemaList.map(schema => {
+    const { label, name }= schema.configs.itemProps
+    return {
+      label: `${label} - ${name}`,
+      value: name as string,
+    }
+  }))
 
   return (
     <div className="leggo-configs-right">
@@ -32,7 +41,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
                 propName={propName}
                 propDefaultValue={value}
                 activeSchema={activeSchema}
-                schemaList={schemaList} 
+                schemaListOptions={schemaListOptions}
                 forceRender={forceRender}
               />
             )
@@ -41,14 +50,18 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         <div className="configs-area">
           <Divider>InputProps</Divider>
           {
+            activeSchema.current &&
+              <ConfigStyle key={id} activeSchema={activeSchema} forceRender={forceRender} />
+          }
+          {
             inputPropsEntries.map(([propName, value]) => 
-              <ConfigProp key={id + propName} 
+              <ConfigInputProp key={id + propName} 
                 propOwner={inputProps} 
                 namepath={['inputProps', propName]}
                 propName={propName}
                 propDefaultValue={value}
                 activeSchema={activeSchema}
-                schemaList={schemaList} 
+                schemaListOptions={schemaListOptions}
                 forceRender={forceRender}
               />
             )
@@ -64,7 +77,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
                 propName={propName}
                 propDefaultValue={value}
                 activeSchema={activeSchema}
-                schemaList={schemaList} 
+                schemaListOptions={schemaListOptions}
                 forceRender={forceRender}
               />
             )

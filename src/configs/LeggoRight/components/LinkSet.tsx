@@ -27,7 +27,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
     if(observedName){
       setDisabled(false)
       if(observedName === 'publicStates'){
-        newText += `publicStates[${publicStateKey}]`
+        newText += `publicStates[${publicStateKey}] 或 publicStates[${publicStateKey}]()`
         setIsFromPublicStates(true)
       }else{
         switch(targetType){
@@ -87,7 +87,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
                 <Select options={schemaListOptions} />
               </Form.Item>
               { 
-                isFromPublicStates && <Form.Item label="公共值key名" name="publicStateKey" required><Input /></Form.Item> 
+                isFromPublicStates && <Form.Item label="公共状态key名" name="publicStateKey" required><Input /></Form.Item> 
               }
               <Form.Item label="计算规则" name="rule">
                 <Select>

@@ -1,5 +1,5 @@
-import { Form, FormProps, message } from "antd"
 import React, { useEffect, useMemo, useRef, useState } from "react"
+import { Form, FormProps, message } from "antd"
 import { leggoItemStore } from "../service"
 import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
 import axios from 'axios'
@@ -22,13 +22,6 @@ export class Leggo{
     if(childrenType === 'string'){
       return childrenNode
     }
-  }
-  static createCustomizedInput(CustomizedInputFC: React.FC, StandardInput: any, configs: TConfigs) {
-    const { inputProps, extra }= configs
-    return (injectedProps: any) =>
-      <CustomizedInputFC>
-        <StandardInput {...inputProps} {...injectedProps}>{Leggo.createChildren(extra?.childrenNode)}</StandardInput>
-      </CustomizedInputFC>
   }
   private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
@@ -77,7 +70,7 @@ export class Leggo{
   }
   public lockAllDisabledToTrue(status: boolean = true){
     this.allDisabledIsLockedToTrue= status
-    status && this.schemaModel.schemaList.forEach(schema => schema.configs.inputProps.disabled= true)
+    this.schemaModel.schemaList.forEach(schema => schema.configs.inputProps.disabled= status)
     this.forceLeggoFormRender()
   }
 }
@@ -126,14 +119,16 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { leggo, schema, schemaList }= props
   const { type, configs, needDefineGetterProps }= schema
-  const { itemProps, inputProps, extra, postman, CustomizedInputFC } = configs
+  const { itemProps, inputProps, extra, postman, Successor } = configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
-  const StandardInput= leggoItemStore.total[type]?.StandardInput || (() => <div />)
-  const CustomizedInput= CustomizedInputFC && Leggo.createCustomizedInput(CustomizedInputFC, StandardInput, configs)
+  const StandardInput = leggoItemStore.total[type]?.StandardInput || (() => <div />)
+  const rules = Leggo.createRules(itemProps.rules, extra?.wordsLimit)
+  const children= Leggo.createChildren(extra?.childrenNode)
   const [ , setForceRender] = useState(0)
   
   useMemo(() => {
+    schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
     Object.values(needDefineGetterProps).forEach(getterInfo => {
       const { observedName, namepath, publicStateKey, reference, rule } = getterInfo
       const isFromPublicStates= observedName === 'publicStates'
@@ -147,8 +142,12 @@ function LeggoItem(props: React.PropsWithoutRef<{
         set: () => null,
         get: () => {
           if(targetKey === 'disabled' && leggo.allDisabledIsLockedToTrue){ return true }
-          // @ts-ignore
-          let targetValue= isFromPublicStates ? leggo.publicStates[publicStateKey] : linkedSchema.currentItemValue
+          let targetValue= linkedSchema?.currentItemValue
+          if (isFromPublicStates) {
+            // @ts-ignore
+            const publicState = leggo.publicStates[publicStateKey]
+            targetValue= (typeof publicState === 'function') ? publicState() : publicState
+          }
           if(reference && rule){
             targetValue= targetValue?.toString()
             switch(rule){
@@ -181,10 +180,6 @@ function LeggoItem(props: React.PropsWithoutRef<{
   }, [])
 
   useEffect(() => {
-    schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
-  }, [])
-
-  useEffect(() => {
     const { method, url, params, data }= postman || {}
     if(method && url){
       const paramsParsed = params?.reduce((pre, cur) => {
@@ -205,12 +200,20 @@ function LeggoItem(props: React.PropsWithoutRef<{
     }
   }, [...postmanParamsValueList, ...postmanDataValueList])
 
+
   return (
-    <Form.Item {...itemProps} rules={Leggo.createRules(itemProps.rules, extra?.wordsLimit)}>
-      {
-        CustomizedInput ? <CustomizedInput /> : <StandardInput {...inputProps}>{Leggo.createChildren(extra?.childrenNode)}</StandardInput>
-      }
-    </Form.Item>
+    Successor ?
+      <Form.Item label={itemProps.label} required={rules?.[0]?.required}>
+        <Successor>
+          <Form.Item {...itemProps} rules={rules} noStyle={true}>
+            <StandardInput {...inputProps}>{children}</StandardInput>
+          </Form.Item>
+        </Successor>
+      </Form.Item>
+      :
+      <Form.Item {...itemProps} rules={rules}>
+        <StandardInput {...inputProps}>{children}</StandardInput>
+      </Form.Item>
   )
 }
 
