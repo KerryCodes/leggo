@@ -56,8 +56,7 @@ export class Leggo{
     }
   }
   public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: TMiddleware){
-    const newSchemaModel= this.parseSchemaModel(newSchemaModel0)
-    this.schemaModel= newSchemaModel
+    this.schemaModel= this.parseSchemaModel(newSchemaModel0, middleware)
     this.forceLeggoFormRender()
   }
   public updateSchema(formItemName: string, changeSchemaFunc: (configs: TConfigs) => void){
@@ -83,11 +82,13 @@ export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProp
   const handleValuesChange= (changedValues: any, allValues: any) => {
     for(const [name, value] of Object.entries(changedValues)){
       const changedSchema= schemaList.find(schema => schema.getName() === name)
-      changedSchema.currentItemValue= value
-      changedSchema.linkingNames.forEach(linkingName => {
-        const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
-        targetSchema.forceLeggoFormItemRender()
-      })
+      if(changedSchema){ 
+        changedSchema.currentItemValue= value
+        changedSchema.linkingNames.forEach(linkingName => {
+          const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
+          targetSchema.forceLeggoFormItemRender()
+        })
+       }
     }
     onValuesChange?.(changedValues, allValues)
   }
@@ -119,7 +120,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
 }>){
   const { leggo, schema, schemaList }= props
   const { type, configs, needDefineGetterProps }= schema
-  const { itemProps, inputProps, extra, postman, Successor } = configs
+  const { itemProps, inputProps, extra, postman, Successor, SuperSuccessor } = configs
   const postmanParamsValueList = postman?.params?.map(item => item.value) || []
   const postmanDataValueList= postman?.data?.map(item => item.value) || []
   const StandardInput = leggoItemStore.total[type]?.StandardInput || (() => <div />)
@@ -200,20 +201,20 @@ function LeggoItem(props: React.PropsWithoutRef<{
     }
   }, [...postmanParamsValueList, ...postmanDataValueList])
 
-
   return (
-    Successor ?
-      <Form.Item label={itemProps.label} required={rules?.[0]?.required}>
-        <Successor>
-          <Form.Item {...itemProps} rules={rules} noStyle={true}>
-            <StandardInput {...inputProps}>{children}</StandardInput>
-          </Form.Item>
-        </Successor>
-      </Form.Item>
-      :
-      <Form.Item {...itemProps} rules={rules}>
-        <StandardInput {...inputProps}>{children}</StandardInput>
-      </Form.Item>
+    SuperSuccessor ? <SuperSuccessor /> :
+      Successor ?
+        <Form.Item label={itemProps.label} required={rules?.[0]?.required}>
+          <Successor>
+            <Form.Item {...itemProps} rules={rules} noStyle={true}>
+              <StandardInput {...inputProps}>{children}</StandardInput>
+            </Form.Item>
+          </Successor>
+        </Form.Item>
+        :
+        <Form.Item {...itemProps} rules={rules}>
+          <StandardInput {...inputProps}>{children}</StandardInput>
+        </Form.Item>
   )
 }
 

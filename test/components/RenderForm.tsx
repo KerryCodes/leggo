@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider, Form, Modal, Space } from 'antd';
+import { Button, Divider, Form, Input, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
 
 
 function middleware(configs: TConfigs) {
+  console.log(configs);
+  
   configs.Successor = (props: any) => <div><span>123</span>{props.children}</div>
+  configs.SuperSuccessor = (props: any) => <Form.Item label="test" name="yy"><Input /></Form.Item>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){

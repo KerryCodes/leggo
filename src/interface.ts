@@ -39,6 +39,7 @@ export interface TConfigs{
     data: TParam[],
   },
   Successor?: React.FC<React.PropsWithChildren<any>>,
+  SuperSuccessor?: React.FC<React.PropsWithoutRef<any>>,
 }
 
 export interface TExtra{
