@@ -196,7 +196,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
       axios({ method, url, params: paramsParsed, data: dataParsed })
       .then(res => {
         //@ts-ignore
-        const targetValue= responseNamepath.split('.').reduce((pre, cur) => pre?.[cur], res)
+        const targetValue= responseNamepath.split('.').slice(1).reduce((pre, cur) => pre?.[cur], res)
         configs.inputProps.options= targetValue
         setForceRender(pre => pre+1)
       })
