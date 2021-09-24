@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, FormProps } from 'antd'
-import { TPostSchemaModel, TSchema } from '../../interface'
+import { TOnGetSchemaModel, TSchema } from '../../interface'
 import { DroppedItem } from './components/DroppedItem'
 import { CreateSchemaModel } from './components/CreateSchemaModel'
 import { leggoItemStore, LeggoSchema } from '../../service'
@@ -13,9 +13,9 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
   schemaList: TSchema[],
   setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
   forceRender: () => void,
-  onPostSchemaModel: TPostSchemaModel,
+  onGetSchemaModel: TOnGetSchemaModel,
 }>){
-  const { activeSchema, schemaList, setSchemaList, forceRender, onPostSchemaModel }= props
+  const { activeSchema, schemaList, setSchemaList, forceRender, onGetSchemaModel }= props
   const [form] = Form.useForm()
   const formProps = useRef<FormProps>({
     name: undefined,
@@ -62,7 +62,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
         <div className="top-actions">
           <FormPropsSettingModal formProps={formProps} visible={visible} setVisible={setVisible} />
           <InjectSchemaModel setSchemaList={setSchemaList} />
-          <CreateSchemaModel formProps={formProps.current} schemaList={schemaList} onPostSchemaModel={onPostSchemaModel} />
+          <CreateSchemaModel formProps={formProps.current} schemaList={schemaList} onGetSchemaModel={onGetSchemaModel} />
           <Button onClick={clearAllSchemas}>clear</Button>
         </div>
       </div>

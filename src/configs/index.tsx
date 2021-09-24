@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { TItemStore, TPostSchemaModel, TSchema } from '../interface'
+import { TItemStore, TOnGetSchemaModel, TSchema } from '../interface'
 import { LeggoLeft } from './LeggoLeft';
 import { LeggoRight } from './LeggoRight'
 import { LeggoMiddle } from './LeggoMiddle'
 import { leggoItemStore } from '../service';
 
 
-export function LeggoConfigs(props: React.PropsWithChildren<{ onPostSchemaModel: TPostSchemaModel }>) {
+export function LeggoConfigs(props: React.PropsWithChildren<{ onGetSchemaModel: TOnGetSchemaModel }>) {
   const activeSchema= useRef<TSchema>(null)
   const [schemaList, setSchemaList]= useState<TSchema[]>([])
   const [ , setForceRender]= useState(0)
@@ -20,7 +20,7 @@ export function LeggoConfigs(props: React.PropsWithChildren<{ onPostSchemaModel:
         setSchemaList={setSchemaList} 
         activeSchema={activeSchema} 
         forceRender={forceRender} 
-        onPostSchemaModel={props.onPostSchemaModel} 
+        onGetSchemaModel={props.onGetSchemaModel} 
       />
       <LeggoRight 
         schemaList={schemaList} 

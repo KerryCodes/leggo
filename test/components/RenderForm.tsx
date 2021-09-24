@@ -5,8 +5,8 @@ import { TConfigs, TSchemaModel } from '../../src/interface';
 
 
 function middleware(configs: TConfigs) {
-  // configs.Successor = (props: any) => <div><span>123</span>{props.children}</div>
-  // configs.SuperSuccessor = (props: any) => <Form.Item label="test" name="yy"><Input /></Form.Item>
+  // configs.Successor = (props: any) => <div>{props.children}<Button>同步</Button></div>
+  // configs.SuperSuccessor = (props: React.PropsWithChildren<any>) => <Form.Item label="test" name="yy"><Input /></Form.Item>
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){

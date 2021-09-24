@@ -83,6 +83,6 @@ export interface TSchemaModel{
   schemaList: TSchema[],
 }
 
-export type TPostSchemaModel= (schemaModel: TSchemaModel) => void
+export type TOnGetSchemaModel= (schemaModel: TSchemaModel) => void
 
 export type TMiddleware= (value: TConfigs, index: number) => void

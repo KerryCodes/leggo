@@ -16,6 +16,7 @@ export class LeggoSchema implements TSchema{
     this.id= Date.now().toString()
     this.type= schemaType
     this.configs= cloneDeep(leggoItemInfo).configs
+    this.configs.itemProps.name= this.configs.itemProps.name + Math.random().toString(36).substring(2, 5)
     this.currentItemValue= null
     this.needDefineGetterProps= {}
   }

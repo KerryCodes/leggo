@@ -46,7 +46,7 @@ export default function App() {
       <div className="content-area">
         {
           menuKey[0] === 'configs' ? 
-            <LeggoConfigs onPostSchemaModel={postSchemaModelData} />
+            <LeggoConfigs onGetSchemaModel={postSchemaModelData} />
             :
             <RenderForm schemaModel={selectedModel} />
         }
@@ -140,3 +140,6 @@ function MultiCover(props: React.PropsWithoutRef<{disabled: boolean} & {
     </div>
   )
 }
+
+
+

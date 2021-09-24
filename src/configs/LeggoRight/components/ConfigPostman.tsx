@@ -41,12 +41,12 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
         <Select options={options} />
       </Form.Item>
       <Form.Item label="url" required>
-        <Form.Item name="url" noStyle>
-          <div style={{ display: 'flex'}}>
+        <div style={{ display: 'flex'}}>
+          <Form.Item name="url" noStyle>
             <Input />
-            <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
-          </div>
-        </Form.Item>
+          </Form.Item>
+          <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
+        </div>
       </Form.Item>
       <Form.Item label="目标值路径" name="responseNamepath" required>
         <Input />
