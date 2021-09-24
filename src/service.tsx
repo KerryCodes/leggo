@@ -454,6 +454,9 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       inputProps: {
         disabled: false,
       },
+      extra: {
+        mark: '',
+      }
     },
   },
   submit: {
