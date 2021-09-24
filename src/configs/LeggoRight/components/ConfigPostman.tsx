@@ -24,11 +24,12 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
   const { activeSchema, schemaListOptions } = props
 
   const onValuesChange= (_: any, allValues: any) => {
-    const { method, url, params, data }= allValues
+    const { method, url, params, data, responseNamepath }= allValues
     activeSchema.current.configs.postman= { 
       propName: 'options',
       method, 
       url, 
+      responseNamepath,
       params: params?.filter((item: TParam) => item) || [],
       data: data?.filter((item: TParam) => item) || [],
     }
@@ -40,10 +41,15 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
         <Select options={options} />
       </Form.Item>
       <Form.Item label="url" required>
-        <Form.Item name="url">
-          <Input />
+        <Form.Item name="url" noStyle>
+          <div style={{ display: 'flex'}}>
+            <Input />
+            <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
+          </div>
         </Form.Item>
-        <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
+      </Form.Item>
+      <Form.Item label="目标值路径" name="responseNamepath" required>
+        <Input />
       </Form.Item>
       <Form.Item label='params'>
         <Form.List name="params">

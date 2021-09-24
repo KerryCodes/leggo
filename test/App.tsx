@@ -2,10 +2,10 @@ import React, { useMemo, useRef, useState } from 'react';
 import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
-import { Form, Menu, Radio, RadioChangeEvent } from 'antd';
+import { Menu, Radio, RadioChangeEvent } from 'antd';
 import { PlusOutlined, SettingOutlined, ProfileOutlined } from '@ant-design/icons';
 import { LeggoConfigs } from '../src';
-import { TConfigs, TSchemaModel } from '../src/interface';
+import { TSchemaModel } from '../src/interface';
 import '../src/styles/configs.less'
 import { RenderForm } from './components/RenderForm';
 
@@ -62,6 +62,7 @@ const testStore= {
   store: {
     multiCover: {
       type: 'multiCover',
+      StandardInput: MultiCover,
       configs: {
         itemProps: {
           name: 'cover_type',
@@ -73,13 +74,10 @@ const testStore= {
           disabled: false,
         },
       },
-      StandardInput: ({ itemProps, inputProps }: React.PropsWithoutRef<TConfigs>) => 
-        <Form.Item {...itemProps}>
-          <MultiCover {...inputProps} />
-        </Form.Item>,
     },
     carInfos: {
       type: 'carInfos',
+      StandardInput: () => <div>定制化组件</div>,
       configs: {
         itemProps: {
           name: 'carInfos',
@@ -91,19 +89,15 @@ const testStore= {
           disabled: false,
         },
       },
-      StandardInput: ({ itemProps }: React.PropsWithoutRef<TConfigs>) => 
-        <Form.Item {...itemProps}>
-          <div>定制化组件</div>
-        </Form.Item>,
     },
   }
 }
 
 
-const MultiCover: React.FC<{disabled: boolean} & { 
+function MultiCover(props: React.PropsWithoutRef<{disabled: boolean} & { 
   value?: any, 
   onChange?: (value: any) => void 
-}>= props => {
+}>){
   const { disabled, value, onChange }= props
   const [dataList, setDataList]= useState(value?.slice(0, 1) || [''])
 

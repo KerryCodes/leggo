@@ -25,6 +25,7 @@ export function ConfigOptions(props: React.PropsWithChildren<{
         url: 'https://www.', 
         params: [],
         data: [],
+        responseNamepath: 'RESPONSE.',
       }
     }
     setDataType(newType)

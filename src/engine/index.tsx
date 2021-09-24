@@ -181,7 +181,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
   }, [])
 
   useEffect(() => {
-    const { method, url, params, data }= postman || {}
+    const { method, url, params, data, responseNamepath }= postman || {}
     if(method && url){
       const paramsParsed = params?.reduce((pre, cur) => {
         //@ts-ignore
@@ -195,7 +195,9 @@ function LeggoItem(props: React.PropsWithoutRef<{
       }, {})
       axios({ method, url, params: paramsParsed, data: dataParsed })
       .then(res => {
-        configs.inputProps.options= res.data.data
+        //@ts-ignore
+        const targetValue= responseNamepath.split('.').reduce((pre, cur) => pre?.[cur], res)
+        configs.inputProps.options= targetValue
         setForceRender(pre => pre+1)
       })
     }

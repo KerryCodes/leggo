@@ -37,6 +37,7 @@ export interface TConfigs{
     url: string,
     params: TParam[],
     data: TParam[],
+    responseNamepath: string,
   },
   Successor?: React.FC<React.PropsWithChildren<any>>,
   SuperSuccessor?: React.FC<React.PropsWithoutRef<any>>,
