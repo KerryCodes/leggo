@@ -234,10 +234,10 @@ function middleware(configs: TConfigs) {
 ## leggo表单设计器
 > 演示地址：https://kerrycodes.github.io/
 
-如果你需要在项目中直接部署这个表单设计器，则可以引入`LeggoConfigs`组件，`onGetSchemaModel`属性会在schemaModel生成后自动注入和执行。如下：
+如果你需要在项目中直接部署这个表单设计器，则可以直接引入`LeggoConfigs`组件，`onGetSchemaModel`属性会在`schemaModel`生成后自动注入和执行，样式需要手动引入。如下：
 
 ```typeScript
-<LeggoConfigs onGetSchemaModel={postSchemaModelData} />
+import 'leggo/lib/styles/configs.less'
 
 function postSchemaModelData= (schemaModel: TSchemaModel) => {
   console.log('发送schema～～～～～～', schemaModel)
