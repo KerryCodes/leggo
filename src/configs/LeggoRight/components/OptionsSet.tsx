@@ -29,7 +29,7 @@ export function OptionsSet(props: React.PropsWithChildren<{
         }))
         newOptionsParsed.length && handleChange(newOptionsParsed)
       }catch(e){
-        message.error('value值请输入JSON格式！')
+        message.error('value值请正确输入JSON格式！')
       }finally{
         timeId.current= null
       }

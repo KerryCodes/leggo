@@ -3,6 +3,7 @@ import { Input, InputNumber, Space, Switch } from 'antd'
 import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigWordsLimit } from './ConfigWordsLimit'
+import { ConfigName } from './ConfigName'
 
 
 export function ConfigProp(props: React.PropsWithoutRef<{
@@ -26,9 +27,9 @@ export function ConfigProp(props: React.PropsWithoutRef<{
 
   switch(propName){
     case 'wordsLimit':
-      return (
-        <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
-      )
+      return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
+    case 'name':
+      return <ConfigName activeSchema={activeSchema} />
   }
 
   switch(typeofPropDefaultValue.current){
@@ -68,9 +69,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Input prefix='"' suffix='"' value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
-          {
-            propName !== 'name' && <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
-          }
+          <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
         </Space>
       );
     case 'number':
