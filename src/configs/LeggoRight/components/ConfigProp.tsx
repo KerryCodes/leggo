@@ -29,7 +29,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
     case 'wordsLimit':
       return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
     case 'name':
-      return <ConfigName activeSchema={activeSchema} />
+      return <ConfigName activeSchema={activeSchema} forceRender={forceRender} />
   }
 
   switch(typeofPropDefaultValue.current){

@@ -5,8 +5,10 @@ import { TSchema } from '../../../interface';
 
 export function ConfigName(props: React.PropsWithChildren<{
   activeSchema: React.MutableRefObject<TSchema>,
+  forceRender: () => void,
 }>){
-  const itemProps= props.activeSchema.current.configs.itemProps
+  const { activeSchema, forceRender }= props
+  const itemProps= activeSchema.current.configs.itemProps
   const [value, setValue]= useState('')
   const timeId= useRef(null)
   
@@ -18,6 +20,7 @@ export function ConfigName(props: React.PropsWithChildren<{
       try{
         const newValueStringified= JSON.parse(newValue)
         itemProps.name= newValueStringified
+        forceRender()
       }catch(e){
         message.error('name值请输入正确JSON格式！')
       }finally{
