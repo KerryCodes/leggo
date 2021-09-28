@@ -69,7 +69,7 @@ export function ConfigWordsLimit(props: React.PropsWithChildren<{
         </Space>
         <Space>
           <strong>message：</strong>
-          <Input defaultValue={message} onChange={e => handleChangePropValue('message', e.target.value)} />
+          <Input prefix='"' suffix='"' defaultValue={message} onChange={e => handleChangePropValue('message', e.target.value)} />
         </Space>
       </div>
     </div>

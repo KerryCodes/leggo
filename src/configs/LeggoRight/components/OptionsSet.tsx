@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import { Button, Form, Input, Radio, Space, InputNumber, RadioChangeEvent } from 'antd'
+import React, { Fragment, useMemo, useRef } from 'react'
+import { Button, Form, Input, Space, message } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../interface'
 
@@ -9,51 +9,54 @@ export function OptionsSet(props: React.PropsWithChildren<{
   handleChange: (value: any) => void
 }>){
   const { activeSchema, handleChange }= props
-  const options= activeSchema.current.configs.inputProps.options
-  const [valueType, setValueType]= useState('number')
+  const timeId= useRef(null)
+  const optionsStringified= useMemo(() => {
+    const options= activeSchema.current.configs.inputProps.options
+    return options.map((item:any) => ({
+      label: item.label,
+      value: JSON.stringify(item.value),
+    }))
+  }, [])
 
   const onValuesChange= (_: any, allValues: any) => {
-    const newOptions= allValues.options.filter((item: TOption) => item?.label !== undefined && item?.value !== undefined)
-    newOptions.length && handleChange(newOptions)
-  }
-
-  const onChangeType= (e: RadioChangeEvent) => {
-    const type= e.target.value
-    options.forEach((option: TOption) => {
-      const optionValue= option.value
-      // @ts-ignore
-      option.value= type === 'string' ? String(optionValue) : (Number(optionValue) || optionValue.charCodeAt())
-    })
-    handleChange(options)
-    setValueType(type)
+    timeId.current && clearTimeout(timeId.current)
+    timeId.current= setTimeout(() => {
+      const newOptions= allValues.options.filter((item: TOption) => item?.label !== undefined && item?.value !== undefined)
+      try{
+        const newOptionsParsed= newOptions.map((item:any) => ({
+          label: item.label,
+          value: JSON.parse(item.value),
+        }))
+        newOptionsParsed.length && handleChange(newOptionsParsed)
+      }catch(e){
+        message.error('value值请输入JSON格式！')
+      }finally{
+        timeId.current= null
+      }
+    }, 1000)
   }
 
   return (
     <Fragment>
       <div>
-        <span>value类型：</span>
-        <Radio.Group size="small" defaultValue="number" buttonStyle="solid" onChange={onChangeType}>
-          <Radio value="string">string</Radio>
-          <Radio value="number">number</Radio>
-        </Radio.Group>
+        <strong>*注意value值需要输入JSON格式！</strong>
       </div>
       <Form onValuesChange={onValuesChange}>
-        <Form.List name="options" initialValue={options}>
+        <Form.List name="options" initialValue={optionsStringified}>
           {(fields, { add, remove }) => (
             <Fragment>
-              {fields.map(({ key, name, fieldKey, ...restField }) => (
-                <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, 'label']}
+              {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                <Space key={key+index} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, index, 'label']}
                     rules={[{ required: true, message: '请定义label' }]}
                     >
-                    <Input placeholder="label" />
+                    <Input placeholder="label" prefix='"' suffix='"' />
                   </Form.Item>
-                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
+                  <span>:</span>
+                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, index, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
-                    {
-                      valueType === 'string' ? <Input placeholder="value" /> : <InputNumber placeholder="value" bordered={false} />
-                    }
+                    <Input placeholder="value" />
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>

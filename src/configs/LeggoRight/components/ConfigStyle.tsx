@@ -23,7 +23,8 @@ export function ConfigStyle(props: React.PropsWithChildren<{
   const timeId= useRef(null)
   
   const onValuesChange = (_: any, allValues: any) => {
-    const updateStyle = () => {
+    timeId.current && clearTimeout(timeId.current)
+    timeId.current = setTimeout(() => {
       const newStyle = allValues.styleList?.reduce((pre: any, cur: any) => {
         const { CSSPropertyName, value } = cur || {}
         if (CSSPropertyName && value) {
@@ -34,13 +35,7 @@ export function ConfigStyle(props: React.PropsWithChildren<{
       inputProps.style = newStyle
       timeId.current = null
       forceRender()
-    }
-    if (timeId.current) {
-      clearTimeout(timeId.current)
-      timeId.current = setTimeout(updateStyle, 500)
-    } else {
-      setTimeout(updateStyle, 500)
-    }
+    }, 500)
   }
 
   return (
@@ -55,12 +50,13 @@ export function ConfigStyle(props: React.PropsWithChildren<{
                     <Form.Item {...restField} name={[name, 'CSSPropertyName']} fieldKey={[fieldKey, 'CSSPropertyName']}
                       rules={[{ required: true, message: '请定义CSSPropertyName' }]}
                       >
-                      <Input placeholder="CSSPropertyName" />
+                      <Input prefix='"' suffix='"' placeholder="CSSPropertyName" />
                     </Form.Item>
+                    <span>:</span>
                     <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                       rules={[{ required: true, message: '请定义value' }]}
                       >
-                      <Input placeholder="value" />
+                      <Input prefix='"' suffix='"' placeholder="value" />
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>

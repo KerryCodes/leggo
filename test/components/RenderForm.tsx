@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider, Form, Input, Modal, Space } from 'antd';
+import { Button, Divider, Form, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
 

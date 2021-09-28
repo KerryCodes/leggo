@@ -158,6 +158,8 @@ function LeggoItem(props: React.PropsWithoutRef<{
                 return targetValue <= reference
               case '===':
                 return targetValue === reference
+              case '!==':
+                return targetValue !== reference
               case '>=':
                 return targetValue >= reference
               case '>':

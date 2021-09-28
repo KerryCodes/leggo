@@ -43,13 +43,13 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
       <Form.Item label="url" required>
         <div style={{ display: 'flex'}}>
           <Form.Item name="url" noStyle>
-            <Input />
+            <Input prefix='"' suffix='"' />
           </Form.Item>
           <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'url']} schemaListOptions={schemaListOptions} />
         </div>
       </Form.Item>
       <Form.Item label="目标值路径" name="responseNamepath" required>
-        <Input />
+        <Input prefix='"' suffix='"' />
       </Form.Item>
       <Form.Item label='params'>
         <Form.List name="params">
@@ -60,13 +60,14 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
                   <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']}
                     rules={[{ required: true, message: '请定义key' }]}
                     >
-                    <Input placeholder="key" />
+                    <Input prefix='"' suffix='"' placeholder="key" />
                   </Form.Item>
+                  <span>:</span>
                   <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'params', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
-                    <Input placeholder="value" /> 
+                    <Input prefix='"' suffix='"' placeholder="value" /> 
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
@@ -87,13 +88,14 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
                   <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']}
                     rules={[{ required: true, message: '请定义key' }]}
                     >
-                    <Input placeholder="key" />
+                    <Input prefix='"' suffix='"' placeholder="key" />
                   </Form.Item>
+                  <span>:</span>
                   <LinkSet activeSchema={activeSchema} targetType='string' namepath={['postman', 'data', index, 'value']} schemaListOptions={schemaListOptions} />
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
-                    <Input placeholder="value" /> 
+                    <Input prefix='"' suffix='"' placeholder="value" /> 
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>

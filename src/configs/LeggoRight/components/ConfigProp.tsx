@@ -67,7 +67,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
       return (
         <Space>
           <strong>{propName}：</strong>
-          <Input value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
+          <Input prefix='"' suffix='"' value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
           {
             propName !== 'name' && <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
           }

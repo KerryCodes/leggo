@@ -40,7 +40,7 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
         >
         <Form form={form} {...layout} initialValues={formProps.current}>
           <Form.Item label="name" name="name">
-            <Input />
+            <Input prefix='"' suffix='"' />
           </Form.Item>
           <Form.Item label='labelCol' required>
             <Space>
@@ -89,7 +89,7 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
             </Select>
           </Form.Item>
           <Form.Item label="validateTrigger" name="validateTrigger" required>
-            <Input />
+            <Input prefix='"' suffix='"' />
           </Form.Item>
           <Form.Item label="preserve" name="preserve" required valuePropName='checked'>
             <Switch />

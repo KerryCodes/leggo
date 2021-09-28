@@ -94,12 +94,13 @@ export function LinkSet(props: React.PropsWithoutRef<{
                   <Select.Option value='<'>关联值 &lt; 参考值</Select.Option>
                   <Select.Option value='<='>关联值 &le; 参考值</Select.Option>
                   <Select.Option value='==='>关联值 === 参考值</Select.Option>
+                  <Select.Option value='!=='>关联值 !== 参考值</Select.Option>
                   <Select.Option value='>='>关联值 &ge; 参考值</Select.Option>
                   <Select.Option value='>'>关联值 &gt; 参考值</Select.Option>
                 </Select>
               </Form.Item>
               <Form.Item label="参考值" name="reference">
-                <Input placeholder="参考值" />
+                <Input prefix='"' suffix='"' placeholder="参考值" />
               </Form.Item>
               <Form.Item label="关联结果：">
                <div>{resultText}</div>

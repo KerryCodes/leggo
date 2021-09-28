@@ -54,7 +54,7 @@ export function ConfigInputProp(props: React.PropsWithoutRef<{
             options ?
               <Select allowClear style={{minWidth: 150}} defaultValue={propCurrentValue} options={optionsForSelect} onChange={handleChangePropValue} />
               :
-              <Input value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
+              <Input prefix='"' suffix='"' value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
           }
         </Space>
       );
