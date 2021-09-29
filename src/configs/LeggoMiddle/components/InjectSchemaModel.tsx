@@ -5,14 +5,15 @@ import { TSchema } from "../../../interface";
 
 export function InjectSchemaModel(props: React.PropsWithoutRef<{
   setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
+  schemaModelJSONCache: React.MutableRefObject<any>,
 }>){
-  const { setSchemaList }= props
+  const { setSchemaList, schemaModelJSONCache }= props
   const [visible, setVisible]= useState(false)
   const [value, setValue]= useState('')
 
   const handleInjectSchemaModel= () => {
-    const { schemaList }= JSON.parse(value)
-    setSchemaList(schemaList)
+    schemaModelJSONCache.current= JSON.parse(value)
+    setSchemaList(schemaModelJSONCache.current.schemaList)
     setVisible(false)
   }
 

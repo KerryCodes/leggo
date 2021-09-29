@@ -17,6 +17,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
 }>){
   const { activeSchema, schemaList, setSchemaList, forceRender, onGetSchemaModel }= props
   const [form] = Form.useForm()
+  const schemaModelJSONCache= useRef({})
   const formProps = useRef<FormProps>({
     name: undefined,
     labelCol: { span: 6, offset: 0 },
@@ -61,8 +62,8 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
         <strong>表单模板</strong>
         <div className="top-actions">
           <FormPropsSettingModal formProps={formProps} visible={visible} setVisible={setVisible} />
-          <InjectSchemaModel setSchemaList={setSchemaList} />
-          <CreateSchemaModel formProps={formProps.current} schemaList={schemaList} onGetSchemaModel={onGetSchemaModel} />
+          <InjectSchemaModel setSchemaList={setSchemaList} schemaModelJSONCache={schemaModelJSONCache} />
+          <CreateSchemaModel formProps={formProps.current} schemaList={schemaList} schemaModelJSONCache={schemaModelJSONCache} onGetSchemaModel={onGetSchemaModel} />
           <Button onClick={clearAllSchemas}>clear</Button>
         </div>
       </div>

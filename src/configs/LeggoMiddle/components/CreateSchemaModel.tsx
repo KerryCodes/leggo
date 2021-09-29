@@ -11,18 +11,26 @@ const layout= {
 export function CreateSchemaModel(props: React.PropsWithoutRef<{
   formProps: FormProps, 
   schemaList: TSchema[],
+  schemaModelJSONCache: React.MutableRefObject<any>,
   onGetSchemaModel: TOnGetSchemaModel,
 }>){
-  const { formProps, schemaList, onGetSchemaModel }= props
+  const { formProps, schemaList, schemaModelJSONCache, onGetSchemaModel }= props
   const [form]= Form.useForm()
   const schemaModelJSON= useRef('')
   const [visible, setVisible]= useState(false)
   const [visibleJSON, setVisibleJSON]= useState(false)
 
+  const handleClick= () => {
+    const { name, description}= schemaModelJSONCache.current
+    form.setFieldsValue({name, description})
+    setVisible(true)
+  }
+
   const handleSend= (values: {name:string, description:string}) => {
     const schemaModel= { ...values, formProps, schemaList }
     onGetSchemaModel(schemaModel)
     schemaModelJSON.current= JSON.stringify(schemaModel, null, 4)
+    schemaModelJSONCache.current= schemaModelJSON.current
     setVisible(false)
     setVisibleJSON(true)
   }
@@ -34,7 +42,7 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
   
   return (
     <Fragment>
-      <Button type="primary" disabled={!schemaList.length} onClick={() => setVisible(true)}>生成模板</Button>
+      <Button type="primary" disabled={!schemaList.length} onClick={handleClick}>生成模板</Button>
       <Modal title="生成并发送模板" visible={visible} onOk={() => form.submit()} onCancel={() => setVisible(false)} getContainer={false}>
         <Form form={form} {...layout} onFinish={handleSend}>
           <Form.Item label="模板名称" name="name" rules={[{ required: true, message: '请填写模板名称！' }]}>
