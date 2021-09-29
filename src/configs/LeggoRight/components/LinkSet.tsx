@@ -19,31 +19,31 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const [isLinked, setIsLinked]= useState(false)
   const [resultText, setResultText]= useState('value = ')
   const [disabled, setDisabled]= useState(true)
-  const [isFromPublicStates, setIsFromPublicStates]= useState(getterInfo?.observedName === 'publicStates')
+  const [isFromPublicStates, setIsFromPublicStates]= useState(getterInfo?.observedStringedName === 'publicStates')
 
   const setText= (getterInfo: any) => {
-    const { observedName, publicStateKey, rule, reference }= getterInfo || {}
+    const { observedStringedName, publicStateKey, rule, reference }= getterInfo || {}
     let newText= 'value = '
-    if(observedName){
+    if(observedStringedName){
       setDisabled(false)
-      if(observedName === 'publicStates'){
+      if(observedStringedName === 'publicStates'){
         newText += `publicStates[${publicStateKey}] 或 publicStates[${publicStateKey}]()`
         setIsFromPublicStates(true)
       }else{
         switch(targetType){
           case 'boolean':
-            newText += `Boolean(${observedName}.value)`
+            newText += `Boolean(${observedStringedName}.value)`
             break;
           case 'number':
-            newText += `Number(${observedName}.value)`
+            newText += `Number(${observedStringedName}.value)`
             break;
           default:
-            newText += `${observedName}.value?.toString()`
+            newText += `${observedStringedName}.value?.toString()`
         }
         setIsFromPublicStates(false)
       }
       if(rule && reference){
-        newText= `value = ${observedName}.value?.toString() ${rule} "${reference}"`
+        newText= `value = ${observedStringedName}.value?.toString() ${rule} "${reference}"`
       }
     }else{
       setDisabled(true)
@@ -54,8 +54,8 @@ export function LinkSet(props: React.PropsWithoutRef<{
   const onFinish= () => {
     form.validateFields()
     .then(values => {
-      const { observedName, publicStateKey, rule, reference }= values
-      const getterInfo= { observedName, publicStateKey, namepath, reference, rule }
+      const { observedStringedName, publicStateKey, rule, reference }= values
+      const getterInfo= { observedStringedName, publicStateKey, namepath, reference, rule }
       needDefineGetterProps[key]= getterInfo
       setVisible(false)
     })
@@ -83,7 +83,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
         content={
           <div>
             <Form form={form} onValuesChange={(_, allValues) => setText(allValues)}>
-              <Form.Item label="关联对象" name="observedName" required>
+              <Form.Item label="关联对象" name="observedStringedName" required>
                 <Select options={schemaListOptions} />
               </Form.Item>
               { 

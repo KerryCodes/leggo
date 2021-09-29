@@ -20,7 +20,7 @@ export class LeggoSchema implements TSchema{
     this.currentItemValue= null
     this.needDefineGetterProps= {}
   }
-  public getName= () => this.configs.itemProps.name as string
+  public getStringedName= () => String(this.configs.itemProps.name)
 }
 
 

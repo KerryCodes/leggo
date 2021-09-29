@@ -44,8 +44,8 @@ export class Leggo{
   private parseSchemaModel(schemaModel0: TSchemaModel, middleware?: TMiddleware): TSchemaModel{
     try{
       schemaModel0?.schemaList.forEach((schema, index) => {
-        schema.linkingNames= new Set()
-        schema.getName= () => schema.configs.itemProps.name as string
+        schema.linkingStringedNames= new Set()
+        schema.getStringedName= () => String(schema.configs.itemProps.name)
         middleware && middleware(schema.configs, index)
       })
     }catch(e){
@@ -60,7 +60,7 @@ export class Leggo{
     this.forceLeggoFormRender()
   }
   public updateSchema(formItemName: string, changeSchemaFunc: (configs: TConfigs) => void){
-    const targetSchema= this.schemaModel?.schemaList.find(schema => schema.getName() === formItemName)
+    const targetSchema= this.schemaModel?.schemaList.find(schema => schema.getStringedName() === String(formItemName))
     if (targetSchema) {
       const { configs }= targetSchema
       changeSchemaFunc(configs)
@@ -76,25 +76,25 @@ export class Leggo{
 
 
 export function LeggoForm(props: React.PropsWithoutRef<{leggo: Leggo} & FormProps>){
-  const { leggo, onValuesChange, ...overlapFormProps }= props
+  const { leggo, onFieldsChange, ...overlapFormProps }= props
   const { formProps, schemaList }= leggoStores.get(leggo.ref)?.schemaModel || {}
 
-  const handleValuesChange= (changedValues: any, allValues: any) => {
-    for(const [name, value] of Object.entries(changedValues)){
-      const changedSchema= schemaList.find(schema => schema.getName() === name)
+  const handleFieldsChange= (changedFields: any[], allFields: any[]) => {
+    changedFields.forEach(({name, value}) => {
+      const changedSchema= schemaList.find(schema => schema.getStringedName() === String(name))
       if(changedSchema){ 
         changedSchema.currentItemValue= value
-        changedSchema.linkingNames.forEach(linkingName => {
-          const targetSchema= schemaList.find(schema => schema.getName() === linkingName)
+        changedSchema.linkingStringedNames.forEach(linkingName => {
+          const targetSchema= schemaList.find(schema => schema.getStringedName() === linkingName)
           targetSchema.forceLeggoFormItemRender()
         })
        }
-    }
-    onValuesChange?.(changedValues, allValues)
+    })
+    onFieldsChange?.(changedFields, allFields)
   }
 
   return (
-    <Form {...formProps} {...overlapFormProps} onValuesChange={handleValuesChange}>
+    <Form {...formProps} {...overlapFormProps} onFieldsChange={handleFieldsChange}>
       {
         schemaList?.map(schema => <LeggoItem key={schema.id} leggo={leggo} schema={schema} schemaList={schemaList} />)
       }
@@ -131,14 +131,14 @@ function LeggoItem(props: React.PropsWithoutRef<{
   useMemo(() => {
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
     Object.values(needDefineGetterProps).forEach(getterInfo => {
-      const { observedName, namepath, publicStateKey, reference, rule } = getterInfo
-      const isFromPublicStates= observedName === 'publicStates'
-      const linkedSchema= schemaList.find(schema => schema.getName() === observedName)
+      const { observedStringedName, namepath, publicStateKey, reference, rule } = getterInfo
+      const isFromPublicStates= observedStringedName === 'publicStates'
+      const linkedSchema= schemaList.find(schema => schema.getStringedName() === observedStringedName)
       //@ts-ignore
       const targetProp= namepath.slice(0, -1).reduce((pre, cur) => pre[cur], configs)
       const targetKey= namepath.slice(-1)[0]
       const targetType= typeof targetProp[targetKey]
-      !isFromPublicStates && linkedSchema.linkingNames.add(schema.getName())
+      !isFromPublicStates && linkedSchema.linkingStringedNames.add(schema.getStringedName())
       Reflect.defineProperty(targetProp, targetKey, {
         set: () => null,
         get: () => {

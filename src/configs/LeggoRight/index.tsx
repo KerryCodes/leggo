@@ -20,8 +20,8 @@ export function LeggoRight(props: React.PropsWithoutRef<{
   const schemaListOptions= [{label: '公共状态 - publicStates', value: 'publicStates'}].concat(schemaList.map(schema => {
     const { label, name }= schema.configs.itemProps
     return {
-      label: `${label} - ${name}`,
-      value: name as string,
+      label: `${label} - ${String(name)}`,
+      value: String(name),
     }
   }))
 

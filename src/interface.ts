@@ -22,8 +22,8 @@ export interface TSchema{
   configs: TConfigs,
   currentItemValue: any,
   needDefineGetterProps: { [namepath: string]: TLinkedInfo },
-  linkingNames?: Set<string>,
-  getName: () => string,
+  linkingStringedNames?: Set<string>,
+  getStringedName: () => string,
   forceLeggoFormItemRender?: () => void,
 }
 
@@ -59,7 +59,7 @@ export interface TExtra{
 }
 
 export interface TLinkedInfo{
-  observedName: string,
+  observedStringedName: string,
   publicStateKey?: string,
   namepath: (string | number)[],
   reference: string | number,
