@@ -147,7 +147,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
           if (isFromPublicStates) {
             // @ts-ignore
             const publicState = leggo.publicStates[publicStateKey]
-            targetValue= (typeof publicState === 'function') ? publicState() : publicState
+            return (typeof publicState === 'function') ? publicState() : publicState
           }
           if(reference && rule){
             targetValue= targetValue?.toString()
