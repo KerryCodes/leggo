@@ -26,10 +26,10 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   }
 
   switch(propName){
-    case 'wordsLimit':
-      return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
     case 'name':
       return <ConfigName activeSchema={activeSchema} forceRender={forceRender} />
+    case 'wordsLimit':
+      return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
   }
 
   switch(typeofPropDefaultValue.current){

@@ -46,7 +46,7 @@ export function OptionsSet(props: React.PropsWithChildren<{
           {(fields, { add, remove }) => (
             <Fragment>
               {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                <Space key={key+index} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Space key={key+index} style={{ display: 'flex' }} align="start">
                   <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, index, 'label']}
                     rules={[{ required: true, message: '请定义label' }]}
                     >
@@ -56,7 +56,7 @@ export function OptionsSet(props: React.PropsWithChildren<{
                   <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, index, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
-                    <Input placeholder="value" />
+                    <Input placeholder="value" addonAfter="JSON" />
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>

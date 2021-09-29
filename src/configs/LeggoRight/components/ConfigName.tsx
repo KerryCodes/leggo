@@ -37,8 +37,7 @@ export function ConfigName(props: React.PropsWithChildren<{
   return (
     <Space>
       <strong>name：</strong>
-      <Input value={value} onChange={changeName} />
-      <strong>请输入JSON格式！</strong>
+      <Input value={value} onChange={changeName} placeholder="请输入JSON格式！" addonAfter="JSON" />
     </Space>
   )
 }

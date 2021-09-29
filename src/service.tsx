@@ -316,6 +316,25 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
       inputProps: {
         disabled: false,
         options: [{ label: 'A', value: 1 }, { label: 'B', value: 2 }],
+      },
+    },
+  },
+  checkbox: {
+    type: 'checkbox',
+    StandardInput: Checkbox,
+    configs: {
+      itemProps: {
+        name: 'checkbox',
+        label: '勾选开关',
+        valuePropName: 'checked',
+        rules: [{ required: true, message: '请选择！' }],
+        noStyle: false,
+        trigger: 'onChange',
+        hidden: false,
+      },
+      inputProps: {
+        disabled: false,
+        indeterminate: false,
         autoFocus: false,
       },
     },
