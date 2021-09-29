@@ -153,30 +153,36 @@ function LeggoItem(props: React.PropsWithoutRef<{
             targetValue= targetValue?.toString()
             switch(rule){
               case '<':
-                return targetValue < reference
+                targetValue= targetValue < reference
+                break;
               case '<=':
-                return targetValue <= reference
+                targetValue= targetValue <= reference
+                break;
               case '===':
-                return targetValue === reference
+                targetValue= targetValue === reference
+                break;
               case '!==':
-                return targetValue !== reference
+                targetValue= targetValue !== reference
+                break;
               case '>=':
-                return targetValue >= reference
+                targetValue= targetValue >= reference
+                break;
               case '>':
-                return targetValue > reference
+                targetValue= targetValue > reference
             }
           }else{
             switch(targetType){
               case 'boolean':
-                return Boolean(targetValue)
+                targetValue= Boolean(targetValue)
+                break;
               case 'number':
-                return Number(targetValue)
+                targetValue= Number(targetValue)
+                break;
               case 'string':
-                return targetValue?.toString()
-              default:
-                return targetValue
+                targetValue= targetValue?.toString()
             }
           }
+          return rule === '!' ? !targetValue : targetValue
         }
       }) 
     })

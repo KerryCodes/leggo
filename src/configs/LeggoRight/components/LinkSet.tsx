@@ -23,30 +23,33 @@ export function LinkSet(props: React.PropsWithoutRef<{
 
   const setText= (getterInfo: any) => {
     const { observedStringedName, publicStateKey, rule, reference }= getterInfo || {}
-    let newText= 'value = '
+    let newText= ''
     if(observedStringedName){
       setDisabled(false)
       if(observedStringedName === 'publicStates'){
-        newText += `publicStates[${publicStateKey}] 或 publicStates[${publicStateKey}]()`
+        newText= `publicStates[${publicStateKey}] 或 publicStates[${publicStateKey}]()`
         setIsFromPublicStates(true)
       }else{
         switch(targetType){
           case 'boolean':
-            newText += `Boolean(${observedStringedName}.value)`
+            newText= `Boolean(${observedStringedName}.value)`
             break;
           case 'number':
-            newText += `Number(${observedStringedName}.value)`
+            newText= `Number(${observedStringedName}.value)`
             break;
           default:
-            newText += `${observedStringedName}.value?.toString()`
+            newText= `${observedStringedName}.value?.toString()`
         }
         setIsFromPublicStates(false)
       }
       if(rule && reference){
-        newText= `value = ${observedStringedName}.value?.toString() ${rule} "${reference}"`
+        newText= `${observedStringedName}.value?.toString() ${rule} "${reference}"`
       }
     }else{
       setDisabled(true)
+    }
+    if(rule === '!'){
+      newText= `!(${newText})`
     }
     setResultText(newText)
   }
@@ -91,6 +94,7 @@ export function LinkSet(props: React.PropsWithoutRef<{
               }
               <Form.Item label="计算规则" name="rule">
                 <Select>
+                  <Select.Option value='!'>!关联值取反</Select.Option>
                   <Select.Option value='<'>关联值 &lt; 参考值</Select.Option>
                   <Select.Option value='<='>关联值 &le; 参考值</Select.Option>
                   <Select.Option value='==='>关联值 === 参考值</Select.Option>

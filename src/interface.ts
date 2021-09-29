@@ -63,7 +63,7 @@ export interface TLinkedInfo{
   publicStateKey?: string,
   namepath: (string | number)[],
   reference: string | number,
-  rule: '<' | '<=' | '===' | '!==' | '>=' | '>',
+  rule: '!' | '<' | '<=' | '===' | '!==' | '>=' | '>',
 }
 
 export interface TParam{
