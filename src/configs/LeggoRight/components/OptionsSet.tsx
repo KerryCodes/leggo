@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useRef } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import { Button, Form, Input, Space, message } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { TOption, TSchema } from '../../../interface'
@@ -9,7 +9,7 @@ export function OptionsSet(props: React.PropsWithChildren<{
   handleChange: (value: any) => void
 }>){
   const { activeSchema, handleChange }= props
-  const timeId= useRef(null)
+  const [form]= Form.useForm()
   const optionsStringified= useMemo(() => {
     const options= activeSchema.current.configs.inputProps.options
     return options.map((item:any) => ({
@@ -18,22 +18,18 @@ export function OptionsSet(props: React.PropsWithChildren<{
     }))
   }, [])
 
-  const onValuesChange= (_: any, allValues: any) => {
-    timeId.current && clearTimeout(timeId.current)
-    timeId.current= setTimeout(() => {
-      const newOptions= allValues.options.filter((item: TOption) => item?.label !== undefined && item?.value !== undefined)
-      try{
-        const newOptionsParsed= newOptions.map((item:any) => ({
-          label: item.label,
-          value: JSON.parse(item.value),
-        }))
-        newOptionsParsed.length && handleChange(newOptionsParsed)
-      }catch(e){
-        message.error('value值请正确输入JSON格式！')
-      }finally{
-        timeId.current= null
-      }
-    }, 1000)
+  const handleBlur= () => {
+    const allValues= form.getFieldsValue(true)
+    const newOptions= allValues.options.filter((item: TOption) => item?.label !== undefined && item?.value !== undefined)
+    try{
+      const newOptionsParsed= newOptions.map((item:any) => ({
+        label: item.label,
+        value: JSON.parse(item.value),
+      }))
+      newOptionsParsed.length && handleChange(newOptionsParsed)
+    }catch(e){
+      message.error('value值请正确输入JSON格式！')
+    }
   }
 
   return (
@@ -41,24 +37,29 @@ export function OptionsSet(props: React.PropsWithChildren<{
       <div>
         <strong>*注意value值需要输入JSON格式！</strong>
       </div>
-      <Form onValuesChange={onValuesChange}>
+      <Form form={form}>
         <Form.List name="options" initialValue={optionsStringified}>
           {(fields, { add, remove }) => (
             <Fragment>
-              {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                <Space key={key+index} style={{ display: 'flex' }} align="start">
-                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, index, 'label']}
+              {fields.map(({ key, name, fieldKey, ...restField }) => (
+                <Space key={key} style={{ display: 'flex' }} align="start">
+                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, 'label']}
                     rules={[{ required: true, message: '请定义label' }]}
                     >
                     <Input placeholder="label" prefix='"' suffix='"' />
                   </Form.Item>
                   <span>:</span>
-                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, index, 'value']}
+                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
                     rules={[{ required: true, message: '请定义value' }]}
                     >
-                    <Input placeholder="value" addonAfter="JSON" />
+                    <Input onBlur={handleBlur} placeholder="value" addonAfter="JSON" />
                   </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)} />
+                  <MinusCircleOutlined
+                    onClick={() => {
+                      remove(name)
+                      handleBlur()
+                    }} 
+                  />
                 </Space>
               ))}
               <Form.Item>
