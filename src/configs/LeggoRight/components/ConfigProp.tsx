@@ -3,7 +3,7 @@ import { Input, InputNumber, Space, Switch } from 'antd'
 import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigWordsLimit } from './ConfigWordsLimit'
-import { ConfigName } from './ConfigName'
+import { JsonInput } from './JsonInput'
 
 
 export function ConfigProp(props: React.PropsWithoutRef<{
@@ -27,7 +27,9 @@ export function ConfigProp(props: React.PropsWithoutRef<{
 
   switch(propName){
     case 'name':
-      return <ConfigName activeSchema={activeSchema} forceRender={forceRender} />
+      return <JsonInput propOwner={propOwner} propName='name' forceRender={forceRender} />
+    case 'initialValue':
+      return <JsonInput propOwner={propOwner} propName='initialValue' forceRender={forceRender} />
     case 'wordsLimit':
       return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
   }

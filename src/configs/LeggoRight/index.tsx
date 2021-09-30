@@ -50,8 +50,7 @@ export function LeggoRight(props: React.PropsWithoutRef<{
         <div className="configs-area">
           <Divider>InputProps</Divider>
           {
-            activeSchema.current &&
-              <ConfigStyle key={id} activeSchema={activeSchema} forceRender={forceRender} />
+            activeSchema.current && <ConfigStyle key={id} activeSchema={activeSchema} forceRender={forceRender} />
           }
           {
             inputPropsEntries.map(([propName, value]) => 
