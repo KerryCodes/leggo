@@ -44,10 +44,6 @@ export function ConfigWordsLimit(props: React.PropsWithChildren<{
     forceRender()
   }
 
-  useEffect(() => {
-    extra.wordsLimit= wordsLimitRef.current
-  }, [])
-
   return (
     <div>
       <strong>wordsLimit：</strong>
