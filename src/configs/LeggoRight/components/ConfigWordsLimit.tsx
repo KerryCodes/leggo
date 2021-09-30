@@ -1,5 +1,6 @@
-import React, { useReducer } from 'react'
-import { Button, Divider, Input, InputNumber, Popover, Radio, Space } from 'antd';
+import React, { useEffect, useReducer, useRef, useState } from 'react'
+import { Button, Divider, Input, InputNumber, Popover, Radio, Space, Switch } from 'antd';
+import { TExtra, TWordsLimit } from '../../../interface';
 
 const reducer= (state: any, action: any) => ({
   ...state,
@@ -8,27 +9,49 @@ const reducer= (state: any, action: any) => ({
 
 
 export function ConfigWordsLimit(props: React.PropsWithChildren<{
-  wordsLimit: any,
+  extra: Partial<TExtra>,
   forceRender: () => void,
 }>){
-  const { wordsLimit, forceRender }= props
-  const { max, min, message, rules }= wordsLimit
-  const [CurrentRules, dispatch]= useReducer(reducer, rules)
+  const { extra, forceRender }= props
+  const [open, setOpen]= useState(false)
+  const wordsLimitRef= useRef<TWordsLimit>({
+    max: 10,
+    min: 1,
+    message: '输入字符数需要在1～10之间！',
+    rules: {
+      zh: 1, 
+      others: 1, 
+      blank: true,
+    }
+  })
+  const [CurrentRules, dispatch]= useReducer(reducer, wordsLimitRef.current.rules)
 
-  const handleChangeRules= (type: 'zh' | 'others' | 'blank', payload: any) => {
-    rules[type]= payload
+  const handleOpen= (checked: boolean) => {
+    extra.wordsLimit= checked ? wordsLimitRef.current : null
+    setOpen(checked)
+  }
+
+  const handleChangeRules= (type: keyof TWordsLimit['rules'], payload: any) => {
+    //@ts-ignore
+    wordsLimitRef.current[type]= payload
     dispatch({type, payload})
     forceRender()
   }
 
-  const handleChangePropValue= (propName: string, newValue: any) => {
-    wordsLimit[propName]= newValue
+  const handleChangePropValue= (propName: keyof TWordsLimit, newValue: any) => {
+    //@ts-ignore
+    wordsLimitRef.current[propName]= newValue
     forceRender()
   }
+
+  useEffect(() => {
+    extra.wordsLimit= wordsLimitRef.current
+  }, [])
 
   return (
     <div>
       <strong>wordsLimit：</strong>
+      <Switch checked={open} checkedChildren="开启" unCheckedChildren="关闭" onChange={handleOpen} />
       <Popover trigger="click" content={
         <div className="words-count-configs-content">
           <div>
@@ -58,20 +81,23 @@ export function ConfigWordsLimit(props: React.PropsWithChildren<{
         }>
         <Button type="link" size="small">字符数统计规则</Button>
       </Popover>
-      <div className="configs-area">
-        <Space>
-          <strong>max：</strong>
-          <InputNumber min={1} defaultValue={max} onChange={value => handleChangePropValue('max', value)} bordered={false} />
-        </Space>
-        <Space>
-          <strong>min：</strong>
-          <InputNumber min={0} defaultValue={min} onChange={value => handleChangePropValue('min', value)} bordered={false} />
-        </Space>
-        <Space>
-          <strong>message：</strong>
-          <Input prefix='"' suffix='"' defaultValue={message} onChange={e => handleChangePropValue('message', e.target.value)} />
-        </Space>
-      </div>
+      {
+        open && 
+          <div className="configs-area">
+            <Space>
+              <strong>max：</strong>
+              <InputNumber min={1} defaultValue={wordsLimitRef.current.max} onChange={value => handleChangePropValue('max', value)} bordered={false} />
+            </Space>
+            <Space>
+              <strong>min：</strong>
+              <InputNumber min={0} defaultValue={wordsLimitRef.current.min} onChange={value => handleChangePropValue('min', value)} bordered={false} />
+            </Space>
+            <Space>
+              <strong>message：</strong>
+              <Input prefix='"' suffix='"' defaultValue={wordsLimitRef.current.message} onChange={e => handleChangePropValue('message', e.target.value)} />
+            </Space>
+          </div>
+      }
     </div>
   )
 }

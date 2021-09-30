@@ -31,7 +31,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
     case 'initialValue':
       return <JsonInput propOwner={propOwner} propName='initialValue' forceRender={forceRender} />
     case 'wordsLimit':
-      return <ConfigWordsLimit wordsLimit ={propDefaultValue} forceRender={forceRender} />
+      return <ConfigWordsLimit extra ={propOwner} forceRender={forceRender} />
   }
 
   switch(typeofPropDefaultValue.current){

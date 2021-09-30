@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { Form, FormProps, message } from "antd"
 import { leggoItemStore } from "../service"
-import { TSchemaModel, TSchema, TConfigs, TMiddleware } from "../interface"
+import { TSchemaModel, TSchema, TConfigs, TMiddleware, TWordsLimit } from "../interface"
 import axios from 'axios'
 import { wordsLimitValidator } from "../utils"
 
@@ -9,7 +9,7 @@ import { wordsLimitValidator } from "../utils"
 const leggoStores= new WeakMap<React.MutableRefObject<any>, Leggo>()
 
 export class Leggo{
-  static createRules(rules: any, wordsLimit: any){
+  static createRules(rules: any, wordsLimit: TWordsLimit){
     return wordsLimit ? [...rules, { validator: wordsLimitValidator.bind(null, wordsLimit) }] : rules
   }
   static createChildren(childrenNode: string | React.FC){

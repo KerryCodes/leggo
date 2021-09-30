@@ -46,16 +46,18 @@ export interface TConfigs{
 export interface TExtra{
   childrenNode: any,
   mark: string,
-  wordsLimit: {
-    max: number,
-    min: number,
-    message: string,
-    rules: {
-      zh: number, 
-      others: number, 
-      blank: boolean,
-    }
-  },
+  wordsLimit: TWordsLimit,
+}
+
+export interface TWordsLimit {
+  max: number,
+  min: number,
+  message: string,
+  rules: {
+    zh: number, 
+    others: number, 
+    blank: boolean,
+  }
 }
 
 export interface TLinkedInfo{

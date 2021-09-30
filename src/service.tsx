@@ -58,16 +58,7 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         id: '',
       },
       extra: {
-        wordsLimit: {
-          max: 10,
-          min: 0,
-          message: '输入字符数需要在0～10之间！',
-          rules: {
-            zh: 1, 
-            others: 1, 
-            blank: true,
-          }
-        }
+        wordsLimit: null,
       }
     },
   },
@@ -95,16 +86,7 @@ const antdItemStore:{[key: string]: TLeggoItemInfo}= {
         bordered: true,
       },
       extra: {
-        wordsLimit: {
-          max: 10,
-          min: 0,
-          message: '输入字符数需要在0～10之间！',
-          rules: {
-            zh: 1, 
-            others: 1, 
-            blank: true,
-          }
-        }
+        wordsLimit: null,
       }
     },
   },
