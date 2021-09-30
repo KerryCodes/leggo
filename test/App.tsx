@@ -52,7 +52,7 @@ export default function App() {
           menuKey[0] === 'list' && <RenderForm schemaModel={selectedModel} />
         }
         {
-          menuKey[0] === 'readme' && <iframe width="100%" height="100%" src="../README.html" />
+          menuKey[0] === 'readme' && <iframe style={{border: 'none'}} width="100%" height="100%" src="../README.html" />
         }
       </div>
     </div>
