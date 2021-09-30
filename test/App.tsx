@@ -3,7 +3,7 @@ import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
 import { Menu, Radio, RadioChangeEvent } from 'antd';
-import { PlusOutlined, SettingOutlined, ProfileOutlined } from '@ant-design/icons';
+import { PlusOutlined, SettingOutlined, ProfileOutlined, SolutionOutlined } from '@ant-design/icons';
 import { LeggoConfigs } from '../src';
 import { TSchemaModel } from '../src/interface';
 import '../src/styles/configs.less'
@@ -31,7 +31,7 @@ export default function App() {
   return (
     <div className="App">
       <div className="header">
-        <div className="slogan">Leggo，拖拽式表单生成低代码平台！</div>
+        <div className="slogan">leggo，拖拽式表单生成低代码平台！</div>
         <Menu onSelect={({key}) => setMenuKey([key])} defaultSelectedKeys={['configs']} mode="horizontal">
           <Menu.Item key="configs" icon={<SettingOutlined />}>配置模板</Menu.Item>
           <Menu.SubMenu key="list" title="模板列表" disabled={!modelListEntries.length} icon={<ProfileOutlined />}>
@@ -41,14 +41,18 @@ export default function App() {
               )
             }
           </Menu.SubMenu>
+          <Menu.Item key="readme" icon={<SolutionOutlined />}>项目介绍</Menu.Item>
         </Menu>
       </div>
       <div className="content-area">
         {
-          menuKey[0] === 'configs' ? 
-            <LeggoConfigs onGetSchemaModel={postSchemaModelData} />
-            :
-            <RenderForm schemaModel={selectedModel} />
+          menuKey[0] === 'configs' && <LeggoConfigs onGetSchemaModel={postSchemaModelData} />
+        }
+        {
+          menuKey[0] === 'list' && <RenderForm schemaModel={selectedModel} />
+        }
+        {
+          menuKey[0] === 'readme' && <iframe width="100%" height="100%" src="../README.html" />
         }
       </div>
     </div>
