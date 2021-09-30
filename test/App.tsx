@@ -12,7 +12,7 @@ import { RenderForm } from './components/RenderForm';
 
 export default function App() {
   const modelList= useRef<{[key:string]: TSchemaModel}>({})
-  const [ menuKey, setMenuKey]= useState(['configs'])
+  const [menuKey, setMenuKey]= useState(['configs'])
   const [selectedModel, setSelectedModel]= useState(null)
   const [count, setForceRender]= useState(0)
   const modelListEntries= useMemo(() => Object.entries(modelList.current), [count])
@@ -23,6 +23,17 @@ export default function App() {
     setForceRender(pre => pre + 1)
     console.log('发送schema～～～～～～', schemaModel)
   }
+  
+  const content= useMemo(() => {
+    switch(menuKey[0]){
+      case 'configs':
+        return <LeggoConfigs onGetSchemaModel={postSchemaModelData} />
+      case 'readme':
+        return <iframe style={{border: 'none'}} width="100%" height="100%" src="../README.html" />
+      default:
+        return <RenderForm schemaModel={selectedModel} />
+      }
+  }, [menuKey])
   
   useMemo(() => {
     LeggoConfigs.registerItemStore(testStore)
@@ -44,17 +55,7 @@ export default function App() {
           <Menu.Item key="readme" icon={<SolutionOutlined />}>项目介绍</Menu.Item>
         </Menu>
       </div>
-      <div className="content-area">
-        {
-          menuKey[0] === 'configs' && <LeggoConfigs onGetSchemaModel={postSchemaModelData} />
-        }
-        {
-          menuKey[0] === 'list' && <RenderForm schemaModel={selectedModel} />
-        }
-        {
-          menuKey[0] === 'readme' && <iframe style={{border: 'none'}} width="100%" height="100%" src="../README.html" />
-        }
-      </div>
+      <div className="content-area">{content}</div>
     </div>
   )
 }
