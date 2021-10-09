@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, Modal, Space } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
 
 
 function middleware(configs: TConfigs) {
   const { itemProps }= configs
-  // configs.Successor = (props: any) => <div>{props.children}<Button>同步</Button></div>
-  // if(itemProps.label === '标题'){
-  //   configs.SuperSuccessor = (props: React.PropsWithChildren<any>) => <Form.Item label="test" name="yy"><Input /></Form.Item>
-  // }
+  
+  switch(itemProps.label){
+    case '文章标题':
+      configs.Successor= (props: React.PropsWithChildren<any>) => (
+        <div style={{display: 'flex'}}>
+          {props.children}
+          <Button>同步</Button>
+        </div>
+      )
+      break;
+    case '封面图':
+      configs.SuperSuccessor= (props: React.PropsWithoutRef<any>) => (
+        <Form.Item label="封面图" name="covers">
+          <Button icon={<PlusOutlined />} />
+        </Form.Item>
+      )
+  }
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
