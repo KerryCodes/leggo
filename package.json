@@ -1,8 +1,8 @@
 {
   "name": "leggo",
-  "version": "0.1.21",
+  "version": "0.1.23",
   "private": false,
-  "description": "A drag and drop front-end form configuration generation tool ",
+  "description": "A drag and drop front-end form configuration generation tool!",
   "files": [
     "/lib"
   ],
