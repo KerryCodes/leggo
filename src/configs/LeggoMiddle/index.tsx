@@ -31,6 +31,7 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     preserve: true,
     requiredMark: true,
   })
+  const targetIndex= useRef<number>(null)
   const [visible, setVisible] = useState(false)
   
   const handleDragOver= (e: React.DragEvent) => {
@@ -70,8 +71,10 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
       <Form form={form} {...formProps.current} className="leggo-configs-middle-form">
         <div className="drop-area" onDragOver={handleDragOver} onDrop={handleDrop}>
           {
-            schemaList.map(schema => 
+            schemaList.map((schema, index) => 
               <DroppedItem key={schema.id} 
+                index={index}
+                targetIndex={targetIndex}
                 activeSchema={activeSchema}
                 schema={schema} 
                 setSchemaList={setSchemaList} 

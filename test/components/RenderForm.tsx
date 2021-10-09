@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider, Form, Input, Modal, Space } from 'antd';
+import { Button, Divider, Form, Modal, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
@@ -36,19 +36,6 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
   })
   const [visibleJSON, setVisibleJSON]= useState(false)
 
-  const changeOptions= () => {
-    leggo.updateSchema('select', configs => {
-      configs.Successor= (props: React.PropsWithChildren<any>) => <div>已填充选项：{props.children}</div>
-      configs.inputProps.options= [
-        {label: 'A', value: 1}, 
-        {label: 'B', value: 2},
-        {label: 'C', value: 3},
-        {label: 'D', value: 4},
-        {label: 'E', value: 5},
-      ]
-    })
-  }
-
   const handleCopy= () => {
     const contentJSON= JSON.stringify(schemaModel, null, 4)
     navigator.clipboard.writeText(contentJSON)
@@ -68,7 +55,6 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
           <span>操作：</span>
           <Space>
             <Button onClick={() => setVisibleJSON(true)}>查看schemaModel</Button>
-            <Button onClick={changeOptions}>填充选项</Button>
           </Space>
         </div>
       </div>

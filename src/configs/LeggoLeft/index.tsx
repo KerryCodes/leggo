@@ -36,6 +36,7 @@ export function LeggoLeft() {
 function createLeggoItems(storeKey: keyof typeof leggoItemStore){
   const result= []
   const selectedStore= leggoItemStore[storeKey]
+  
   const handleDragStart= (e: React.DragEvent) => {
     //@ts-ignore
     const schemaType= e.target.dataset.type
