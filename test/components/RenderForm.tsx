@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, Modal, Space } from 'antd';
 import { LeggoForm } from '../../src';
 import { TConfigs, TSchemaModel } from '../../src/interface';
-const bb= <Form.Item label="dsdsd" name="fdfdf"><Input /></Form.Item>
 
 
 function middleware(configs: TConfigs) {
   const { itemProps }= configs
-
   // configs.Successor = (props: any) => <div>{props.children}<Button>同步</Button></div>
-  if(itemProps.label === '标题'){
-    configs.SuperSuccessor = (props: React.PropsWithChildren<any>) => <Form.Item label="test" name="yy"><Input /></Form.Item>
-
-  }
+  // if(itemProps.label === '标题'){
+  //   configs.SuperSuccessor = (props: React.PropsWithChildren<any>) => <Form.Item label="test" name="yy"><Input /></Form.Item>
+  // }
 }
 
 export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaModel}>){
@@ -61,13 +58,8 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
           </Space>
         </div>
       </div>
-      <Form form={form} labelCol= {{ span: 4 }}
-  wrapperCol={{ span: 16 }}>
-        {bb}
-        <Form.Item label="ds" name="df"><Input /></Form.Item>
-      </Form>
       <Divider></Divider>
-      {/* <LeggoForm leggo={leggo} form={form} onValuesChange={console.log} onFinish={console.log} /> */}
+      <LeggoForm leggo={leggo} form={form} onValuesChange={console.log} onFinish={console.log} />
       <Modal title="schemaModel" width='50vw'
         bodyStyle={{height: '70vh', overflow: 'auto'}} 
         visible={visibleJSON} 
