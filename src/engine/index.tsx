@@ -25,9 +25,10 @@ export class Leggo{
   }
   private readonly forceLeggoFormRender: () => void
   public readonly ref: React.MutableRefObject<any>
-  public readonly publicStates: object
   public schemaModel: TSchemaModel
+  public publicStates= {}
   public allDisabledIsLockedToTrue= false
+  public forceRenderMark= false
   constructor(
     keyRef: React.MutableRefObject<any>, 
     setForceRender: React.Dispatch<React.SetStateAction<number>>,
@@ -35,11 +36,13 @@ export class Leggo{
     middleware?: TMiddleware,
     publicStates?: object,
   ){
-    const schemaModel= this.parseSchemaModel(schemaModel0, middleware)
     this.ref= keyRef
-    this.publicStates= publicStates || {}
-    this.schemaModel= schemaModel
-    this.forceLeggoFormRender= () => setForceRender(pre => pre+1)
+    this.schemaModel= this.parseSchemaModel(schemaModel0, middleware)
+    if(publicStates){ this.publicStates= publicStates }
+    this.forceLeggoFormRender= () => {
+      this.forceRenderMark= !this.forceRenderMark
+      setForceRender(pre => pre+1)
+    }
   }
   private parseSchemaModel(schemaModel0: TSchemaModel, middleware?: TMiddleware): TSchemaModel{
     try{
@@ -55,8 +58,9 @@ export class Leggo{
       return schemaModel0
     }
   }
-  public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: TMiddleware){
+  public resetSchemaModel(newSchemaModel0: TSchemaModel, middleware?: TMiddleware, publicStates?: object){
     this.schemaModel= this.parseSchemaModel(newSchemaModel0, middleware)
+    if(publicStates){ this.publicStates= publicStates }
     this.forceLeggoFormRender()
   }
   public updateSchema(formItemName: string, changeSchemaFunc: (configs: TConfigs) => void){
@@ -127,7 +131,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
   const rules = Leggo.createRules(itemProps.rules, extra?.wordsLimit)
   const children= Leggo.createChildren(extra?.childrenNode)
   const [ , setForceRender] = useState(0)
-  
+
   useMemo(() => {
     schema.forceLeggoFormItemRender= () => setForceRender(pre => pre+1)
     Object.values(needDefineGetterProps).forEach(getterInfo => {
@@ -186,7 +190,7 @@ function LeggoItem(props: React.PropsWithoutRef<{
         }
       }) 
     })
-  }, [])
+  }, [leggo.forceRenderMark])
 
   useEffect(() => {
     const { method, url, params, data, responseNamepath }= postman || {}

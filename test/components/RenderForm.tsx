@@ -9,7 +9,8 @@ function middleware(configs: TConfigs) {
   const { itemProps }= configs
   
   switch(itemProps.label){
-    case '文章标题':
+    case '标题':
+      configs.itemProps.label= '标题增加右侧同步按钮'
       configs.Successor= (props: React.PropsWithChildren<any>) => (
         <div style={{display: 'flex'}}>
           {props.children}
@@ -17,12 +18,23 @@ function middleware(configs: TConfigs) {
         </div>
       )
       break;
-    case '封面图':
-      configs.SuperSuccessor= (props: React.PropsWithoutRef<any>) => (
+    case '占位表单':
+      configs.SuperSuccessor= () => (
         <Form.Item label="封面图" name="covers">
           <Button icon={<PlusOutlined />} />
         </Form.Item>
       )
+      break;
+    case '选项': 
+    case '多选':
+      configs.itemProps.label= '选项已增加'
+      configs.inputProps.options= [
+        {label: 'A', value: 1}, 
+        {label: 'B', value: 2},
+        {label: 'C', value: 3},
+        {label: 'D', value: 4},
+        {label: 'E', value: 5},
+      ]
   }
 }
 
@@ -30,7 +42,7 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
   const { schemaModel }= props
   const { name, description }= schemaModel
   const [form]= Form.useForm()
-  const leggo= LeggoForm.useLeggo(null, null, {
+  const leggo= LeggoForm.useLeggo(schemaModel, null, {
     test: true,
     func: () => false,
   })
@@ -42,8 +54,12 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
     setVisibleJSON(false)
   }
 
-  useEffect(() => {
+  const changeForm= () => {
     leggo.resetSchemaModel(schemaModel, middleware)
+  }
+
+  useEffect(() => {
+    // leggo.resetSchemaModel(schemaModel, middleware)
   }, [schemaModel])
 
   return (
@@ -55,6 +71,7 @@ export function RenderForm(props: React.PropsWithoutRef<{schemaModel: TSchemaMod
           <span>操作：</span>
           <Space>
             <Button onClick={() => setVisibleJSON(true)}>查看schemaModel</Button>
+            <Button onClick={changeForm}>改造表单</Button>
           </Space>
         </div>
       </div>
