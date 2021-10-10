@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
+import '../src/styles/configs.less'
 import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
@@ -6,7 +7,6 @@ import { Menu, Radio, RadioChangeEvent } from 'antd';
 import { PlusOutlined, SettingOutlined, ProfileOutlined, SolutionOutlined } from '@ant-design/icons';
 import { LeggoConfigs } from '../src';
 import { TSchemaModel } from '../src/interface';
-import '../src/styles/configs.less'
 import { RenderForm } from './components/RenderForm';
 
 
