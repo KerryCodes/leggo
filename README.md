@@ -29,7 +29,7 @@ export const schemaModel= {
 
 ```typeScript
 import { LeggoForm } from 'leggo';
-import { schemaModel } form './schemaModel';
+import { schemaModel } from './schemaModel';
 
 
 function MyForm(){

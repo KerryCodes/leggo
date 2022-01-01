@@ -3,7 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <!-- <link rel="stylesheet" href="file:////Users/chengkaiquan/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.6.0/node_modules/@shd101wyy/mume/dependencies/katex/katex.min.css"> -->
+      <!-- <link rel="stylesheet" href="file:////Users/Kerry/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.6.1/node_modules/@shd101wyy/mume/dependencies/katex/katex.min.css"> -->
       
       
       
@@ -293,25 +293,25 @@ pre[data-line] .line-highlight[data-end]:after {
 <h2 class="mume-header" id="%E5%9F%BA%E7%A1%80%E5%BA%94%E7%94%A8">&#x57FA;&#x7840;&#x5E94;&#x7528;</h2>
 
 <p>&#x5047;&#x8BBE;&#x4F60;&#x5DF2;&#x7ECF;&#x901A;&#x8FC7;<a href="https://kerrycodes.github.io/">leggo&#x8868;&#x5355;&#x8BBE;&#x8BA1;&#x5668;</a>&#x751F;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#x6A21;&#x677F;&#xFF08;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;JSON&#x5BF9;&#x8C61;&#xFF0C;&#x5373;&#x4E0B;&#x5217;&#x4EE3;&#x7801;&#x4E2D;<code>schemaModel</code>&#xFF09;&#xFF0C;&#x5219;&#x4EC5;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;2&#x884C;&#x4EE3;&#x7801;&#x4F60;&#x5C31;&#x5F97;&#x5230;&#x4E86;&#x5B9E;&#x9645;&#x9700;&#x8981;&#x7684;&#x8868;&#x5355;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">export</span> <span class="token keyword">const</span> schemaModel<span class="token operator">=</span> <span class="token punctuation">{</span>
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-export">export</span> <span class="token keyword keyword-const">const</span> schemaModel<span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token comment">//JSON</span>
 <span class="token punctuation">}</span>
-</pre><pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> LeggoForm <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;leggo&apos;</span>
-<span class="token keyword">import</span> <span class="token punctuation">{</span> schemaModel <span class="token punctuation">}</span> from <span class="token string">&apos;./schemaModel&apos;</span>
+</pre><pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-import">import</span> <span class="token punctuation">{</span> LeggoForm <span class="token punctuation">}</span> <span class="token keyword keyword-from">from</span> <span class="token string">&apos;leggo&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-import">import</span> <span class="token punctuation">{</span> schemaModel <span class="token punctuation">}</span> <span class="token keyword keyword-from">from</span> <span class="token string">&apos;./schemaModel&apos;</span><span class="token punctuation">;</span>
 
 
-<span class="token keyword">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">)</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">)</span>
   
-  <span class="token keyword">return</span> <span class="token operator">&lt;</span>LeggoForm leggo<span class="token operator">=</span><span class="token punctuation">{</span>leggo<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+  <span class="token keyword keyword-return">return</span> <span class="token operator">&lt;</span>LeggoForm leggo<span class="token operator">=</span><span class="token punctuation">{</span>leggo<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
 <span class="token punctuation">}</span>
 </pre><p>&#x6211;&#x4EEC;&#x4ECE;<code>leggo</code>&#x5BFC;&#x51FA;&#x4E86;<code>LeggoForm</code>&#xFF0C;&#x800C;<code>schemaModel</code>&#x662F;&#x901A;&#x8FC7;Leggo&#x8868;&#x5355;&#x8BBE;&#x8BA1;&#x5668;&#x751F;&#x6210;&#x7684;JSON&#xFF0C;<code>LeggoForm</code>&#x8FD9;&#x4E2A;&#x9AD8;&#x9636;&#x7EC4;&#x4EF6;&#x4F1A;&#x5C06;&#x6A21;&#x7248;JSON&#x89E3;&#x6790;&#x5E76;&#x6E32;&#x67D3;&#x6210;&#x5B9E;&#x9645;&#x7684;&#x8868;&#x5355;&#x7EC4;&#x4EF6;&#x3002;</p>
 <p>&#x4ECE;&#x4F7F;&#x7528;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x8BF4;<code>LeggoForm</code>&#x548C;Antd&#x4E2D;&#x7684;<code>Form</code>&#x51E0;&#x4E4E;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5DEE;&#x522B;&#xFF08;&#x9664;&#x4E86;&#x5FC5;&#x987B;&#x8981;&#x6302;&#x8F7D;<code>leggo</code>&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#xFF09;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5728;<code>LeggoForm</code>&#x4E0A;&#x5B9A;&#x4E49;&#x4EFB;&#x4F55;<code>Form</code>&#x7EC4;&#x4EF6;&#x5141;&#x8BB8;&#x7684;&#x5C5E;&#x6027;&#x5E76;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#xFF0C;&#x6BD4;&#x5982;&#x50CF;&#x4EE5;&#x4E0B;&#x8FD9;&#x6837;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">)</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-function">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">)</span>
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+  <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>LeggoForm leggo<span class="token operator">=</span><span class="token punctuation">{</span>leggo<span class="token punctuation">}</span> 
       form<span class="token operator">=</span><span class="token punctuation">{</span>form<span class="token punctuation">}</span> 
       labelCol<span class="token operator">=</span><span class="token punctuation">{</span> span<span class="token operator">:</span> <span class="token number">6</span> <span class="token punctuation">}</span>
@@ -325,15 +325,15 @@ pre[data-line] .line-highlight[data-end]:after {
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 </pre><p>&#x8003;&#x8651;&#x5230;&#x4F60;&#x7684;&#x8868;&#x5355;&#x6A21;&#x677F;<code>schemaModel</code>&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x5B58;&#x5728;&#x672C;&#x5730;&#xFF0C;&#x800C;&#x9700;&#x8981;&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x5F02;&#x6B65;&#x8FDC;&#x7A0B;&#x62C9;&#x53D6;&#xFF0C;&#x5219;&#x4F60;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x90E8;&#x7F72;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-function">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   
   <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
     leggo<span class="token punctuation">.</span><span class="token function">resetSchemaModel</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">)</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>schemaModel<span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+  <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>LeggoForm leggo<span class="token operator">=</span><span class="token punctuation">{</span>leggo<span class="token punctuation">}</span> 
       form<span class="token operator">=</span><span class="token punctuation">{</span>form<span class="token punctuation">}</span> 
       labelCol<span class="token operator">=</span><span class="token punctuation">{</span> span<span class="token operator">:</span> <span class="token number">6</span> <span class="token punctuation">}</span>
@@ -349,26 +349,26 @@ pre[data-line] .line-highlight[data-end]:after {
 </pre><p>&#x7B80;&#x5355;&#x7684;&#x8868;&#x5355;&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x4EE3;&#x7801;&#x5DF2;&#x7ECF;&#x8DB3;&#x591F;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x4E86;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x9010;&#x6B65;&#x5F15;&#x5165;&#x66F4;&#x590D;&#x6742;&#x7684;&#x573A;&#x666F;&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x4E00;&#x4E2A;&#x8868;&#x5355;&#x7EC4;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x6CE8;&#x610F;&#x5230;&#x5728;&#x7EC4;&#x4EF6;&#x5230;&#x53F3;&#x4FA7;&#x6709;&#x4E00;&#x4E2A;&#x201C;&#x540C;&#x6B65;&#x201D;&#x6309;&#x94AE;&#x3002;&#x8FD9;&#x79CD;&#x4E2A;&#x6027;&#x5316;&#x7684;&#x7EC4;&#x4EF6;&#x5E76;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x901A;&#x8FC7;&#x62D6;&#x62FD;&#x5B8C;&#x6210;&#x5168;&#x90E8;&#x8BBE;&#x8BA1;&#x3002;</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d67b3b3c16754116afb9a96528ddb61a~tplv-k3u1fbpfcp-watermark.image?" alt="image.png"></p>
 <p>&#x4E0D;&#x8981;&#x7740;&#x6025;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x901A;&#x8FC7;&#x62D6;&#x62FD;&#x5B8C;&#x6210;&#x5DE6;&#x4FA7;&#x7ECF;&#x5178;&#x8868;&#x5355;&#x7EC4;&#x4EF6;&#x90E8;&#x5206;&#x7684;&#x8BBE;&#x8BA1;&#x3002;&#x53F3;&#x4FA7;&#x7684;&#x6309;&#x94AE;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x5728;&#x6E32;&#x67D3;&#x8868;&#x5355;&#x524D;&#x901A;&#x8FC7;&#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;&#x6CE8;&#x5165;&#x5373;&#x53EF;&#xFF0C;&#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;&#x5728;leggo&#x4E2D;&#x662F;&#x4F5C;&#x4E3A;&#x8868;&#x5355;&#x6E32;&#x67D3;&#x524D;&#x7075;&#x6D3B;&#x62D3;&#x5C55;&#x7684;&#x624B;&#x6BB5;&#x4E4B;&#x4E00;&#x3002;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> TConfigs <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;leggo/lib/interface&apos;</span><span class="token punctuation">;</span>
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-import">import</span> <span class="token punctuation">{</span> TConfigs <span class="token punctuation">}</span> <span class="token keyword keyword-from">from</span> <span class="token string">&apos;leggo/lib/interface&apos;</span><span class="token punctuation">;</span>
 
 
-<span class="token keyword">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">,</span> middleware<span class="token punctuation">)</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">MyForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> leggo<span class="token operator">=</span> LeggoForm<span class="token punctuation">.</span><span class="token function">useLeggo</span><span class="token punctuation">(</span>schemaModel<span class="token punctuation">,</span> middleware<span class="token punctuation">)</span>
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">[</span>form<span class="token punctuation">]</span><span class="token operator">=</span> Form<span class="token punctuation">.</span><span class="token function">useForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   
   <span class="token comment">//  &#x5F02;&#x6B65;&#x7684;&#x60C5;&#x51B5;</span>
   <span class="token comment">//  useEffect(() =&gt; {</span>
   <span class="token comment">//    leggo.resetSchemaModel(schemaModel, middleware)</span>
   <span class="token comment">//  }, [schemaModel])</span>
 
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+  <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>LeggoForm leggo<span class="token operator">=</span><span class="token punctuation">{</span>leggo<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
   <span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 
 
 <span class="token comment">// &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;</span>
-<span class="token keyword">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword keyword-function">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
   configs<span class="token punctuation">.</span><span class="token function-variable function">Successor</span><span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token operator">:</span> React<span class="token punctuation">.</span>PropsWithChildren<span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token operator">&gt;</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
     <span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>display<span class="token operator">:</span> <span class="token string">&apos;flex&apos;</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>
       <span class="token punctuation">{</span> props<span class="token punctuation">.</span>children <span class="token punctuation">}</span>
@@ -393,10 +393,10 @@ pre[data-line] .line-highlight[data-end]:after {
 <p><code>&lt;DatePicker {...inputProps} /&gt;</code></p>
 </blockquote>
 <p>&#x7136;&#x540E;&#x4F60;&#x53D1;&#x73B0;&#x5728;&#x8868;&#x5355;&#x6E32;&#x67D3;&#x524D;&#xFF0C;&#x901A;&#x8FC7;&#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;&#x4F60;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x673A;&#x4F1A;&#x53BB;&#x62D3;&#x5C55;&#x6574;&#x4E2A;&#x8868;&#x5355;&#x7684;&#x8BBE;&#x8BA1;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> itemProps<span class="token punctuation">,</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-function">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span> itemProps<span class="token punctuation">,</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
   
-  <span class="token keyword">if</span><span class="token punctuation">(</span>itemProps<span class="token punctuation">.</span>name <span class="token operator">!==</span> <span class="token string">&apos;test&apos;</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span> <span class="token comment">//&#x7B5B;&#x9009;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6539;&#x9020;&#x7684;&#x8868;&#x5355;</span>
+  <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>itemProps<span class="token punctuation">.</span>name <span class="token operator">!==</span> <span class="token string">&apos;test&apos;</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token keyword keyword-return">return</span> <span class="token punctuation">}</span> <span class="token comment">//&#x7B5B;&#x9009;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6539;&#x9020;&#x7684;&#x8868;&#x5355;</span>
   
   itemProps<span class="token punctuation">.</span>label<span class="token operator">=</span> <span class="token string">&apos;test2&apos;</span> <span class="token comment">//&#x6211;&#x4EEC;&#x66F4;&#x6362;&#x4E86;label</span>
   
@@ -432,15 +432,15 @@ pre[data-line] .line-highlight[data-end]:after {
 </pre><p>&#x4EE5;&#x4E0A;&#x662F;&#x901A;&#x8FC7;&#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;&#x4E00;&#x6B21;&#x6027;&#x7684;&#x6539;&#x9020;<code>schemaModel</code>&#x3002;&#x800C;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x968F;&#x65F6;&#x6539;&#x53D8;&#x8868;&#x5355;&#x7684;&#x6E32;&#x67D3;&#x65B9;&#x5F0F;&#xFF0C;&#x6BD4;&#x5982;<code>disabled</code>&#x5C5E;&#x6027;&#xFF0C;&#x5219;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x610F;&#x65F6;&#x673A;&#x901A;&#x8FC7;&#x8C03;&#x7528;<code>leggo.updateSchema</code>&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x6BCF;&#x4E2A;&#x8868;&#x5355;&#x7EC4;&#x4EF6;&#x662F;&#x5355;&#x72EC;&#x91CD;&#x6E32;&#x67D3;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4F60;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x8003;&#x8651;&#x6027;&#x80FD;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
 <pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token comment">// &#x53EF;&#x4EE5;&#x968F;&#x65F6;&#x8C03;&#x7528;</span>
 leggo<span class="token punctuation">.</span><span class="token function">updateSchema</span><span class="token punctuation">(</span><span class="token string">&apos;select&apos;</span><span class="token punctuation">,</span> configs <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
   inputprops<span class="token punctuation">.</span>disabled<span class="token operator">=</span> <span class="token boolean">true</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 
 
 <span class="token comment">// &#x4E2D;&#x95F4;&#x4EF6;&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF08;&#x6CE8;&#x610F;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x53EA;&#x4F1A;&#x8FD0;&#x884C;&#x4E00;&#x6B21;&#xFF01;&#xFF09;&#xFF1A;</span>
-<span class="token keyword">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span> itemProps<span class="token punctuation">,</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
-  <span class="token keyword">if</span><span class="token punctuation">(</span>itemProps<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">&apos;select&apos;</span><span class="token punctuation">)</span><span class="token punctuation">{</span> 
+<span class="token keyword keyword-function">function</span> <span class="token function">middleware</span><span class="token punctuation">(</span>configs<span class="token operator">:</span> TConfigs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span> itemProps<span class="token punctuation">,</span> inputprops <span class="token punctuation">}</span><span class="token operator">=</span> configs
+  <span class="token keyword keyword-if">if</span><span class="token punctuation">(</span>itemProps<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">&apos;select&apos;</span><span class="token punctuation">)</span><span class="token punctuation">{</span> 
     inputprops<span class="token punctuation">.</span>disabled<span class="token operator">=</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
@@ -467,9 +467,9 @@ leggo<span class="token punctuation">.</span><span class="token function">update
 <p>&#x6F14;&#x793A;&#x5730;&#x5740;&#xFF1A;<a href="https://kerrycodes.github.io/">https://kerrycodes.github.io/</a></p>
 </blockquote>
 <p>&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x5728;&#x9879;&#x76EE;&#x4E2D;&#x76F4;&#x63A5;&#x90E8;&#x7F72;&#x8FD9;&#x4E2A;&#x8868;&#x5355;&#x8BBE;&#x8BA1;&#x5668;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5F15;&#x5165;<code>LeggoConfigs</code>&#x7EC4;&#x4EF6;&#xFF0C;<code>onGetSchemaModel</code>&#x5C5E;&#x6027;&#x4F1A;&#x5728;<code>schemaModel</code>&#x751F;&#x6210;&#x540E;&#x81EA;&#x52A8;&#x6CE8;&#x5165;&#x548C;&#x6267;&#x884C;&#xFF0C;&#x6837;&#x5F0F;&#x9700;&#x8981;&#x624B;&#x52A8;&#x5F15;&#x5165;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword">import</span> <span class="token string">&apos;leggo/lib/styles/configs.less&apos;</span>
+<pre data-role="codeBlock" data-info="typeScript" class="language-typescript"><span class="token keyword keyword-import">import</span> <span class="token string">&apos;leggo/lib/styles/configs.less&apos;</span>
 
-<span class="token keyword">function</span> <span class="token function-variable function">postSchemaModelData</span><span class="token operator">=</span> <span class="token punctuation">(</span>schemaModel<span class="token operator">:</span> TSchemaModel<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+<span class="token keyword keyword-function">function</span> <span class="token function-variable function">postSchemaModelData</span><span class="token operator">=</span> <span class="token punctuation">(</span>schemaModel<span class="token operator">:</span> TSchemaModel<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
   <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&apos;&#x53D1;&#x9001;schema&#xFF5E;&#xFF5E;&#xFF5E;&#xFF5E;&#xFF5E;&#xFF5E;&apos;</span><span class="token punctuation">,</span> schemaModel<span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 </pre><blockquote>
