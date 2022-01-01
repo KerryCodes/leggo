@@ -28,8 +28,8 @@ export const schemaModel= {
 ```
 
 ```typeScript
-export { LeggoForm } from 'leggo'
-export { schemaModel } form './schemaModel'
+import { LeggoForm } from 'leggo';
+import { schemaModel } form './schemaModel';
 
 
 function MyForm(){
