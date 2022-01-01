@@ -51,8 +51,8 @@ function MyForm(){
   return (
     <LeggoForm leggo={leggo} 
       form={form} 
-      labelCol={ span: 6 }
-      wrapperCol={ span: 14 }
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 14 }}
       onValuesChange={handleValuesChange} 
       onFinish={hanldeFinish} 
       .
@@ -76,8 +76,8 @@ function MyForm(){
   return (
     <LeggoForm leggo={leggo} 
       form={form} 
-      labelCol={ span: 6 }
-      wrapperCol={ span: 14 }
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 14 }}
       onValuesChange={handleValuesChange} 
       onFinish={hanldeFinish} 
       .
