@@ -1,5 +1,5 @@
 # leggo
-拖拽式前端表单生成低代码工具～
+拖拽式表单生成低代码工具～
 
 > - 演示地址：https://kerrycodes.github.io/
 > - Github：https://github.com/KerryCodes/leggo

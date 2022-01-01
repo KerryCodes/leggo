@@ -42,7 +42,7 @@ export default function App() {
   return (
     <div className="App">
       <div className="header">
-        <div className="slogan">leggo，拖拽式表单生成低代码平台！</div>
+        <div className="slogan">leggo，拖拽式表单生成低代码工具！</div>
         <Menu onSelect={({key}) => setMenuKey([key])} defaultSelectedKeys={['configs']} mode="horizontal">
           <Menu.Item key="configs" icon={<SettingOutlined />}>配置模板</Menu.Item>
           <Menu.SubMenu key="list" title="模板列表" disabled={!modelListEntries.length} icon={<ProfileOutlined />}>
