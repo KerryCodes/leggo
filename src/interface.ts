@@ -43,6 +43,15 @@ export interface TConfigs{
   SuperSuccessor?: React.FC<React.PropsWithoutRef<any>>,
 }
 
+export interface TConfigsContextValue{
+  activeSchema: React.MutableRefObject<TSchema>,
+  schemaList: TSchema[],
+  schemaListOptions: TOption[],
+  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
+  onGetSchemaModel: TOnGetSchemaModel,
+  forceRender: () => void,
+}
+
 export interface TExtra{
   childrenNode: any,
   mark: string,

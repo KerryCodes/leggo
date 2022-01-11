@@ -1,18 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { TOnGetSchemaModel, TSchema } from '../interface'
+import { TConfigsContextValue, TOnGetSchemaModel, TSchema } from '../interface'
 import { registerItemStore } from '../utils/registerItemStore';
 import LeggoLeft from './LeggoLeft';
 import LeggoMiddle from './LeggoMiddle'
 import LeggoRight from './LeggoRight'
 
 
-export const ConfigsContext= React.createContext<{
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaList: TSchema[],
-  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
-  onGetSchemaModel: TOnGetSchemaModel,
-  forceRender: () => void,
-}>(null)
+export const ConfigsContext= React.createContext<TConfigsContextValue>(null)
 
 
 export function LeggoConfigs(props: React.PropsWithChildren<{ 
@@ -22,9 +16,10 @@ export function LeggoConfigs(props: React.PropsWithChildren<{
   const activeSchema= useRef<TSchema>(null)
   const [schemaList, setSchemaList]= useState<TSchema[]>([])
   const setForceRender= useState(0)[1]
-  const contextValue= {
+  const contextValue: TConfigsContextValue= {
     activeSchema,
     schemaList,
+    schemaListOptions: [],
     setSchemaList,
     onGetSchemaModel,
     forceRender: () => setForceRender(pre => pre+1),

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Button } from 'antd'
 import { TSchema } from '../../../interface'
 import { leggoItemStore } from '../../../itemStore'
-import { StandardFormItem } from '../../../components/StandardFormItem'
+import StandardFormItem from '../../../components/StandardFormItem'
 import { ConfigsContext } from '../..'
 
 

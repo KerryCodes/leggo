@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Input, Popover, Select, Space } from 'antd'
 import { DisconnectOutlined } from '@ant-design/icons'
-import { TOption, TSchema } from '../../../interface'
+import { ConfigsContext } from '../..'
 
 
 export function LinkSet(props: React.PropsWithoutRef<{
   namepath: (string | number)[],
   targetType: string,
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: TOption[],
 }>){
-  const { namepath, targetType, activeSchema, schemaListOptions }= props
+  const { namepath, targetType }= props
+  const { activeSchema, schemaListOptions }= useContext(ConfigsContext)
   const needDefineGetterProps= activeSchema.current.needDefineGetterProps
   const key= namepath.join()
   const getterInfo= needDefineGetterProps[key]

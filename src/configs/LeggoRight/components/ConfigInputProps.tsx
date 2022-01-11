@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { Input, InputNumber, Select, Space, Switch } from 'antd'
 import { ConfigOptions } from './ConfigOptions'
-import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
+import { ConfigsContext } from '../..'
 
 
 export function ConfigInputProp(props: React.PropsWithoutRef<{
@@ -10,11 +10,9 @@ export function ConfigInputProp(props: React.PropsWithoutRef<{
   namepath: (string | number)[],
   propName: string,
   propDefaultValue: any,
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: TOption[],
-  forceRender: () => void,
 }>){
-  const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaListOptions, forceRender } = props
+  const { propOwner, namepath, propName, propDefaultValue } = props
+  const { forceRender }= useContext(ConfigsContext)
   const [propCurrentValue, setPropCurrentValue]= useState(propDefaultValue)
   //@ts-ignore
   const type= useMemo(() => inputPropsInfo[propName]?.type || typeof propDefaultValue, [])
@@ -36,14 +34,14 @@ export function ConfigInputProp(props: React.PropsWithoutRef<{
   switch (type) {
     case 'options':
       return (
-        <ConfigOptions activeSchema={activeSchema} schemaListOptions={schemaListOptions} handleChangePropValue={handleChangePropValue} />
+        <ConfigOptions handleChangePropValue={handleChangePropValue} />
       )
     case 'boolean':
       return (
         <Space>
           <strong>{propName}：</strong>
           <Switch checked={propCurrentValue} onChange={handleChangePropValue} />
-          <LinkSet activeSchema={activeSchema} targetType='boolean' namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet targetType='boolean' namepath={namepath} />
         </Space>
       );
     case 'string':
@@ -63,7 +61,7 @@ export function ConfigInputProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <InputNumber value={propCurrentValue} onChange={handleChangePropValue} bordered={false} />
-          <LinkSet activeSchema={activeSchema} targetType='number' namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet targetType='number' namepath={namepath} />
         </Space>
       );
     default:

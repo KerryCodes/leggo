@@ -1,10 +1,10 @@
 import React from "react"
 import { Form } from "antd"
-import { Leggo } from "../engine"
 import { TConfigs } from "../interface"
+import { Leggo } from "../utils/Leggo"
 
 
-export function StandardFormItem(props: React.PropsWithoutRef<{
+export default function StandardFormItem(props: React.PropsWithoutRef<{
   StandardInput: any, 
   configs: TConfigs
 }>){

@@ -1,6 +1,7 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useReducer, useRef, useState } from 'react'
 import { Button, Divider, Input, InputNumber, Popover, Radio, Space, Switch } from 'antd';
 import { TExtra, TWordsLimit } from '../../../interface';
+import { ConfigsContext } from '../..';
 
 const reducer= (state: any, action: any) => ({
   ...state,
@@ -10,9 +11,9 @@ const reducer= (state: any, action: any) => ({
 
 export function ConfigWordsLimit(props: React.PropsWithChildren<{
   extra: Partial<TExtra>,
-  forceRender: () => void,
 }>){
-  const { extra, forceRender }= props
+  const { extra }= props
+  const { forceRender }= useContext(ConfigsContext)
   const [open, setOpen]= useState(false)
   const wordsLimitRef= useRef<TWordsLimit>({
     max: 10,

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Input, message, Space } from 'antd'
+import { ConfigsContext } from '../..'
 
 
 export function JsonInput(props: React.PropsWithChildren<{
   propOwner: any,
   propName: string,
-  forceRender: () => void,
 }>){
-  const { propOwner, propName, forceRender }= props
+  const { propOwner, propName }= props
+  const { forceRender }= useContext(ConfigsContext)
   const [value, setValue]= useState('')
 
   const handleBlur= () => {

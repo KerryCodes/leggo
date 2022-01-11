@@ -1,5 +1,5 @@
 import React from "react"
-import { StandardFormItem } from "../components/StandardFormItem"
+import StandardFormItem from "../components/StandardFormItem"
 import { leggoItemStore } from "../itemStore"
 
 
