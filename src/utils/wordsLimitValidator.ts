@@ -1,4 +1,3 @@
-
 export function wordsLimitValidator(wordsLimit: any, rule: any, value: any){
   const { max, min, message, rules }= wordsLimit
   const length = countLength(value, rules)

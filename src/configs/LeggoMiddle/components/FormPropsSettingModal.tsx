@@ -1,5 +1,5 @@
+import React from 'react';
 import { Button, Form, FormProps, Input, InputNumber, Modal, Radio, Select, Space, Switch } from 'antd';
-import React, { Fragment, useEffect } from 'react';
 
 const layout= {
   labelCol: { span: 8 },
@@ -30,7 +30,7 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
   }
 
   return (
-    <Fragment>
+    <>
       <Button type="link" onClick={() => setVisible(true)}>FormProps</Button>
       <Modal title="设置Form的属性"
         visible={visible}
@@ -99,6 +99,6 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
           </Form.Item>
         </Form>
       </Modal>
-    </Fragment>
+    </>
   )
 }

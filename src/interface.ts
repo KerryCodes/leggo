@@ -1,6 +1,6 @@
 import React from "react"
 import { FormItemProps, FormProps } from "antd"
-import { leggoItemStore } from "./service"
+import { leggoItemStore } from "./itemStore"
 
 
 export type TSchemaType= keyof typeof leggoItemStore.total

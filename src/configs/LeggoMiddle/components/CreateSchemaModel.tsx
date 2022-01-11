@@ -1,6 +1,6 @@
 import { Button, Form, FormProps, Input, Modal } from 'antd'
-import React, { Fragment, useRef, useState } from 'react'
-import { TOnGetSchemaModel, TSchema } from '../../../interface'
+import React, { useContext, useRef, useState } from 'react'
+import { ConfigsContext } from '../..'
 
 const layout= {
   labelCol: { span: 6 },
@@ -10,11 +10,10 @@ const layout= {
 
 export function CreateSchemaModel(props: React.PropsWithoutRef<{
   formProps: FormProps, 
-  schemaList: TSchema[],
   schemaModelJSONCache: React.MutableRefObject<any>,
-  onGetSchemaModel: TOnGetSchemaModel,
 }>){
-  const { formProps, schemaList, schemaModelJSONCache, onGetSchemaModel }= props
+  const { formProps, schemaModelJSONCache }= props
+  const { schemaList, onGetSchemaModel }= useContext(ConfigsContext)
   const [form]= Form.useForm()
   const schemaModelJSON= useRef('')
   const [visible, setVisible]= useState(false)
@@ -41,7 +40,7 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
   }
   
   return (
-    <Fragment>
+    <>
       <Button type="primary" disabled={!schemaList.length} onClick={handleClick}>生成模板</Button>
       <Modal title="生成并发送模板" visible={visible} onOk={() => form.submit()} onCancel={() => setVisible(false)} getContainer={false}>
         <Form form={form} {...layout} onFinish={handleSend}>
@@ -53,15 +52,16 @@ export function CreateSchemaModel(props: React.PropsWithoutRef<{
           </Form.Item>
         </Form>
       </Modal>
-      <Modal title="schemaModel" width='50vw'
+      <Modal title="schemaModel" 
+        width='50vw'
         bodyStyle={{height: '60vh', overflow: 'auto'}} 
         visible={visibleJSON} 
         onOk={handleCopy} 
         okText="复制"
         onCancel={() => setVisibleJSON(false)}
-        >
+      >
         <pre>{schemaModelJSON.current}</pre>
       </Modal>
-    </Fragment>
+    </>
   )
 }

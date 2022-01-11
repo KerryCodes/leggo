@@ -1,17 +1,13 @@
-import React, { useMemo } from 'react'
-import { TSchema } from '../../interface'
+import React, { useContext, useMemo } from 'react'
 import { ConfigProp } from './components/ConfigProp'
 import { Divider } from 'antd'
 import { ConfigInputProp } from './components/ConfigInputProps'
 import { ConfigStyle } from './components/ConfigStyle'
+import { ConfigsContext } from '..'
 
 
-export function LeggoRight(props: React.PropsWithoutRef<{
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaList: TSchema[],
-  forceRender: () => void,
-}>) {
-  const { activeSchema, schemaList, forceRender }= props
+export default function LeggoRight() {
+  const { activeSchema, schemaList, forceRender }= useContext(ConfigsContext)
   const { id, configs }= activeSchema.current || {}
   const { itemProps, inputProps, extra }= configs || {}
   const itemPropsEntries= useMemo(() => Object.entries(itemProps || {}), [activeSchema.current])

@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from 'antd'
 import { TSchema } from '../../../interface'
-import { leggoItemStore, StandardFormItem } from '../../../service'
+import { leggoItemStore } from '../../../itemStore'
+import { StandardFormItem } from '../../../components/StandardFormItem'
+import { ConfigsContext } from '../..'
 
 
 export function DroppedItem(props: React.PropsWithoutRef<{
   index: number,
   targetIndex: React.MutableRefObject<number>,
-  activeSchema: React.MutableRefObject<TSchema>,
   schema: TSchema,
-  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
-  forceRender: () => void,
 }>){
-  const { index, targetIndex, activeSchema, schema, setSchemaList, forceRender }= props
+  const { index, targetIndex, schema }= props
+  const { setSchemaList, activeSchema, forceRender }= useContext(ConfigsContext)
   const { id, type, configs }= schema
   const StandardInput= leggoItemStore.total[type].StandardInput
   const active= activeSchema.current === schema
@@ -45,11 +45,12 @@ export function DroppedItem(props: React.PropsWithoutRef<{
   }
 
   return (
-    <div draggable className={`dropped-item ${active ? 'active-item' : ''}`} 
+    <div draggable 
+      className={`dropped-item ${active ? 'active-item' : ''}`} 
       onClick={activateSchema} 
       onDragEnd={handleDragEnd}
       onDragEnter={handleDragEnter}
-      >
+    >
       <Button type="text" className="delete-butt" onClick={deleteSchema}>X</Button>
       <StandardFormItem StandardInput={StandardInput} configs={configs} />
     </div>
