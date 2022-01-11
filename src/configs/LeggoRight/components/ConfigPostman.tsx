@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from 'react'
 import { Button, Form, Input, Select, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { TOption, TParam } from '../../../interface'
+import { TParam } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigsContext } from '../..'
 
@@ -18,10 +18,7 @@ const options= [
 ]
 
 
-export function ConfigPostman(props: React.PropsWithoutRef<{
-  schemaListOptions: TOption[]
-}>){
-  const { schemaListOptions } = props
+export function ConfigPostman(){
   const { activeSchema }= useContext(ConfigsContext)
 
   const onValuesChange= (_: any, allValues: any) => {
@@ -58,16 +55,12 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
             <Fragment>
               {fields.map(({ key, name, fieldKey, ...restField }, index) => (
                 <Space key={key} align="baseline">
-                  <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']}
-                    rules={[{ required: true, message: '请定义key' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']} rules={[{ required: true, message: '请定义key' }]}>
                     <Input prefix='"' suffix='"' placeholder="key" />
                   </Form.Item>
                   <span>:</span>
                   <LinkSet targetType='string' namepath={['postman', 'params', index, 'value']} />
-                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
-                    rules={[{ required: true, message: '请定义value' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']} rules={[{ required: true, message: '请定义value' }]}>
                     <Input prefix='"' suffix='"' placeholder="value" /> 
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
@@ -86,16 +79,12 @@ export function ConfigPostman(props: React.PropsWithoutRef<{
             <Fragment>
               {fields.map(({ key, name, fieldKey, ...restField }, index) => (
                 <Space key={key} align="baseline">
-                  <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']}
-                    rules={[{ required: true, message: '请定义key' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'key']} fieldKey={[fieldKey, 'key']} rules={[{ required: true, message: '请定义key' }]}>
                     <Input prefix='"' suffix='"' placeholder="key" />
                   </Form.Item>
                   <span>:</span>
                   <LinkSet targetType='string' namepath={['postman', 'data', index, 'value']} />
-                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
-                    rules={[{ required: true, message: '请定义value' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']} rules={[{ required: true, message: '请定义value' }]}>
                     <Input prefix='"' suffix='"' placeholder="value" /> 
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />

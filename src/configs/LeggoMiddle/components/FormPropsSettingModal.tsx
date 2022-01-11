@@ -37,7 +37,7 @@ export function FormPropsSettingModal(props: React.PropsWithoutRef<{
         bodyStyle={{ height: '60vh', overflow: 'auto' }}
         onOk={handleChangeFormProps}
         onCancel={handleCancel}
-        >
+      >
         <Form form={form} {...layout} initialValues={formProps.current}>
           <Form.Item label="name" name="name">
             <Input prefix='"' suffix='"' />

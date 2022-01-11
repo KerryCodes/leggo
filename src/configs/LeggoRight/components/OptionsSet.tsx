@@ -44,15 +44,11 @@ export function OptionsSet(props: React.PropsWithChildren<{
             <>
               {fields.map(({ key, name, fieldKey, ...restField }) => (
                 <Space key={key} style={{ display: 'flex' }} align="start">
-                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, 'label']}
-                    rules={[{ required: true, message: '请定义label' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'label']} fieldKey={[fieldKey, 'label']} rules={[{ required: true, message: '请定义label' }]}>
                     <Input placeholder="label" prefix='"' suffix='"' />
                   </Form.Item>
                   <span>:</span>
-                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
-                    rules={[{ required: true, message: '请定义value' }]}
-                    >
+                  <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']} rules={[{ required: true, message: '请定义value' }]}>
                     <Input onBlur={handleBlur} placeholder="value" addonAfter="JSON" />
                   </Form.Item>
                   <MinusCircleOutlined

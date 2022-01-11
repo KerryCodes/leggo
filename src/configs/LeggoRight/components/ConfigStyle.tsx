@@ -45,15 +45,11 @@ export function ConfigStyle(){
               <>
                 {fields.map(({ key, name, fieldKey, ...restField }) => (
                   <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                    <Form.Item {...restField} name={[name, 'CSSPropertyName']} fieldKey={[fieldKey, 'CSSPropertyName']}
-                      rules={[{ required: true, message: '请定义CSSPropertyName' }]}
-                      >
+                    <Form.Item {...restField} name={[name, 'CSSPropertyName']} fieldKey={[fieldKey, 'CSSPropertyName']} rules={[{ required: true, message: '请定义CSSPropertyName' }]}>
                       <Input prefix='"' suffix='"' placeholder="CSSPropertyName" />
                     </Form.Item>
                     <span>:</span>
-                    <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']}
-                      rules={[{ required: true, message: '请定义value' }]}
-                      >
+                    <Form.Item {...restField} name={[name, 'value']} fieldKey={[fieldKey, 'value']} rules={[{ required: true, message: '请定义value' }]}>
                       <Input prefix='"' suffix='"' placeholder="value" />
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />

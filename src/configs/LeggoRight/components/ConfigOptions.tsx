@@ -39,7 +39,7 @@ export function ConfigOptions(props: React.PropsWithChildren<{
       </Radio.Group>
       <div className="configs-area">
         {
-          dataType === 'static' ? <OptionsSet handleChange={handleChangePropValue} /> : <ConfigPostman schemaListOptions={schemaListOptions} />
+          dataType === 'static' ? <OptionsSet handleChange={handleChangePropValue} /> : <ConfigPostman />
         }
       </div>
     </div>
