@@ -1,6 +1,6 @@
 import React from "react"
 import { FormItemProps, FormProps } from "antd"
-import { leggoItemStore } from "./service"
+import { leggoItemStore } from "./itemStore"
 
 
 export type TSchemaType= keyof typeof leggoItemStore.total
@@ -41,6 +41,15 @@ export interface TConfigs{
   },
   Successor?: React.FC<React.PropsWithChildren<any>>,
   SuperSuccessor?: React.FC<React.PropsWithoutRef<any>>,
+}
+
+export interface TConfigsContextValue{
+  activeSchema: React.MutableRefObject<TSchema>,
+  schemaList: TSchema[],
+  schemaListOptions: TOption[],
+  setSchemaList: React.Dispatch<React.SetStateAction<TSchema[]>>,
+  onGetSchemaModel: TOnGetSchemaModel,
+  forceRender: () => void,
 }
 
 export interface TExtra{

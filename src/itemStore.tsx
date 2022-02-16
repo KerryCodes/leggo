@@ -1,41 +1,7 @@
 import React from "react"
-import { Button, Cascader, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Slider, Switch, TreeSelect, Upload } from "antd"
+import { Button, Cascader, Checkbox, DatePicker, Input, InputNumber, Radio, Select, Slider, Switch, TreeSelect, Upload } from "antd"
 import { UploadOutlined } from '@ant-design/icons'
-import { TLeggoItemInfo, TLinkedInfo, TSchema, TSchemaType, TConfigs } from "./interface"
-import { cloneDeep } from "lodash"
-import { Leggo } from "./engine"
-
-
-export class LeggoSchema implements TSchema{
-  id: string
-  type: TSchemaType
-  configs: TConfigs
-  currentItemValue: any
-  needDefineGetterProps: { [namepath: string]: TLinkedInfo }
-  constructor(schemaType: TSchemaType, leggoItemInfo: TLeggoItemInfo){
-    this.id= Date.now().toString()
-    this.type= schemaType
-    this.configs= cloneDeep(leggoItemInfo).configs
-    this.currentItemValue= null
-    this.needDefineGetterProps= {}
-    const name= this.configs.itemProps.name
-    if(name !== undefined){
-      this.configs.itemProps.name= name + Math.random().toString(36).substring(2, 5)
-    }
-  }
-  public getStringedName= () => String(this.configs.itemProps.name)
-}
-
-
-export function StandardFormItem(props:React.PropsWithoutRef<{StandardInput: any, configs: TConfigs}>){
-  const { StandardInput, configs }= props
-  const { itemProps, inputProps, extra }= configs
-  return (
-    <Form.Item {...itemProps} rules={Leggo.createRules(itemProps.rules, extra?.wordsLimit)}>
-      <StandardInput {...inputProps}>{Leggo.createChildren(extra?.childrenNode)}</StandardInput>
-    </Form.Item>
-  )
-}
+import { TLeggoItemInfo } from "./interface"
 
 
 const antdItemStore:{[key: string]: TLeggoItemInfo}= {

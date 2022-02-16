@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Radio, RadioChangeEvent } from 'antd'
-import { TOption, TSchema } from '../../../interface'
 import { ConfigPostman } from './ConfigPostman'
 import { OptionsSet } from './OptionsSet'
+import { ConfigsContext } from '../..'
 
 
 export function ConfigOptions(props: React.PropsWithChildren<{
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: TOption[],
   handleChangePropValue: (value: any) => void
 }>){
-  const { activeSchema, schemaListOptions, handleChangePropValue }= props
+  const { handleChangePropValue }= props
+  const { activeSchema, schemaListOptions }= useContext(ConfigsContext)
   const postman= activeSchema.current.configs.postman
   const [dataType, setDataType]= useState(postman ? 'dynamic' : 'static')
 
@@ -40,10 +39,7 @@ export function ConfigOptions(props: React.PropsWithChildren<{
       </Radio.Group>
       <div className="configs-area">
         {
-          dataType === 'static' ? 
-            <OptionsSet activeSchema={activeSchema} handleChange={handleChangePropValue} />
-            :
-            <ConfigPostman activeSchema={activeSchema} schemaListOptions={schemaListOptions} />
+          dataType === 'static' ? <OptionsSet handleChange={handleChangePropValue} /> : <ConfigPostman />
         }
       </div>
     </div>

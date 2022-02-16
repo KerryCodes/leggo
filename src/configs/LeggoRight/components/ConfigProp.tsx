@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Input, InputNumber, Space, Switch } from 'antd'
-import { TOption, TSchema } from '../../../interface'
 import { LinkSet } from './LinkSet'
 import { ConfigWordsLimit } from './ConfigWordsLimit'
 import { JsonInput } from './JsonInput'
+import { ConfigsContext } from '../..'
 
 
 export function ConfigProp(props: React.PropsWithoutRef<{
@@ -11,11 +11,9 @@ export function ConfigProp(props: React.PropsWithoutRef<{
   namepath: (string | number)[],
   propName: string,
   propDefaultValue: any,
-  activeSchema: React.MutableRefObject<TSchema>,
-  schemaListOptions: TOption[],
-  forceRender: () => void,
 }>){
-  const { propOwner, namepath, propName, propDefaultValue, activeSchema, schemaListOptions, forceRender }= props
+  const { propOwner, namepath, propName, propDefaultValue }= props
+  const { forceRender }= useContext(ConfigsContext)
   const typeofPropDefaultValue= useRef(typeof propDefaultValue)
   const [propCurrentValue, setPropCurrentValue]= useState(propDefaultValue)
 
@@ -27,11 +25,11 @@ export function ConfigProp(props: React.PropsWithoutRef<{
 
   switch(propName){
     case 'name':
-      return <JsonInput propOwner={propOwner} propName='name' forceRender={forceRender} />
+      return <JsonInput propOwner={propOwner} propName='name' />
     case 'initialValue':
-      return <JsonInput propOwner={propOwner} propName='initialValue' forceRender={forceRender} />
+      return <JsonInput propOwner={propOwner} propName='initialValue' />
     case 'wordsLimit':
-      return <ConfigWordsLimit extra ={propOwner} forceRender={forceRender} />
+      return <ConfigWordsLimit extra ={propOwner} />
   }
 
   switch(typeofPropDefaultValue.current){
@@ -49,9 +47,6 @@ export function ConfigProp(props: React.PropsWithoutRef<{
                   namepath= {[...namepath, pName]}
                   propName={pName}
                   propDefaultValue={value}
-                  activeSchema={activeSchema}
-                  schemaListOptions={schemaListOptions}
-                  forceRender={forceRender}
                 />
               )
             }
@@ -63,7 +58,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Switch checked={propCurrentValue} onChange={handleChangePropValue} />
-          <LinkSet activeSchema={activeSchema} targetType='boolean' namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet targetType='boolean' namepath={namepath} />
         </Space>
       );
     case 'string':
@@ -71,7 +66,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <Input prefix='"' suffix='"' value={propCurrentValue} onChange={e => handleChangePropValue(e.target.value)} />
-          <LinkSet activeSchema={activeSchema} targetType='string' namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet targetType='string' namepath={namepath} />
         </Space>
       );
     case 'number':
@@ -79,7 +74,7 @@ export function ConfigProp(props: React.PropsWithoutRef<{
         <Space>
           <strong>{propName}：</strong>
           <InputNumber value={propCurrentValue} onChange={handleChangePropValue} bordered={false} />
-          <LinkSet activeSchema={activeSchema} targetType='number' namepath={namepath} schemaListOptions={schemaListOptions} />
+          <LinkSet targetType='number' namepath={namepath} />
         </Space>
       );
     default:
