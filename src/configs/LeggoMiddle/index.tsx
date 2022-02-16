@@ -87,5 +87,3 @@ export function LeggoMiddle(props: React.PropsWithoutRef<{
     </div>
   )
 }
-
-
