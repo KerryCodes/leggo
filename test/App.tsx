@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import '../src/styles/configs.less'
+import '../src/styles/index.less'
 import './App.less';
 import './multiCover.less';
 import 'antd/dist/antd.css';
