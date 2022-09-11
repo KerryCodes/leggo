@@ -3,7 +3,9 @@
   "version": "0.1.29",
   "private": false,
   "description": "A drag and drop front-end form configuration generation tool!",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
@@ -31,9 +33,9 @@
     "build-npm": "npm run build-clean && npm run build-ts && npm run build-less"
   },
   "peerDependencies": {
+    "antd": ">=4.16.13",
     "react": ">=17.0.0",
-    "react-dom": ">=17.0.0",
-    "antd": ">=4.16.13"
+    "react-dom": ">=17.0.0"
   },
   "dependencies": {
     "axios": "^0.21.4",
